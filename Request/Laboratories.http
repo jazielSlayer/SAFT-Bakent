@@ -1,0 +1,33 @@
+@api = http://localhost:3000/Laboratorios
+
+GET {{api}}
+
+
+###
+GET {{api}}/1
+
+###
+GET {{api}}/count
+
+###
+POST {{api}}
+Content-Type: application/json
+
+{
+   "nombre": "laboratorio 8", 
+   "ubicacion": "piso 7", 
+   "tipo_laboratorio": "electronica", 
+   "capacidad": "15", 
+   "responsable_id": "2"
+}
+
+###
+DELETE {{api}}/1
+
+###
+PUT {{api}}/1
+Content-Type: application/json
+
+{
+    "Ubicacion": "Piso 5"
+}

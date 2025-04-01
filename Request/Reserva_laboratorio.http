@@ -1,0 +1,35 @@
+@api = http://localhost:3000/Reservas_laboratorios
+
+GET {{api}}
+
+
+###
+GET {{api}}/1
+
+###
+GET {{api}}/count
+
+###
+POST {{api}}
+Content-Type: application/json
+
+{
+   "laboratorio_id":"1",
+   "usuario_id":"2", 
+   "fecha_inicio":"2025/04/14", 
+   "fecha_fin":"2025/04/15", 
+   "proposito":"Practicas", 
+   "estado":"pendiente"
+
+}
+
+###
+DELETE {{api}}/1
+
+###
+PUT {{api}}/1
+Content-Type: application/json
+
+{
+    "proposito": "Exposicion"
+}

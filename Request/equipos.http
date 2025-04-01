@@ -1,0 +1,36 @@
+@api = http://localhost:3000/equipos
+
+GET {{api}}
+
+
+###
+GET {{api}}/1
+
+###
+GET {{api}}/count
+
+###
+POST {{api}}
+Content-Type: application/json
+
+{
+    "nombre":"119", 
+    "codigo_inventario":"119", 
+    "categoria_id":"1", 
+    "laboratorio_id":"1", 
+    "estado":"Activo", 
+    "descripcion":"computadora",
+    "fecha_adquisicion":"2024/01/12"
+}
+
+###
+DELETE {{api}}/1
+
+###
+PUT {{api}}/1
+Content-Type: application/json
+
+{
+    "Estado": "en_uso"
+}
+

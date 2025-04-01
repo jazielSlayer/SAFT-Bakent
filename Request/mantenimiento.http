@@ -1,0 +1,34 @@
+@api = http://localhost:3000/mantenimientos
+
+GET {{api}}
+
+
+###
+GET {{api}}/1
+
+###
+GET {{api}}/count
+
+###
+POST {{api}}
+Content-Type: application/json
+
+{
+    "equipo_id":"1", 
+    "fecha_inicio":"2025/02/04", 
+    "fecha_fin":"2025/02/10", 
+    "descripcion":"Actualisacion del software", 
+    "tecnico":"Alejandro", 
+    "costo":"200,0"
+}
+
+###
+DELETE {{api}}/1
+
+###
+PUT {{api}}/1
+Content-Type: application/json
+
+{
+    "nombre": "maria"
+}
