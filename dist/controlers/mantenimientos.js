@@ -104,7 +104,7 @@ var saveMainten = exports.saveMainten = /*#__PURE__*/function () {
         case 2:
           connection = _context4.sent;
           _context4.next = 5;
-          return connection.query("INSERT INTO mantenimiento (equipo_id, fecha_inicio, fecha_fin, descripcion, tecnico, costo) VALUES (?, ?, ?, ?, ?)", [req.body.equipo_id, req.body.fecha_inicio, req.body.fecha_fin, req.body.descripcion, req.body.tecnico, req.body.costo]);
+          return connection.query("INSERT INTO mantenimiento (equipo_id, fecha_inicio, fecha_fin, descripcion, tecnico, costo) VALUES (?, ?, ?, ?, ?, ?)", [req.body.equipo_id, req.body.fecha_inicio, req.body.fecha_fin, req.body.descripcion, req.body.tecnico, req.body.costo]);
         case 5:
           _yield$connection$que7 = _context4.sent;
           _yield$connection$que8 = (0, _slicedToArray2["default"])(_yield$connection$que7, 1);

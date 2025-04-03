@@ -6,12 +6,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.updateLaboratory = exports.saveLaboratory = exports.getLaboratoryCount = exports.getLaboratory = exports.getLaboratories = exports.deleteLaboratory = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _database = require("../database");
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { (0, _defineProperty2["default"])(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var getLaboratories = exports.getLaboratories = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee(req, res) {
     var connection, _yield$connection$que, _yield$connection$que2, rows;
@@ -109,9 +106,9 @@ var saveLaboratory = exports.saveLaboratory = /*#__PURE__*/function () {
           _yield$connection$que7 = _context4.sent;
           _yield$connection$que8 = (0, _slicedToArray2["default"])(_yield$connection$que7, 1);
           results = _yield$connection$que8[0];
-          res.json(_objectSpread({
+          res.json({
             id: results.resultId
-          }, req.body));
+          });
         case 9:
         case "end":
           return _context4.stop();

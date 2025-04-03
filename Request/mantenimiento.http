@@ -19,7 +19,7 @@ Content-Type: application/json
     "fecha_fin":"2025/02/10", 
     "descripcion":"Actualisacion del software", 
     "tecnico":"Alejandro", 
-    "costo":"200,0"
+    "costo":"200.0"
 }
 
 ###

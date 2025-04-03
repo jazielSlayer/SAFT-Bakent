@@ -18,7 +18,7 @@ export const getMaintenCount = async (req, res) =>{
 }
 export const saveMainten = async (req, res) =>{
     const connection = await connect();
-    const [results] = await connection.query("INSERT INTO mantenimiento (equipo_id, fecha_inicio, fecha_fin, descripcion, tecnico, costo) VALUES (?, ?, ?, ?, ?)", 
+    const [results] = await connection.query("INSERT INTO mantenimiento (equipo_id, fecha_inicio, fecha_fin, descripcion, tecnico, costo) VALUES (?, ?, ?, ?, ?, ?)", 
         [req.body.equipo_id,
             req.body.fecha_inicio, 
             req.body.fecha_fin, 
