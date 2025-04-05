@@ -33,7 +33,7 @@ export const saveMainten = async (req, res) =>{
 }
 export const deleteMainten = async (req, res) =>{
     const connection = await connect();
-    const result = await connection.query("DELETE FROM mentenimiento WHERE mantenimiento_id = ?", [req.params.id]);
+    const result = await connection.query("DELETE FROM mantenimiento WHERE mantenimiento_id = ?", [req.params.id]);
     console.log(result);
     res.json({
         message: 'Prestamo eliminado'
