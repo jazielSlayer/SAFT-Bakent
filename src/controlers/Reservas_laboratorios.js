@@ -33,7 +33,7 @@ export const saveBooking = async (req, res) =>{
 }
 export const deleteBooking = async (req, res) =>{
     const connection = await connect();
-    const result = await connection.query("DELETE FROM reserva_laboratorio WHERE reserva_id = ?", [req.params.id]);
+    const result = await connection.query("DELETE FROM reservas_laboratorio WHERE reserva_id = ?", [req.params.id]);
     console.log(result);
     res.json({
         message: 'Reserva eliminado'

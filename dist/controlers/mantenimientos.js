@@ -133,7 +133,7 @@ var deleteMainten = exports.deleteMainten = /*#__PURE__*/function () {
         case 2:
           connection = _context5.sent;
           _context5.next = 5;
-          return connection.query("DELETE FROM mentenimiento WHERE mantenimiento_id = ?", [req.params.id]);
+          return connection.query("DELETE FROM mantenimiento WHERE mantenimiento_id = ?", [req.params.id]);
         case 5:
           result = _context5.sent;
           console.log(result);
