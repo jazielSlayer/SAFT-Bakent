@@ -1,52 +1,85 @@
-import {connect} from '../database'
+// controllers/userController.js
+const pool = require('../database');
 
-
-export const getUsers = async(req, res) =>{
-    const connection = await connect();
-    const [rows] = await connection.query("SELECT * FROM usuarios");
+// Obtener todos los usuarios
+const getUsers = async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM usuarios');
     res.json(rows);
-}
-export const getUser = async (req, res) => {
-       const connection = await connect();
-       const [rows] = await connection.query("SELECT * FROM usuarios WHERE usuario_id = ?", [req.params.id]);
+  } catch (error) {
+    console.error('Error al obtener usuarios:', error);
+    res.status(500).json({ error: 'Error al obtener usuarios' });
+  }
+};
+
+// Obtener un usuario por ID
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [rows] = await pool.query('SELECT * FROM usuarios WHERE usuario_id = ?', [id]);
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
     res.json(rows[0]);
-}
-export const getUserCount = async (req, res) =>{
-    const connection = await connect();
-    const [rows] = await connection.query("SELECT COUNT(*) FROM usuarios");
-    res.json(rows[0]['COUNT(*)']);
-}
-export const saveUser = async (req, res) =>{
-    const connection = await connect();
-    const [results] = await connection.query("INSERT INTO usuarios (nombre, apellido, email, tipo_usuario,numero_identificacion, fecha_registro) VALUES (?, ?, ?, ?, ?, ?)", 
-        [req.body.nombre, 
-            req.body.apellido, 
-            req.body.email, 
-            req.body.tipo_usuario, 
-            req.body.numero_identificacion,
-            req.body.fecha_registro]);  
-    res.json({
-        id: results.resultId,
-        ...req.body
-    });
+  } catch (error) {
+    console.error('Error al obtener usuario:', error);
+    res.status(500).json({ error: 'Error al obtener usuario' });
+  }
+};
 
-}
-export const deleteUser = async (req, res) =>{
-    const connection = await connect();
-    const result = await connection.query("DELETE FROM usuarios WHERE usuario_id = ?", [req.params.id]);
-    console.log(result);
-    res.json({
-        message: 'Usuario eliminado'
-    });
-}
+// Crear un usuario
+const createUser = async (req, res) => {
+  const { nombre, apellido, email, tipo_usuario, numero_identificacion } = req.body;
+  try {
+    const [result] = await pool.query(
+      'INSERT INTO usuarios (nombre, apellido, email, tipo_usuario, numero_identificacion, fecha_registro) VALUES (?, ?, ?, ?, ?, CURDATE())',
+      [nombre, apellido, email, tipo_usuario, numero_identificacion]
+    );
+    res.status(201).json({ id: result.insertId, nombre, apellido, email, tipo_usuario, numero_identificacion });
+  } catch (error) {
+    console.error('Error al crear usuario:', error);
+    res.status(500).json({ error: 'Error al crear usuario' });
+  }
+};
 
-export const updateUser = async (req, res) =>{
-   const connection = await connect();
-   const results = await connection.query("UPDATE usuarios SET ? WHERE usuario_id = ?",
-        [req.body, 
-            req.params.id]);
-    console.log(results);
-    res.json({
-        message: 'Usuario actualizado'
-    });
-}
+// Actualizar un usuario
+const updateUser = async (req, res) => {
+  const { id } = req.params;
+  const { nombre, apellido, email, tipo_usuario, numero_identificacion } = req.body;
+  try {
+    const [result] = await pool.query(
+      'UPDATE usuarios SET nombre = ?, apellido = ?, email = ?, tipo_usuario = ?, numero_identificacion = ? WHERE usuario_id = ?',
+      [nombre, apellido, email, tipo_usuario, numero_identificacion, id]
+    );
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+    res.json({ message: 'Usuario actualizado' });
+  } catch (error) {
+    console.error('Error al actualizar usuario:', error);
+    res.status(500).json({ error: 'Error al actualizar usuario' });
+  }
+};
+
+// Eliminar un usuario
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [result] = await pool.query('DELETE FROM usuarios WHERE usuario_id = ?', [id]);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+    res.json({ message: 'Usuario eliminado' });
+  } catch (error) {
+    console.error('Error al eliminar usuario:', error);
+    res.status(500).json({ error: 'Error al eliminar usuario' });
+  }
+};
+
+module.exports = {
+  getUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+};
