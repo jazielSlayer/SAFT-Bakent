@@ -1,17 +1,8 @@
-// database.js
-const mysql = require('mysql2/promise');
+import mysql from 'mysql2/promise'
+import {config} from "./config";
 
-const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-  port: process.env.DB_PORT || 3306,
-  waitForConnections: true,
-  connectionLimit: 10, // Número máximo de conexiones en el pool
-  queueLimit: 0, // Sin límite para las consultas en cola
-});
+export const connect = async () => {
+    return await mysql.createConnection(config);
+};
 
-console.log('Pool de conexiones a MySQL creado');
-
-module.exports = pool;
+connect();
