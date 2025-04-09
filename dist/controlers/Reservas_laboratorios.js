@@ -133,7 +133,7 @@ var deleteBooking = exports.deleteBooking = /*#__PURE__*/function () {
         case 2:
           connection = _context5.sent;
           _context5.next = 5;
-          return connection.query("DELETE FROM reserva_laboratorio WHERE reserva_id = ?", [req.params.id]);
+          return connection.query("DELETE FROM reservas_laboratorio WHERE reserva_id = ?", [req.params.id]);
         case 5:
           result = _context5.sent;
           console.log(result);

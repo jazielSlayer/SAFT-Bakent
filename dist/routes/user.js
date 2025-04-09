@@ -56,4 +56,6 @@ router["delete"]("/users/:id", _users.deleteUser);
  *  summary: update users
  */
 router.put("/users/:id", _users.updateUser);
+router.post("/users/register", _users.registerUser); // Nueva ruta para registro
+router.post("/users/login", _users.loginUser);
 var _default = exports["default"] = router;

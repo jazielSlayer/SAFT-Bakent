@@ -1,5 +1,5 @@
 import { Router } from "express"; 
-import { saveUser, deleteUser, getUsers, getUserCount, getUser, updateUser } from "../controlers/users";
+import { saveUser, deleteUser, getUsers, getUserCount, getUser, updateUser, registerUser, loginUser } from "../controlers/users";
 
 
 const router = Router();
@@ -52,4 +52,8 @@ router.delete("/users/:id", deleteUser);
  *  summary: update users
  */
 router.put("/users/:id", updateUser);
+
+router.post("/users/register", registerUser); // Nueva ruta para registro
+router.post("/users/login", loginUser);
+
 export default router
