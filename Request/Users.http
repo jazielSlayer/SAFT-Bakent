@@ -1,4 +1,4 @@
-@api = http://localhost:3000/users
+@api = app-usb-bakent-production.up.railway.app/users
 
 GET {{api}}
 
