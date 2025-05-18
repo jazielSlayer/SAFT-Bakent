@@ -1,6 +1,5 @@
 import { Router } from "express"; 
-import { saveUser, deleteUser, getUsers, getUserCount, getUser, updateUser, registerUser, loginUser } from "../controlers/users";
-
+import { saveUser, deleteUser, getUsers, getUserCount, getUser, updateUser, registerUser, loginUser, getUserLabReport } from "../controlers/users";
 
 const router = Router();
 
@@ -10,7 +9,6 @@ const router = Router();
  * get:
  *  summary: Get all users
  */
-
 router.get("/users", getUsers);
 
 /**
@@ -23,37 +21,136 @@ router.get("/users/count", getUserCount);
 
 /**
  * @swagger
- * /users/id:
+ * /users/{id}:
  * get:
  *  summary: Get a user by id
+ *  parameters:
+ *    - in: path
+ *      name: id
+ *      required: true
+ *      schema:
+ *        type: integer
  */
-
 router.get("/users/:id", getUser);
 
 /**
  * @swagger
  * /users:
  * post:
- *  summary: save a new user
+ *  summary: Save a new user
  */
-
 router.post("/users", saveUser);
+
 /**
  * @swagger
- * /users:
+ * /users/{id}:
  * delete:
- *  summary: delet users
+ *  summary: Delete a user by id
+ *  parameters:
+ *    - in: path
+ *      name: id
+ *      required: true
+ *      schema:
+ *        type: integer
  */
 router.delete("/users/:id", deleteUser);
+
 /**
  * @swagger
- * /users:
+ * /users/{id}:
  * put:
- *  summary: update users
+ *  summary: Update a user by id
+ *  parameters:
+ *    - in: path
+ *      name: id
+ *      required: true
+ *      schema:
+ *        type: integer
  */
 router.put("/users/:id", updateUser);
 
-router.post("/users/register", registerUser); // Nueva ruta para registro
+/**
+ * @swagger
+ * /users/register:
+ * post:
+ *  summary: Register a new user
+ */
+router.post("/users/register", registerUser);
+
+/**
+ * @swagger
+ * /users/login:
+ * post:
+ *  summary: Login a user
+ */
 router.post("/users/login", loginUser);
+
+/**
+ * @swagger
+ * /users/{id}/lab-report:
+ * get:
+ *  summary: Get a report of laboratories borrowed and not returned by a user
+ *  parameters:
+ *    - in: path
+ *      name: id
+ *      required: true
+ *      schema:
+ *        type: integer
+ *  responses:
+ *    200:
+ *      description: Successful response
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              usuario_id:
+ *                type: integer
+ *              total_reservas:
+ *                type: integer
+ *              laboratorios_prestados:
+ *                type: array
+ *                items:
+ *                  type: object
+ *                  properties:
+ *                    reserva_id:
+ *                      type: integer
+ *                    laboratorio_nombre:
+ *                      type: string
+ *                    ubicacion:
+ *                      type: string
+ *                    fecha_inicio:
+ *                      type: string
+ *                    fecha_fin:
+ *                      type: string
+ *                    proposito:
+ *                      type: string
+ *                    estado:
+ *                      type: string
+ *              laboratorios_no_entregados:
+ *                type: array
+ *                items:
+ *                  type: object
+ *                  properties:
+ *                    reserva_id:
+ *                      type: integer
+ *                    laboratorio_nombre:
+ *                      type: string
+ *                    ubicacion:
+ *                      type: string
+ *                    fecha_inicio:
+ *                      type: string
+ *                    fecha_fin:
+ *                      type: string
+ *                    proposito:
+ *                      type: string
+ *                    estado:
+ *                      type: string
+ */
+router.get("/users/:id/lab-report", getUserLabReport);
+
+
+
+
 
 export default router

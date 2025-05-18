@@ -32,3 +32,6 @@ Content-Type: application/json
 {
     "nombre": "maria"
 }
+
+###
+GET {{api}}/21/lab-report
