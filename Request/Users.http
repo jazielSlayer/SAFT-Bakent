@@ -34,4 +34,4 @@ Content-Type: application/json
 }
 
 ###
-GET {{api}}/21/lab-report
+GET {{api}}/13/lab-report
