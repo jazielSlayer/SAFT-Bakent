@@ -1,4 +1,4 @@
-@api = http://localhost:3000/users
+@api = http://localhost:32566/users
 
 GET {{api}}
 
@@ -34,4 +34,4 @@ Content-Type: application/json
 }
 
 ###
-GET {{api}}/13/loan-report
+GET {{api}}/13/lab-report
