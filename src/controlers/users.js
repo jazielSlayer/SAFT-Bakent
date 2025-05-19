@@ -97,6 +97,66 @@ export const getUserLabReport = async (req, res) => {
     await connection.end();
   }
 };
+// Reporte de préstamos hechos por el usuario
+export const getUserLoansReport = async (req, res) => {
+    const connection = await connect();
+    try {
+        const [rows] = await connection.query(`
+            SELECT 
+                p.prestamo_id,
+                e.nombre AS equipo_nombre,
+                e.descripcion,
+                p.fecha_prestamo,
+                p.fecha_devolucion_prevista,
+                p.fecha_devolucion_real,
+                p.estado,
+                p.notas
+            FROM prestamos p
+            JOIN equipos e ON p.equipo_id = e.equipo_id
+            WHERE p.usuario_id = ?
+            ORDER BY p.fecha_prestamo DESC
+        `, [req.params.id]);
+
+        const prestamos = [];
+        const noDevueltos = [];
+        const currentDate = new Date();
+
+        rows.forEach(prestamo => {
+            // Un préstamo no devuelto es aquel con estado 'activo' o 'atrasado' y sin fecha_devolucion_real
+            const isNotReturned = 
+                (prestamo.estado === 'activo' || prestamo.estado === 'atrasado') && !prestamo.fecha_devolucion_real;
+
+            const prestamoData = {
+                prestamo_id: prestamo.prestamo_id,
+                equipo_nombre: prestamo.equipo_nombre,
+                descripcion: prestamo.descripcion,
+                fecha_prestamo: prestamo.fecha_prestamo,
+                fecha_devolucion_prevista: prestamo.fecha_devolucion_prevista,
+                fecha_devolucion_real: prestamo.fecha_devolucion_real,
+                estado: prestamo.estado,
+                notas: prestamo.notas
+            };
+
+            prestamos.push(prestamoData);
+            if (isNotReturned) {
+                noDevueltos.push(prestamoData);
+            }
+        });
+
+        res.json({
+            usuario_id: req.params.id,
+            total_prestamos: prestamos.length,
+            prestamos,
+            prestamos_no_devueltos: noDevueltos
+        });
+    } catch (error) {
+        console.error('Error fetching loans report:', error);
+        res.status(500).json({ message: 'Error al generar el reporte de préstamos' });
+    } finally {
+        await connection.end();
+    }
+};
+
 export const getUsers = async(req, res) =>{
     const connection = await connect();
     const [rows] = await connection.query("SELECT * FROM usuarios");

@@ -1,5 +1,5 @@
 import { Router } from "express"; 
-import { saveUser, deleteUser, getUsers, getUserCount, getUser, updateUser, registerUser, loginUser, getUserLabReport } from "../controlers/users";
+import { saveUser, deleteUser, getUsers, getUserCount, getUser, updateUser, registerUser, loginUser, getUserLabReport, getUserLoansReport } from "../controlers/users";
 
 const router = Router();
 
@@ -149,6 +149,7 @@ router.post("/users/login", loginUser);
  */
 router.get("/users/:id/lab-report", getUserLabReport);
 
+router.get("/users/:id/loan-report", getUserLoansReport);
 
 
 

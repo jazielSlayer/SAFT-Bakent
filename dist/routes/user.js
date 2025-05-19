@@ -153,4 +153,5 @@ router.post("/users/login", _users.loginUser);
  *                      type: string
  */
 router.get("/users/:id/lab-report", _users.getUserLabReport);
+router.get("/users/:id/loan-report", _users.getUserLoansReport);
 var _default = exports["default"] = router;
