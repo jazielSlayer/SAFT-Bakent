@@ -4,7 +4,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateUser = exports.saveUser = exports.registerUser = exports.loginUser = exports.getUsers = exports.getUserLoansReport = exports.getUserLabReport = exports.getUserCount = exports.getUser = exports.deleteUser = void 0;
+exports.updateUser = exports.saveUser = exports.registerUser = exports.loginUser = exports.getUsers = exports.getUserLoanReport = exports.getUserLabReservas = exports.getUserCount = exports.getUser = exports.deleteUser = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
@@ -127,9 +127,9 @@ var loginUser = exports.loginUser = /*#__PURE__*/function () {
 }();
 
 // Reporte de laboratorios prestados y no entregados por usuario
-var getUserLabReport = exports.getUserLabReport = /*#__PURE__*/function () {
+var getUserLabReservas = exports.getUserLabReservas = /*#__PURE__*/function () {
   var _ref3 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
-    var connection, _yield$connection$que5, _yield$connection$que6, rows, currentDate, borrowed, notReturned, todasReservas;
+    var connection, _yield$connection$que5, _yield$connection$que6, reservaRows, _yield$connection$que7, _yield$connection$que8, prestamoRows, currentDate, aprobadas, pendientesReservas, canceladas, todasReservas, pendientesPrestamos, atrasados, devueltos, todosPrestamos, sortByFechaInicio;
     return _regenerator["default"].wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
@@ -139,73 +139,157 @@ var getUserLabReport = exports.getUserLabReport = /*#__PURE__*/function () {
           connection = _context3.sent;
           _context3.prev = 3;
           _context3.next = 6;
-          return connection.query("\n      SELECT \n        r.reserva_id,\n        l.nombre AS laboratorio_nombre,\n        l.ubicacion,\n        r.fecha_inicio,\n        r.fecha_fin,\n        r.proposito,\n        r.estado\n      FROM Reservas_Laboratorio r\n      JOIN Laboratorios l ON r.laboratorio_id = l.laboratorio_id\n      WHERE r.usuario_id = ?\n      ORDER BY r.fecha_inicio DESC\n    ", [req.params.id]);
+          return connection.query("\n      SELECT \n        r.reserva_id,\n        r.usuario_id,\n        l.nombre AS laboratorio_nombre,\n        l.ubicacion,\n        r.fecha_inicio,\n        r.fecha_fin,\n        r.proposito,\n        r.estado\n      FROM Reservas_Laboratorio r\n      JOIN Laboratorios l ON r.laboratorio_id = l.laboratorio_id\n      WHERE r.usuario_id = ?\n      ORDER BY r.fecha_inicio DESC\n    ", [req.params.id]);
         case 6:
           _yield$connection$que5 = _context3.sent;
           _yield$connection$que6 = (0, _slicedToArray2["default"])(_yield$connection$que5, 1);
-          rows = _yield$connection$que6[0];
-          currentDate = new Date();
-          borrowed = [];
-          notReturned = [];
+          reservaRows = _yield$connection$que6[0];
+          _context3.next = 11;
+          return connection.query("\n      SELECT \n        p.prestamo_id,\n        p.usuario_id,\n        e.nombre AS equipo_nombre,\n        p.fecha_prestamo,\n        p.fecha_devolucion_prevista,\n        p.fecha_devolucion_real,\n        p.estado,\n        p.notas\n      FROM prestamos p\n      JOIN equipos e ON p.equipo_id = e.equipo_id\n      WHERE p.usuario_id = ?\n      ORDER BY p.fecha_prestamo DESC\n    ", [req.params.id]);
+        case 11:
+          _yield$connection$que7 = _context3.sent;
+          _yield$connection$que8 = (0, _slicedToArray2["default"])(_yield$connection$que7, 1);
+          prestamoRows = _yield$connection$que8[0];
+          currentDate = new Date(); // Procesar reservas
+          aprobadas = [];
+          pendientesReservas = [];
+          canceladas = [];
           todasReservas = [];
-          rows.forEach(function (reserva) {
-            var reservaEndDate = new Date(reserva.fecha_fin);
-            var isNotReturned = reserva.estado === 'pendiente' || reserva.estado === 'aprobada' && reservaEndDate >= currentDate;
+          reservaRows.forEach(function (reserva) {
+            if (!reserva.reserva_id) {
+              console.warn('Reserva sin reserva_id encontrada:', reserva);
+              return;
+            }
+            if (reserva.usuario_id !== parseInt(req.params.id)) {
+              console.warn("Reserva con usuario_id incorrecto: reserva_id=".concat(reserva.reserva_id, ", usuario_id=").concat(reserva.usuario_id, ", esperado=").concat(req.params.id));
+              return;
+            }
             var reservaData = {
               reserva_id: reserva.reserva_id,
-              laboratorio_nombre: reserva.laboratorio_nombre,
-              ubicacion: reserva.ubicacion,
+              laboratorio_nombre: reserva.laboratorio_nombre || 'N/A',
+              ubicacion: reserva.ubicacion || 'N/A',
               fecha_inicio: reserva.fecha_inicio,
               fecha_fin: reserva.fecha_fin,
-              proposito: reserva.proposito,
-              estado: reserva.estado
+              proposito: reserva.proposito || 'N/A',
+              estado: reserva.estado || 'N/A'
             };
-
-            // Add to todas_reservas (all reservations)
             todasReservas.push(reservaData);
-
-            // Existing logic for borrowed and notReturned
-            borrowed.push(reservaData);
-            if (isNotReturned) {
-              notReturned.push(reservaData);
+            if (reserva.estado === 'aprobada') {
+              aprobadas.push(reservaData);
+            } else if (reserva.estado === 'pendiente') {
+              pendientesReservas.push(reservaData);
+            } else if (reserva.estado === 'cancelada') {
+              canceladas.push(reservaData);
+            } else {
+              console.warn('Reserva no clasificada:', reserva);
             }
           });
+
+          // Procesar préstamos
+          pendientesPrestamos = [];
+          atrasados = [];
+          devueltos = [];
+          todosPrestamos = [];
+          prestamoRows.forEach(function (prestamo) {
+            if (!prestamo.prestamo_id) {
+              console.warn('Préstamo sin prestamo_id encontrado:', prestamo);
+              return;
+            }
+            if (prestamo.usuario_id !== parseInt(req.params.id)) {
+              console.warn("Pr\xE9stamo con usuario_id incorrecto: prestamo_id=".concat(prestamo.prestamo_id, ", usuario_id=").concat(prestamo.usuario_id, ", esperado=").concat(req.params.id));
+              return;
+            }
+            var devolucionPrevista = prestamo.fecha_devolucion_prevista ? new Date(prestamo.fecha_devolucion_prevista) : null;
+            var prestamoData = {
+              prestamo_id: prestamo.prestamo_id,
+              equipo_nombre: prestamo.equipo_nombre || 'N/A',
+              fecha_prestamo: prestamo.fecha_prestamo,
+              fecha_devolucion_prevista: prestamo.fecha_devolucion_prevista,
+              fecha_devolucion_real: prestamo.fecha_devolucion_real,
+              estado: prestamo.estado || 'N/A',
+              notas: prestamo.notas || 'N/A'
+            };
+            todosPrestamos.push(prestamoData);
+            if (prestamo.estado === 'devuelto' && prestamo.fecha_devolucion_real) {
+              devueltos.push(prestamoData);
+            } else if (prestamo.estado === 'atrasado') {
+              atrasados.push(prestamoData);
+            } else if (prestamo.estado === 'activo') {
+              if (!prestamo.fecha_devolucion_real && devolucionPrevista && devolucionPrevista < currentDate) {
+                atrasados.push(prestamoData);
+              } else if (!prestamo.fecha_devolucion_real) {
+                pendientesPrestamos.push(prestamoData);
+              } else {
+                console.warn("Pr\xE9stamo con estado=\"activo\" pero con fecha_devolucion_real:", prestamo);
+                atrasados.push(prestamoData); // Tratar como atrasado
+              }
+            } else {
+              console.warn('Préstamo no clasificado:', prestamo);
+            }
+          });
+
+          // Ordenar categorías
+          sortByFechaInicio = function sortByFechaInicio(a, b) {
+            return new Date(b.fecha_inicio || b.fecha_prestamo) - new Date(a.fecha_inicio || a.fecha_prestamo);
+          };
+          aprobadas.sort(sortByFechaInicio);
+          pendientesReservas.sort(sortByFechaInicio);
+          canceladas.sort(sortByFechaInicio);
+          todasReservas.sort(sortByFechaInicio);
+          pendientesPrestamos.sort(sortByFechaInicio);
+          atrasados.sort(sortByFechaInicio);
+          devueltos.sort(sortByFechaInicio);
+          todosPrestamos.sort(sortByFechaInicio);
           res.json({
             usuario_id: req.params.id,
+            // Reservas
             total_reservas: todasReservas.length,
-            laboratorios_prestados: borrowed,
-            laboratorios_no_entregados: notReturned,
-            todas_reservas: todasReservas
+            total_aprobadas: aprobadas.length,
+            total_pendientes_reservas: pendientesReservas.length,
+            total_canceladas: canceladas.length,
+            reservas_aprobadas: aprobadas,
+            reservas_pendientes: pendientesReservas,
+            reservas_canceladas: canceladas,
+            todas_reservas: todasReservas,
+            // Préstamos
+            total_prestamos: todosPrestamos.length,
+            total_pendientes_prestamos: pendientesPrestamos.length,
+            total_atrasados: atrasados.length,
+            total_devueltos: devueltos.length,
+            prestamos_pendientes: pendientesPrestamos,
+            prestamos_atrasados: atrasados,
+            prestamos_devueltos: devueltos,
+            todos_prestamos: todosPrestamos
           });
-          _context3.next = 21;
+          _context3.next = 41;
           break;
-        case 17:
-          _context3.prev = 17;
+        case 37:
+          _context3.prev = 37;
           _context3.t0 = _context3["catch"](3);
-          console.error('Error fetching lab report:', _context3.t0);
+          console.error('Error fetching lab and loan report:', _context3.t0);
           res.status(500).json({
-            message: 'Error al generar el reporte de laboratorios'
+            message: 'Error al generar el reporte de laboratorios y préstamos'
           });
-        case 21:
-          _context3.prev = 21;
-          _context3.next = 24;
+        case 41:
+          _context3.prev = 41;
+          _context3.next = 44;
           return connection.end();
-        case 24:
-          return _context3.finish(21);
-        case 25:
+        case 44:
+          return _context3.finish(41);
+        case 45:
         case "end":
           return _context3.stop();
       }
-    }, _callee3, null, [[3, 17, 21, 25]]);
+    }, _callee3, null, [[3, 37, 41, 45]]);
   }));
-  return function getUserLabReport(_x5, _x6) {
+  return function getUserLabReservas(_x5, _x6) {
     return _ref3.apply(this, arguments);
   };
 }();
 // Reporte de préstamos hechos por el usuario
-var getUserLoansReport = exports.getUserLoansReport = /*#__PURE__*/function () {
+var getUserLoanReport = exports.getUserLoanReport = /*#__PURE__*/function () {
   var _ref4 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee4(req, res) {
-    var connection, _yield$connection$que7, _yield$connection$que8, rows, prestamos, noDevueltos, currentDate;
+    var connection, _yield$connection$que9, _yield$connection$que10, rows, currentDate, pending, overdue, returned, todosPrestamos, sortByFechaPrestamo;
     return _regenerator["default"].wrap(function _callee4$(_context4) {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
@@ -215,66 +299,107 @@ var getUserLoansReport = exports.getUserLoansReport = /*#__PURE__*/function () {
           connection = _context4.sent;
           _context4.prev = 3;
           _context4.next = 6;
-          return connection.query("\n            SELECT \n                p.prestamo_id,\n                e.nombre AS equipo_nombre,\n                e.descripcion,\n                p.fecha_prestamo,\n                p.fecha_devolucion_prevista,\n                p.fecha_devolucion_real,\n                p.estado,\n                p.notas\n            FROM prestamos p\n            JOIN equipos e ON p.equipo_id = e.equipo_id\n            WHERE p.usuario_id = ?\n            ORDER BY p.fecha_prestamo DESC\n        ", [req.params.id]);
+          return connection.query("\n      SELECT \n        p.prestamo_id,\n        p.usuario_id,\n        e.nombre AS equipo_nombre,\n        p.fecha_prestamo,\n        p.fecha_devolucion_prevista,\n        p.fecha_devolucion_real,\n        p.estado,\n        p.notas\n      FROM prestamos p\n      JOIN equipos e ON p.equipo_id = e.equipo_id\n      WHERE p.usuario_id = ?\n      ORDER BY p.fecha_prestamo DESC\n    ", [req.params.id]);
         case 6:
-          _yield$connection$que7 = _context4.sent;
-          _yield$connection$que8 = (0, _slicedToArray2["default"])(_yield$connection$que7, 1);
-          rows = _yield$connection$que8[0];
-          prestamos = [];
-          noDevueltos = [];
+          _yield$connection$que9 = _context4.sent;
+          _yield$connection$que10 = (0, _slicedToArray2["default"])(_yield$connection$que9, 1);
+          rows = _yield$connection$que10[0];
           currentDate = new Date();
+          pending = [];
+          overdue = [];
+          returned = [];
+          todosPrestamos = [];
           rows.forEach(function (prestamo) {
-            // Un préstamo no devuelto es aquel con estado 'activo' o 'atrasado' y sin fecha_devolucion_real
-            var isNotReturned = (prestamo.estado === 'activo' || prestamo.estado === 'atrasado') && !prestamo.fecha_devolucion_real;
+            if (!prestamo.prestamo_id) {
+              console.warn('Préstamo sin prestamo_id encontrado:', prestamo);
+              return;
+            }
+
+            // Validar que el préstamo pertenece al usuario
+            if (prestamo.usuario_id !== parseInt(req.params.id)) {
+              console.warn("Pr\xE9stamo con usuario_id incorrecto: prestamo_id=".concat(prestamo.prestamo_id, ", usuario_id=").concat(prestamo.usuario_id, ", esperado=").concat(req.params.id));
+              return;
+            }
+            var devolucionPrevista = prestamo.fecha_devolucion_prevista ? new Date(prestamo.fecha_devolucion_prevista) : null;
             var prestamoData = {
               prestamo_id: prestamo.prestamo_id,
-              equipo_nombre: prestamo.equipo_nombre,
-              descripcion: prestamo.descripcion,
+              equipo_nombre: prestamo.equipo_nombre || 'N/A',
               fecha_prestamo: prestamo.fecha_prestamo,
               fecha_devolucion_prevista: prestamo.fecha_devolucion_prevista,
               fecha_devolucion_real: prestamo.fecha_devolucion_real,
-              estado: prestamo.estado,
-              notas: prestamo.notas
+              estado: prestamo.estado || 'N/A',
+              notas: prestamo.notas || 'N/A'
             };
-            prestamos.push(prestamoData);
-            if (isNotReturned) {
-              noDevueltos.push(prestamoData);
+
+            // Agregar a todos los préstamos
+            todosPrestamos.push(prestamoData);
+
+            // Clasificación basada en estado
+            if (prestamo.estado === 'devuelto' && prestamo.fecha_devolucion_real) {
+              returned.push(prestamoData);
+            } else if (prestamo.estado === 'atrasado') {
+              overdue.push(prestamoData);
+            } else if (prestamo.estado === 'activo') {
+              if (!prestamo.fecha_devolucion_real && devolucionPrevista && devolucionPrevista < currentDate) {
+                overdue.push(prestamoData);
+              } else if (!prestamo.fecha_devolucion_real) {
+                pending.push(prestamoData);
+              } else {
+                console.warn("Pr\xE9stamo con estado=\"activo\" pero con fecha_devolucion_real:", prestamo);
+                overdue.push(prestamoData); // Tratar como atrasado si tiene fecha_devolucion_real
+              }
+            } else {
+              console.warn('Préstamo no clasificado:', prestamo);
             }
           });
+
+          // Ordenar cada categoría por fecha_prestamo descendente
+          sortByFechaPrestamo = function sortByFechaPrestamo(a, b) {
+            return new Date(b.fecha_prestamo) - new Date(a.fecha_prestamo);
+          };
+          pending.sort(sortByFechaPrestamo);
+          overdue.sort(sortByFechaPrestamo);
+          returned.sort(sortByFechaPrestamo);
+          todosPrestamos.sort(sortByFechaPrestamo);
           res.json({
             usuario_id: req.params.id,
-            total_prestamos: prestamos.length,
-            prestamos: prestamos,
-            prestamos_no_devueltos: noDevueltos
+            total_prestamos: todosPrestamos.length,
+            total_pendientes: pending.length,
+            total_atrasados: overdue.length,
+            total_devueltos: returned.length,
+            prestamos_pendientes: pending,
+            prestamos_atrasados: overdue,
+            prestamos_devueltos: returned,
+            todos_prestamos: todosPrestamos
           });
-          _context4.next = 20;
+          _context4.next = 27;
           break;
-        case 16:
-          _context4.prev = 16;
+        case 23:
+          _context4.prev = 23;
           _context4.t0 = _context4["catch"](3);
-          console.error('Error fetching loans report:', _context4.t0);
+          console.error('Error fetching loan report:', _context4.t0);
           res.status(500).json({
             message: 'Error al generar el reporte de préstamos'
           });
-        case 20:
-          _context4.prev = 20;
-          _context4.next = 23;
+        case 27:
+          _context4.prev = 27;
+          _context4.next = 30;
           return connection.end();
-        case 23:
-          return _context4.finish(20);
-        case 24:
+        case 30:
+          return _context4.finish(27);
+        case 31:
         case "end":
           return _context4.stop();
       }
-    }, _callee4, null, [[3, 16, 20, 24]]);
+    }, _callee4, null, [[3, 23, 27, 31]]);
   }));
-  return function getUserLoansReport(_x7, _x8) {
+  return function getUserLoanReport(_x7, _x8) {
     return _ref4.apply(this, arguments);
   };
 }();
 var getUsers = exports.getUsers = /*#__PURE__*/function () {
   var _ref5 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee5(req, res) {
-    var connection, _yield$connection$que9, _yield$connection$que10, rows;
+    var connection, _yield$connection$que11, _yield$connection$que12, rows;
     return _regenerator["default"].wrap(function _callee5$(_context5) {
       while (1) switch (_context5.prev = _context5.next) {
         case 0:
@@ -285,9 +410,9 @@ var getUsers = exports.getUsers = /*#__PURE__*/function () {
           _context5.next = 5;
           return connection.query("SELECT * FROM usuarios");
         case 5:
-          _yield$connection$que9 = _context5.sent;
-          _yield$connection$que10 = (0, _slicedToArray2["default"])(_yield$connection$que9, 1);
-          rows = _yield$connection$que10[0];
+          _yield$connection$que11 = _context5.sent;
+          _yield$connection$que12 = (0, _slicedToArray2["default"])(_yield$connection$que11, 1);
+          rows = _yield$connection$que12[0];
           res.json(rows);
         case 9:
         case "end":
@@ -301,7 +426,7 @@ var getUsers = exports.getUsers = /*#__PURE__*/function () {
 }();
 var getUser = exports.getUser = /*#__PURE__*/function () {
   var _ref6 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee6(req, res) {
-    var connection, _yield$connection$que11, _yield$connection$que12, rows;
+    var connection, _yield$connection$que13, _yield$connection$que14, rows;
     return _regenerator["default"].wrap(function _callee6$(_context6) {
       while (1) switch (_context6.prev = _context6.next) {
         case 0:
@@ -312,9 +437,9 @@ var getUser = exports.getUser = /*#__PURE__*/function () {
           _context6.next = 5;
           return connection.query("SELECT * FROM usuarios WHERE usuario_id = ?", [req.params.id]);
         case 5:
-          _yield$connection$que11 = _context6.sent;
-          _yield$connection$que12 = (0, _slicedToArray2["default"])(_yield$connection$que11, 1);
-          rows = _yield$connection$que12[0];
+          _yield$connection$que13 = _context6.sent;
+          _yield$connection$que14 = (0, _slicedToArray2["default"])(_yield$connection$que13, 1);
+          rows = _yield$connection$que14[0];
           res.json(rows[0]);
         case 9:
         case "end":
@@ -328,7 +453,7 @@ var getUser = exports.getUser = /*#__PURE__*/function () {
 }();
 var getUserCount = exports.getUserCount = /*#__PURE__*/function () {
   var _ref7 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee7(req, res) {
-    var connection, _yield$connection$que13, _yield$connection$que14, rows;
+    var connection, _yield$connection$que15, _yield$connection$que16, rows;
     return _regenerator["default"].wrap(function _callee7$(_context7) {
       while (1) switch (_context7.prev = _context7.next) {
         case 0:
@@ -339,9 +464,9 @@ var getUserCount = exports.getUserCount = /*#__PURE__*/function () {
           _context7.next = 5;
           return connection.query("SELECT COUNT(*) FROM usuarios");
         case 5:
-          _yield$connection$que13 = _context7.sent;
-          _yield$connection$que14 = (0, _slicedToArray2["default"])(_yield$connection$que13, 1);
-          rows = _yield$connection$que14[0];
+          _yield$connection$que15 = _context7.sent;
+          _yield$connection$que16 = (0, _slicedToArray2["default"])(_yield$connection$que15, 1);
+          rows = _yield$connection$que16[0];
           res.json(rows[0]['COUNT(*)']);
         case 9:
         case "end":
@@ -355,7 +480,7 @@ var getUserCount = exports.getUserCount = /*#__PURE__*/function () {
 }();
 var saveUser = exports.saveUser = /*#__PURE__*/function () {
   var _ref8 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee8(req, res) {
-    var connection, _yield$connection$que15, _yield$connection$que16, results;
+    var connection, _yield$connection$que17, _yield$connection$que18, results;
     return _regenerator["default"].wrap(function _callee8$(_context8) {
       while (1) switch (_context8.prev = _context8.next) {
         case 0:
@@ -366,9 +491,9 @@ var saveUser = exports.saveUser = /*#__PURE__*/function () {
           _context8.next = 5;
           return connection.query("INSERT INTO usuarios (nombre, apellido, email, tipo_usuario,numero_identificacion, fecha_registro) VALUES (?, ?, ?, ?, ?, ?)", [req.body.nombre, req.body.apellido, req.body.email, req.body.tipo_usuario, req.body.numero_identificacion, req.body.fecha_registro]);
         case 5:
-          _yield$connection$que15 = _context8.sent;
-          _yield$connection$que16 = (0, _slicedToArray2["default"])(_yield$connection$que15, 1);
-          results = _yield$connection$que16[0];
+          _yield$connection$que17 = _context8.sent;
+          _yield$connection$que18 = (0, _slicedToArray2["default"])(_yield$connection$que17, 1);
+          results = _yield$connection$que18[0];
           res.json(_objectSpread({
             id: results.resultId
           }, req.body));

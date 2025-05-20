@@ -152,6 +152,6 @@ router.post("/users/login", _users.loginUser);
  *                    estado:
  *                      type: string
  */
-router.get("/users/:id/lab-report", _users.getUserLabReport);
-router.get("/users/:id/loan-report", _users.getUserLoansReport);
+router.get("/users/:id/lab-reservas", _users.getUserLabReservas);
+router.get("/users/:id/loan-report", _users.getUserLoanReport);
 var _default = exports["default"] = router;
