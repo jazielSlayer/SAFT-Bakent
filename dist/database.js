@@ -5,27 +5,30 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.connect = void 0;
-var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
-var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _promise = _interopRequireDefault(require("mysql2/promise"));
 var _config = require("./config");
-var connect = exports.connect = /*#__PURE__*/function () {
-  var _ref = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee() {
-    return _regenerator["default"].wrap(function _callee$(_context) {
-      while (1) switch (_context.prev = _context.next) {
-        case 0:
-          _context.next = 2;
-          return _promise["default"].createConnection(_config.config);
-        case 2:
-          return _context.abrupt("return", _context.sent);
-        case 3:
-        case "end":
-          return _context.stop();
-      }
-    }, _callee);
-  }));
-  return function connect() {
-    return _ref.apply(this, arguments);
-  };
-}();
-connect();
+// Crear un pool de conexiones
+var pool = _promise["default"].createPool({
+  host: _config.config.host,
+  user: _config.config.user,
+  password: _config.config.password,
+  database: _config.config.database,
+  waitForConnections: true,
+  // Esperar si no hay conexiones disponibles
+  connectionLimit: 10,
+  // Máximo de conexiones simultáneas en el pool
+  queueLimit: 0 // Sin límite en la cola de solicitudes (0 = infinito)
+});
+
+// Logs para depuración
+pool.on('acquire', function () {
+  return console.log('Conexión adquirida del pool');
+});
+pool.on('release', function () {
+  return console.log('Conexión liberada al pool');
+});
+
+// Exportar el pool
+var connect = exports.connect = function connect() {
+  return pool;
+};

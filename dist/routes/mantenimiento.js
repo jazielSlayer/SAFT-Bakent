@@ -7,46 +7,70 @@ exports["default"] = void 0;
 var _express = require("express");
 var _mantenimientos = require("../controlers/mantenimientos");
 var router = (0, _express.Router)();
+
 /**
  * @swagger
  * /mantenimientos:
- * get:
- *  summary: Get all maintenances
+ *   get:
+ *     summary: Get all maintenances
  */
-router.get("/mantenimientos", _mantenimientos.getMaintenaint);
+router.get("/mantenimientos", _mantenimientos.getMaintenances);
+
 /**
  * @swagger
  * /mantenimientos/count:
- * get:
- *  summary: Get count of all maintenances
+ *   get:
+ *     summary: Get count of all maintenances
  */
-router.get("/mantenimientos/count", _mantenimientos.getMaintenCount);
+router.get("/mantenimientos/count", _mantenimientos.getMaintenanceCount);
+
+/**
+ * @swagger
+ * /mantenimientos/{id}:
+ *   get:
+ *     summary: Get maintenance by id
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ */
+router.get("/mantenimientos/:id", _mantenimientos.getMaintenance);
+
 /**
  * @swagger
  * /mantenimientos:
- * get:
- *  summary: Get maintenance by id
+ *   post:
+ *     summary: Create a new maintenance
  */
-router.get("/mantenimientos/:id", _mantenimientos.getMainten);
+router.post("/mantenimientos", _mantenimientos.saveMaintenance);
+
 /**
  * @swagger
- * /mantenimientos:
- * post:
- *  summary: Create a new maintenance
+ * /mantenimientos/{id}:
+ *   delete:
+ *     summary: Delete a maintenance by id
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
  */
-router.post("/mantenimientos", _mantenimientos.saveMainten);
+router["delete"]("/mantenimientos/:id", _mantenimientos.deleteMaintenance);
+
 /**
  * @swagger
- * /mantenimientos:
- * delete:
- *  summary: delete a maintenance by id
+ * /mantenimientos/{id}:
+ *   put:
+ *     summary: Update a maintenance by id
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
  */
-router["delete"]("/mantenimientos/:id", _mantenimientos.deleteMainten);
-/**
- * @swagger
- * /mantenimientos:
- * put:
- *  summary: Update a maintenance by id
- */
-router.put("/mantenimientos/:id", _mantenimientos.updateMainten);
+router.put("/mantenimientos/:id", _mantenimientos.updateMaintenance);
 var _default = exports["default"] = router;

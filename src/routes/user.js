@@ -1,5 +1,5 @@
 import { Router } from "express"; 
-import { saveUser, deleteUser, getUsers, getUserCount, getUser, updateUser, registerUser, loginUser, getUserLabReport, getUserLoansReport, getUserLabReservas, getUserLoanReport } from "../controlers/users";
+import { saveUser, deleteUser, getUsers, getUserCount, getUser, updateUser, registerUser, loginUser, getUserLabReport, getUserLoansReport, getUserLabReservas, getUserLoanReport, getAdminDashboardData } from "../controlers/users";
 
 const router = Router();
 
@@ -151,6 +151,7 @@ router.get("/users/:id/lab-reservas", getUserLabReservas);
 
 router.get("/users/:id/loan-report", getUserLoanReport);
 
+router.get("/users/:id/admin/dashboard", getAdminDashboardData);
 
 
 

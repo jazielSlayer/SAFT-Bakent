@@ -37,4 +37,4 @@ Content-Type: application/json
 GET {{api}}/13/loan-report
 
 ###
-GET {{api}}/13/lab-reservas
+GET {{api}}/13/admin/dashboard
