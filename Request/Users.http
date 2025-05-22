@@ -1,4 +1,4 @@
-@api = http://localhost:3000/users
+@api = http://localhost:3000
 
 GET {{api}}
 
@@ -38,3 +38,6 @@ GET {{api}}/13/loan-report
 
 ###
 GET {{api}}/13/admin/dashboard
+
+###
+GET {{api}}/events

@@ -14,6 +14,7 @@ import categoria_equipoRoutes from './routes/categoria_equipo';
 import equipoRoutes from './routes/equipo';
 import reserva_laboratorioRoutes from './routes/reserva_laboratorio';
 import mantenimientosRoutes from './routes/mantenimiento';
+import calendarioRouts from './routes/calendar'
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use(categoria_equipoRoutes);
 app.use(equipoRoutes);
 app.use(reserva_laboratorioRoutes);
 app.use(mantenimientosRoutes);
+app.use(calendarioRouts);
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs));
 

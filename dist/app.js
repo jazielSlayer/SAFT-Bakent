@@ -18,6 +18,7 @@ var _categoria_equipo = _interopRequireDefault(require("./routes/categoria_equip
 var _equipo = _interopRequireDefault(require("./routes/equipo"));
 var _reserva_laboratorio = _interopRequireDefault(require("./routes/reserva_laboratorio"));
 var _mantenimiento = _interopRequireDefault(require("./routes/mantenimiento"));
+var _calendar = _interopRequireDefault(require("./routes/calendar"));
 var specs = (0, _swaggerJsdoc["default"])(_swaggerOptions.options);
 var app = (0, _express["default"])();
 app.use((0, _cors["default"])());
@@ -30,5 +31,6 @@ app.use(_categoria_equipo["default"]);
 app.use(_equipo["default"]);
 app.use(_reserva_laboratorio["default"]);
 app.use(_mantenimiento["default"]);
+app.use(_calendar["default"]);
 app.use('/docs', _swaggerUiExpress["default"].serve, _swaggerUiExpress["default"].setup(specs));
 var _default = exports["default"] = app;
