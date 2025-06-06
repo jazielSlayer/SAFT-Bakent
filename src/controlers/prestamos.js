@@ -3,12 +3,12 @@ import {connect} from '../database'
 
 export const getLoans = async(req, res) =>{
     const connection = await connect();
-    const [rows] = await connection.query("SELECt * FROM Prestamos");
+    const [rows] = await connection.query("SELECt * FROM prestamos");
     res.json(rows);
 }
 export const getLoan = async (req, res) => {
        const connection = await connect();
-       const [rows] = await connection.query("SELECT * FROM Prestamos WHERE prestamo_id = ?", [req.params.id]);
+       const [rows] = await connection.query("SELECT * FROM prestamos WHERE prestamo_id = ?", [req.params.id]);
     res.json(rows[0]);
 }
 export const getLoanCount = async (req, res) =>{
@@ -34,7 +34,7 @@ export const saveLoan = async (req, res) =>{
 }
 export const deleteLoan = async (req, res) =>{
     const connection = await connect();
-    const result = await connection.query("DELETE FROM Prestamos WHERE prestamo_id = ?", [req.params.id]);
+    const result = await connection.query("DELETE FROM prestamos WHERE prestamo_id = ?", [req.params.id]);
     console.log(result);
     res.json({
         message: 'Prestamo eliminado'
