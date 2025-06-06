@@ -18,7 +18,7 @@ router.get('/events', async (req, res) => {
                 r.estado,
                 u.nombre AS usuario_nombre
             FROM reservas_laboratorio r
-            JOIN Laboratorios l ON r.laboratorio_id = l.laboratorio_id
+            JOIN laboratorios l ON r.laboratorio_id = l.laboratorio_id
             JOIN usuarios u ON r.usuario_id = u.usuario_id
         `);
 
