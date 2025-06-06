@@ -52,7 +52,7 @@ export const getUserLabReservas = async (req, res) => {
                 r.proposito,
                 r.estado
             FROM reservas_laboratorio r
-            JOIN Laboratorios l ON r.laboratorio_id = l.laboratorio_id
+            JOIN laboratorios l ON r.laboratorio_id = l.laboratorio_id
             WHERE r.usuario_id = ?
             ORDER BY r.fecha_inicio DESC
         `, [req.params.id]);
