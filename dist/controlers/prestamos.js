@@ -23,7 +23,7 @@ var getLoans = exports.getLoans = /*#__PURE__*/function () {
         case 2:
           connection = _context.sent;
           _context.next = 5;
-          return connection.query("SELECt * FROM Prestamos");
+          return connection.query("SELECt * FROM prestamos");
         case 5:
           _yield$connection$que = _context.sent;
           _yield$connection$que2 = (0, _slicedToArray2["default"])(_yield$connection$que, 1);
@@ -50,7 +50,7 @@ var getLoan = exports.getLoan = /*#__PURE__*/function () {
         case 2:
           connection = _context2.sent;
           _context2.next = 5;
-          return connection.query("SELECT * FROM Prestamos WHERE prestamo_id = ?", [req.params.id]);
+          return connection.query("SELECT * FROM prestamos WHERE prestamo_id = ?", [req.params.id]);
         case 5:
           _yield$connection$que3 = _context2.sent;
           _yield$connection$que4 = (0, _slicedToArray2["default"])(_yield$connection$que3, 1);
@@ -133,7 +133,7 @@ var deleteLoan = exports.deleteLoan = /*#__PURE__*/function () {
         case 2:
           connection = _context5.sent;
           _context5.next = 5;
-          return connection.query("DELETE FROM Prestamos WHERE prestamo_id = ?", [req.params.id]);
+          return connection.query("DELETE FROM prestamos WHERE prestamo_id = ?", [req.params.id]);
         case 5:
           result = _context5.sent;
           console.log(result);

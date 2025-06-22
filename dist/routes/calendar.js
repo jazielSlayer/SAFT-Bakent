@@ -24,7 +24,7 @@ router.get('/events', /*#__PURE__*/function () {
           connection = _context.sent;
           _context.prev = 3;
           _context.next = 6;
-          return connection.query("\n            SELECT \n                r.reserva_id,\n                r.usuario_id,\n                l.nombre AS laboratorio_nombre,\n                r.fecha_inicio,\n                r.fecha_fin,\n                r.proposito,\n                r.estado,\n                u.nombre AS usuario_nombre\n            FROM Reservas_Laboratorio r\n            JOIN Laboratorios l ON r.laboratorio_id = l.laboratorio_id\n            JOIN usuarios u ON r.usuario_id = u.usuario_id\n        ");
+          return connection.query("\n            SELECT \n                r.reserva_id,\n                r.usuario_id,\n                l.nombre AS laboratorio_nombre,\n                r.fecha_inicio,\n                r.fecha_fin,\n                r.proposito,\n                r.estado,\n                u.nombre AS usuario_nombre\n            FROM reservas_laboratorio r\n            JOIN laboratorios l ON r.laboratorio_id = l.laboratorio_id\n            JOIN usuarios u ON r.usuario_id = u.usuario_id\n        ");
         case 6:
           _yield$connection$que = _context.sent;
           _yield$connection$que2 = (0, _slicedToArray2["default"])(_yield$connection$que, 1);

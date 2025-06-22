@@ -141,7 +141,7 @@ var getUserLabReservas = exports.getUserLabReservas = /*#__PURE__*/function () {
           pool = _context3.sent;
           _context3.prev = 3;
           _context3.next = 6;
-          return pool.query("\n            SELECT \n                r.reserva_id,\n                r.usuario_id,\n                l.nombre AS laboratorio_nombre,\n                l.ubicacion,\n                r.fecha_inicio,\n                r.fecha_fin,\n                r.proposito,\n                r.estado\n            FROM Reservas_Laboratorio r\n            JOIN Laboratorios l ON r.laboratorio_id = l.laboratorio_id\n            WHERE r.usuario_id = ?\n            ORDER BY r.fecha_inicio DESC\n        ", [req.params.id]);
+          return pool.query("\n            SELECT \n                r.reserva_id,\n                r.usuario_id,\n                l.nombre AS laboratorio_nombre,\n                l.ubicacion,\n                r.fecha_inicio,\n                r.fecha_fin,\n                r.proposito,\n                r.estado\n            FROM reservas_laboratorio r\n            JOIN laboratorios l ON r.laboratorio_id = l.laboratorio_id\n            WHERE r.usuario_id = ?\n            ORDER BY r.fecha_inicio DESC\n        ", [req.params.id]);
         case 6:
           _yield$pool$query5 = _context3.sent;
           _yield$pool$query6 = (0, _slicedToArray2["default"])(_yield$pool$query5, 1);
