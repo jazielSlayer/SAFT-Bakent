@@ -1,5 +1,5 @@
 import { Router } from "express"; 
-import { saveUser, deleteUser, getUsers, getUserCount, getUser, updateUser, registerUser, loginUser, getUserLabReport, getUserLoansReport, getUserLabReservas, getUserLoanReport, getAdminDashboardData } from "../controlers/users";
+import { saveUser, deleteUser, getUsers, getUserCount, getUser, updateUser, registerUser, loginUser, getUserLabReservas, getUserLoanReport, getAdminDashboardData } from "../controlers/users";
 
 const router = Router();
 
@@ -87,9 +87,9 @@ router.post("/users/login", loginUser);
 
 /**
  * @swagger
- * /users/{id}/lab-report:
+ * /users/{id}/avance-report:
  * get:
- *  summary: Get a report of laboratories borrowed and not returned by a user
+ *  summary: Get a report of student progress for a user
  *  parameters:
  *    - in: path
  *      name: id
@@ -106,53 +106,54 @@ router.post("/users/login", loginUser);
  *            properties:
  *              usuario_id:
  *                type: integer
- *              total_reservas:
+ *              total_avances:
  *                type: integer
- *              laboratorios_prestados:
+ *              avances:
  *                type: array
  *                items:
  *                  type: object
  *                  properties:
- *                    reserva_id:
+ *                    avance_id:
  *                      type: integer
- *                    laboratorio_nombre:
+ *                    numero_matricula:
  *                      type: string
- *                    ubicacion:
+ *                    nombres:
  *                      type: string
- *                    fecha_inicio:
+ *                    apellidopat:
  *                      type: string
- *                    fecha_fin:
+ *                    apellidomat:
  *                      type: string
- *                    proposito:
+ *                    modulo_nombre:
  *                      type: string
- *                    estado:
+ *                    responsable:
  *                      type: string
- *              laboratorios_no_entregados:
- *                type: array
- *                items:
- *                  type: object
- *                  properties:
- *                    reserva_id:
- *                      type: integer
- *                    laboratorio_nombre:
- *                      type: string
- *                    ubicacion:
- *                      type: string
- *                    fecha_inicio:
- *                      type: string
- *                    fecha_fin:
- *                      type: string
- *                    proposito:
+ *                    fecha:
  *                      type: string
  *                    estado:
  *                      type: string
  */
-router.get("/users/:id/lab-reservas", getUserLabReservas);
+router.get("/users/:id/avance-report", getUserLabReservas);
 
+/**
+ * @swagger
+ * /users/{id}/loan-report:
+ * get:
+ *  summary: Get a report of loans for a user
+ */
 router.get("/users/:id/loan-report", getUserLoanReport);
 
+/**
+ * @swagger
+ * /users/{id}/admin/dashboard:
+ * get:
+ *  summary: Get admin dashboard data
+ *  parameters:
+ *    - in: path
+ *      name: id
+ *      required: true
+ *      schema:
+ *        type: integer
+ */
 router.get("/users/:id/admin/dashboard", getAdminDashboardData);
 
-
-
-export default router
+export default router;
