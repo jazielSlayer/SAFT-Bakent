@@ -16,7 +16,7 @@ var router = (0, _express.Router)();
  */
 router.get("/users", _users.getUsers);
 
-/**
+/** 
  * @swagger
  * /users/count:
  * get:

@@ -11,7 +11,7 @@ const router = Router();
  */
 router.get("/users", getUsers);
 
-/**
+/** 
  * @swagger
  * /users/count:
  * get:

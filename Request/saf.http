@@ -1,0 +1,220 @@
+@baseUrl = http://localhost:3000
+
+###
+
+# === Rutas para historial_auditoria ===
+# Obtener todos los historiales de auditoría
+GET {{baseUrl}}/historiales
+
+###
+# Obtener un historial por ID
+GET {{baseUrl}}/historiales/1
+
+###
+# Crear un nuevo historial
+POST {{baseUrl}}/historiales
+Content-Type: application/json
+
+{
+  "entidad_afectada": "estudiante",
+  "descripcion_operacion": "Creación de estudiante",
+  "fecha_operacion": "2025-09-07 12:00:00",
+  "usuario": "admin"
+}
+
+###
+# Actualizar un historial
+PUT {{baseUrl}}/historiales/1
+Content-Type: application/json
+
+{
+  "entidad_afectada": "docente",
+  "descripcion_operacion": "Actualización de docente",
+  "fecha_operacion": "2025-09-08 12:00:00",
+  "usuario": "admin"
+}
+
+###
+# Eliminar un historial
+DELETE {{baseUrl}}/historiales/1
+
+###===Funciona===
+# === Rutas para modulo ===
+# Obtener todos los módulos
+GET {{baseUrl}}/modulos
+
+###
+# Obtener un módulo por ID
+GET {{baseUrl}}/modulos/1
+
+###
+# Crear un nuevo módulo
+POST {{baseUrl}}/modulos
+Content-Type: application/json
+
+{
+  "codigo": "MOD103",
+  "nombre": "Introducción a Programación",
+  "id_docente": 1,
+  "id_metodologia": 1,
+  "duracion": "40 horas",
+  "descripcion": "Curso básico de programación",
+  "fecha_inicio": "2025-03-01",
+  "fecha_finalizacion": "2025-04-15"
+}
+
+###
+# Actualizar un módulo
+PUT {{baseUrl}}/modulos/2
+Content-Type: application/json
+
+{
+  "codigo": "MOD102",
+  "nombre": "Programación Avanzada",
+  "id_docente": 1,
+  "id_metodologia": 1,
+  "duracion": "50 horas",
+  "descripcion": "Curso avanzado de programación",
+  "fecha_inicio": "2025-04-01",
+  "fecha_finalizacion": "2025-05-15"
+}
+
+###
+# Eliminar un módulo
+DELETE {{baseUrl}}/modulos/3
+
+###
+
+### ===Funciona===
+# === Rutas para programa_academico ===
+# Obtener todos los programas académicos
+GET {{baseUrl}}/programas
+
+###
+# Obtener un programa académico por ID
+GET {{baseUrl}}/programas/1
+
+###
+# Crear un nuevo programa académico
+POST {{baseUrl}}/programas
+Content-Type: application/json
+
+{
+  "codigo": "RED101",
+  "nombre_programa": "Ingeniería de Sistemas",
+  "modalidad": "Presencial",
+  "facultad": "Ingeniería",
+  "nivel": "pregrado",
+  "estado": true
+}
+
+###
+# Actualizar un programa académico
+PUT {{baseUrl}}/programas/2
+Content-Type: application/json
+
+{
+  "codigo": "PROG102",
+  "nombre_programa": "Ingeniería Informática",
+  "modalidad": "semipresencial",
+  "facultad": "Ingeniería",
+  "nivel": "pregrado",
+  "estado": false
+}
+
+###
+# Eliminar un programa académico
+DELETE {{baseUrl}}/programas/3
+
+###
+
+# === Rutas para proyecto ===
+# Obtener todos los proyectos
+GET {{baseUrl}}/proyectos
+
+###
+# Obtener un proyecto por ID
+GET {{baseUrl}}/proyectos/1
+
+###
+# Crear un nuevo proyecto
+POST {{baseUrl}}/proyectos
+Content-Type: application/json
+
+{
+ "id_estudiante": 7, 
+ "id_docente_guia": 1, 
+ "id_docente_revisor": 3, 
+ "titulo": "Proyecto Ejemplo", 
+ "linea_investigacion": "Tecnología", 
+ "area_conocimiento": "Informática", 
+ "fecha_entrega": "2025-06-01", 
+ "fecha_defensa": "2025-07-01", 
+ "resumen": "Descripción del proyecto ejemplo para gestionar sistemas académicos", 
+ "observacion": "Pendiente de revisión final", 
+ "calificacion": 85 
+}
+
+###
+# Actualizar un proyecto
+PUT {{baseUrl}}/proyectos/1
+Content-Type: application/json
+
+{ 
+  "id_estudiante": 5, 
+  "id_docente_guia": 1, 
+  "id_docente_revisor": 3, 
+  "titulo": "Proyecto Actualizado", 
+  "linea_investigacion": "Innovación Tecnológica", 
+  "area_conocimiento": "Informática", 
+  "fecha_entrega": "2025-06-15", 
+  "fecha_defensa": "2025-07-31", 
+  "resumen": "Descripción actualizada del proyecto para gestionar sistemas académicos", 
+  "observacion": "Actualización pendiente de revisión", 
+  "calificacion": 90 
+}
+###
+# Eliminar un proyecto
+DELETE {{baseUrl}}/proyectos/2
+
+###
+
+# === Rutas para taller ===
+# Obtener todos los talleres
+GET {{baseUrl}}/talleres
+
+###
+# Obtener un taller por ID
+GET {{baseUrl}}/talleres/1
+
+###
+# Crear un nuevo taller
+POST {{baseUrl}}/talleres
+Content-Type: application/json
+
+{ 
+  "titulo": "Taller de Capacitacion", 
+  "id_metodologia": 1, 
+  "tipo_taller": "Práctico", 
+  "evaluacion_final": "Proyecto", 
+  "duracion": "20 horas", 
+  "fecha_realizacion": "2025-03-01" 
+}
+
+###
+# Actualizar un taller
+PUT {{baseUrl}}/talleres/2
+Content-Type: application/json
+
+{ 
+  "titulo": "Taller de capazitacion Avanzada", 
+  "id_metodologia": 1, 
+  "tipo_taller": "Mixto", 
+  "evaluacion_final": "Examen y Proyecto", 
+  "duracion": "25 horas", 
+  "fecha_realizacion": "2025-04-01" 
+}
+
+###
+# Eliminar un taller
+DELETE {{baseUrl}}/talleres/2

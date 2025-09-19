@@ -1,7 +1,7 @@
 export const options = { 
     definition:{
         info: {
-            title: "API de Laboratorio"
+            title: "API de SAT"
         }
     },
     apis: ["./src/routes/**/*.js"]

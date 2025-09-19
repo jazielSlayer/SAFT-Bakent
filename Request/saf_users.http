@@ -1,0 +1,172 @@
+@baseUrl = http://localhost:3000
+
+###
+# ===Funciona Todas las operaciones de persona
+# === Rutas para persona ===
+# Obtener todas las personas
+GET {{baseUrl}}/personas
+
+###
+# Obtener una persona por ID
+GET {{baseUrl}}/personas/1
+
+###
+# Crear una nueva persona
+POST {{baseUrl}}/personas
+Content-Type: application/json
+
+{
+  "nombres": "Estudiante3",
+  "apellidopat": "Deyvid",
+  "apellidomat": "Tony",
+  "carnet": "02830328398",
+  "direccion": "Calle Falsa 1234",
+  "telefono": "123456789",
+  "correo": "juan.perez@example.com",
+  "fecha_nacimiento": "1990-01-01",
+  "estado": true
+}
+
+###
+# Actualizar una persona
+PUT {{baseUrl}}/personas/3
+Content-Type: application/json
+
+{
+  "nombres": "Juan Pedrito",
+  "apellidopat": "Choque",
+  "apellidomat": "López",
+  "carnet": "87654321",
+  "direccion": "Avenida Siempre Viva 500",
+  "telefono": "98465644956",
+  "correo": "juan.Choque@example.com",
+  "fecha_nacimiento": "1990-02-01",
+  "estado": false
+}
+
+###
+# Eliminar una persona
+DELETE {{baseUrl}}/personas/3
+
+
+
+###
+# === Rutas para user ===
+# Obtener todos los usuarios
+GET {{baseUrl}}/users
+
+###
+# Obtener un usuario por ID
+GET {{baseUrl}}/users/1
+
+
+###
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "nombres": "Pablo",
+  "apellidopat": "Picazo",
+  "apellidomat": "Gómez",
+  "carnet": "123456789",
+  "email": "juan.perez@example.com",
+  "user_name": "johPablo"
+}
+###
+# Actualizar un usuario
+PUT {{baseUrl}}/users/1
+Content-Type: application/json
+
+{
+  "per_id": 1,
+  "email": "john.Picazo.updated@example.com",
+  "password": "newpassword456",
+  "rol": "user"
+}
+
+###
+# Eliminar un usuario
+DELETE {{baseUrl}}/users/2
+
+
+###
+
+# === Rutas para docente ===
+# Obtener todos los docentes
+GET {{baseUrl}}/docentes
+
+###
+# Obtener un docente por ID
+GET {{baseUrl}}/docentes/1
+
+###
+# Crear un nuevo docente
+POST {{baseUrl}}/docentes
+Content-Type: application/json
+
+{
+  "per_id": 5,
+  "numero_item": "DOC124",
+  "especialidad": "Matemáticas",
+  "tipo_contrato": "permanente",
+  "estado": true
+}
+
+###
+# Actualizar un docente
+PUT {{baseUrl}}/docentes/1
+Content-Type: application/json
+
+{
+  "per_id": 5,
+  "numero_item": "DOC124",
+  "especialidad": "Física",
+  "tipo_contrato": "temporal",
+  "estado": false
+}
+
+###
+# Eliminar un docente
+DELETE {{baseUrl}}/docentes/2
+
+###
+
+# === Rutas para estudiante ===
+# Obtener todos los estudiantes
+GET {{baseUrl}}/estudiantes
+
+###
+# Obtener un estudiante por ID
+GET {{baseUrl}}/estudiantes/1
+
+###
+# Crear un nuevo estudiante
+POST {{baseUrl}}/estudiantes
+Content-Type: application/json
+
+{
+  "per_id": 8,
+  "id_programa_academico": 1,
+  "numero_matricula": "dihiwdiwd",
+  "fecha_inscripcion": "2025-01-15",
+  "estado": true
+}
+
+###
+# Actualizar un estudiante
+PUT {{baseUrl}}/estudiantes/5
+Content-Type: application/json
+
+{
+  "per_id": 6,
+  "id_programa_academico": 1,
+  "numero_matricula": "EST124",
+  "fecha_inscripcion": "2025-02-01",
+  "estado": false
+}
+
+###
+# Eliminar un estudiante
+DELETE {{baseUrl}}/estudiantes/6
+
+

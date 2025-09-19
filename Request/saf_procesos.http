@@ -1,0 +1,164 @@
+@baseUrl = http://localhost:3000
+
+###
+
+# === Rutas para avance_estudiante ===
+# Obtener todos los avances de estudiantes
+GET {{baseUrl}}/avances
+
+###
+# Obtener un avance por ID
+GET {{baseUrl}}/avances/6
+
+###
+# Crear un nuevo avance
+POST {{baseUrl}}/avances
+Content-Type: application/json
+
+{
+  "id_estudiante": 5,
+  "id_modulo": 3,
+  "responsable": "Estudiante",
+  "fecha": "2025-09-07",
+  "estado": "completado"
+}
+
+###
+# Actualizar un avance
+PUT {{baseUrl}}/avances/6
+Content-Type: application/json
+
+{
+  "id_estudiante": 7,
+  "id_modulo": 2,
+  "responsable": "Estudiante2",
+  "fecha": "2025-09-08",
+  "estado": "en progreso"
+}
+
+###
+# Eliminar un avance
+DELETE {{baseUrl}}/avances/6
+
+
+###
+
+# === Rutas para metodologia ===
+# Obtener todas las metodologías
+GET {{baseUrl}}/metodologias
+
+###
+# Obtener una metodología por ID
+GET {{baseUrl}}/metodologias/1
+
+###
+# Crear una nueva metodología
+POST {{baseUrl}}/metodologias
+Content-Type: application/json
+
+{
+  "nombre": "Metodología Scrum",
+  "descripcion": "Metodología para desarrollo ágil",
+  "objetivos": "Mejorar eficiencia en proyectos",
+  "numero_modulos": "5",
+  "fecha_inicio": "2025-01-01",
+  "fecha_finalizacion": "2025-06-30"
+}
+
+###
+# Actualizar una metodología
+PUT {{baseUrl}}/metodologias/4
+Content-Type: application/json
+
+{
+  "nombre": "Metodología Ágil Actualizada",
+  "descripcion": "Metodología mejorada",
+  "objetivos": "Optimizar procesos",
+  "numero_modulos": "6",
+  "fecha_inicio": "2025-02-01",
+  "fecha_finalizacion": "2025-07-31"
+}
+
+###
+# Eliminar una metodología
+DELETE {{baseUrl}}/metodologias/1
+
+###
+
+###
+
+# === Rutas para observacion ===
+# Obtener todas las observaciones
+GET {{baseUrl}}/observaciones
+
+###
+# Obtener una observación por ID
+GET {{baseUrl}}/observaciones/1
+
+###
+# Crear una nueva observación
+POST {{baseUrl}}/observaciones
+Content-Type: application/json
+
+{
+  "id_estudiante": 5,
+  "contenido": "El estudiante mostró gran interés",
+  "autor": "Prof. Smith",
+  "fecha": "2025-09-07"
+}
+
+###
+# Actualizar una observación
+PUT {{baseUrl}}/observaciones/2
+Content-Type: application/json
+
+{
+  "id_estudiante": 5,
+  "contenido": "El estudiante necesita mejorar asistencia",
+  "autor": "Prof. Johnson",
+  "fecha": "2025-09-08"
+}
+
+###
+# Eliminar una observación
+DELETE {{baseUrl}}/observaciones/3
+
+###
+
+# === Rutas para pago ===
+# Obtener todos los pagos
+GET {{baseUrl}}/pagos
+
+###
+# Obtener un pago por ID
+GET {{baseUrl}}/pagos/1
+
+###
+# Crear un nuevo pago
+POST {{baseUrl}}/pagos
+Content-Type: application/json
+
+{
+  "id_estudiante": 7,
+  "monto": 500.00,
+  "metodo": "transferencia",
+  "comprobante": "REC123",
+  "fecha": "2025-09-07"
+}
+
+###
+# Actualizar un pago
+PUT {{baseUrl}}/pagos/3
+Content-Type: application/json
+
+{
+  "id_estudiante": 7,
+  "monto": 600.00,
+  "metodo": "efectivo",
+  "comprobante": "REC124",
+  "fecha": "2025-09-08"
+}
+
+###
+# Eliminar un pago
+DELETE {{baseUrl}}/pagos/3
