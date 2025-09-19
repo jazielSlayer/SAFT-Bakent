@@ -7,7 +7,7 @@ exports.options = void 0;
 var options = exports.options = {
   definition: {
     info: {
-      title: "API de Laboratorio"
+      title: "API de SAT"
     }
   },
   apis: ["./src/routes/**/*.js"]

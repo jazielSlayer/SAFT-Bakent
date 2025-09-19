@@ -374,7 +374,7 @@ var deleteUser = exports.deleteUser = /*#__PURE__*/function () {
 // Actualizar un usuario
 var updateUser = exports.updateUser = /*#__PURE__*/function () {
   var _ref8 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee8(req, res) {
-    var pool, _req$body4, nombres, apellidopat, apellidomat, carnet, email, user_name, _yield$pool$query19, _yield$pool$query20, userRows, per_id;
+    var pool, _yield$pool$query19, _yield$pool$query20, userRows, user, per_id, _yield$pool$query21, _yield$pool$query22, personaRows, persona, _req$body4, _req$body4$nombres, nombres, _req$body4$apellidopa, apellidopat, _req$body4$apellidoma, apellidomat, _req$body4$carnet, carnet, _req$body4$email, email, _req$body4$user_name, user_name;
     return _regenerator["default"].wrap(function _callee8$(_context8) {
       while (1) switch (_context8.prev = _context8.next) {
         case 0:
@@ -383,45 +383,61 @@ var updateUser = exports.updateUser = /*#__PURE__*/function () {
         case 2:
           pool = _context8.sent;
           _context8.prev = 3;
-          _req$body4 = req.body, nombres = _req$body4.nombres, apellidopat = _req$body4.apellidopat, apellidomat = _req$body4.apellidomat, carnet = _req$body4.carnet, email = _req$body4.email, user_name = _req$body4.user_name;
-          _context8.next = 7;
-          return pool.query("SELECT per_id FROM users WHERE id = ?", [req.params.id]);
-        case 7:
+          _context8.next = 6;
+          return pool.query("SELECT * FROM users WHERE id = ?", [req.params.id]);
+        case 6:
           _yield$pool$query19 = _context8.sent;
           _yield$pool$query20 = (0, _slicedToArray2["default"])(_yield$pool$query19, 1);
           userRows = _yield$pool$query20[0];
           if (!(userRows.length === 0)) {
-            _context8.next = 12;
+            _context8.next = 11;
             break;
           }
           return _context8.abrupt("return", res.status(404).json({
             message: 'Usuario no encontrado'
           }));
-        case 12:
-          per_id = userRows[0].per_id;
+        case 11:
+          user = userRows[0];
+          per_id = user.per_id; // Obtener datos actuales de persona
           _context8.next = 15;
-          return pool.query("UPDATE persona SET nombres = ?, apellidopat = ?, apellidomat = ?, carnet = ?, correo = ? WHERE id = ?", [nombres, apellidopat, apellidomat, carnet, email, per_id]);
+          return pool.query("SELECT * FROM persona WHERE id = ?", [per_id]);
         case 15:
-          _context8.next = 17;
+          _yield$pool$query21 = _context8.sent;
+          _yield$pool$query22 = (0, _slicedToArray2["default"])(_yield$pool$query21, 1);
+          personaRows = _yield$pool$query22[0];
+          if (!(personaRows.length === 0)) {
+            _context8.next = 20;
+            break;
+          }
+          return _context8.abrupt("return", res.status(404).json({
+            message: 'Persona no encontrada'
+          }));
+        case 20:
+          persona = personaRows[0]; // Solo actualiza los campos enviados, los demás se mantienen igual
+          _req$body4 = req.body, _req$body4$nombres = _req$body4.nombres, nombres = _req$body4$nombres === void 0 ? persona.nombres : _req$body4$nombres, _req$body4$apellidopa = _req$body4.apellidopat, apellidopat = _req$body4$apellidopa === void 0 ? persona.apellidopat : _req$body4$apellidopa, _req$body4$apellidoma = _req$body4.apellidomat, apellidomat = _req$body4$apellidoma === void 0 ? persona.apellidomat : _req$body4$apellidoma, _req$body4$carnet = _req$body4.carnet, carnet = _req$body4$carnet === void 0 ? persona.carnet : _req$body4$carnet, _req$body4$email = _req$body4.email, email = _req$body4$email === void 0 ? persona.correo : _req$body4$email, _req$body4$user_name = _req$body4.user_name, user_name = _req$body4$user_name === void 0 ? user.user_name : _req$body4$user_name;
+          _context8.next = 24;
+          return pool.query("UPDATE persona SET nombres = ?, apellidopat = ?, apellidomat = ?, carnet = ?, correo = ? WHERE id = ?", [nombres, apellidopat, apellidomat, carnet, email, per_id]);
+        case 24:
+          _context8.next = 26;
           return pool.query("UPDATE users SET user_name = ?, email = ? WHERE id = ?", [user_name, email, req.params.id]);
-        case 17:
+        case 26:
           res.json({
             message: 'Usuario actualizado'
           });
-          _context8.next = 24;
+          _context8.next = 33;
           break;
-        case 20:
-          _context8.prev = 20;
+        case 29:
+          _context8.prev = 29;
           _context8.t0 = _context8["catch"](3);
           console.error('Error updating user:', _context8.t0);
           res.status(500).json({
             message: 'Error al actualizar usuario'
           });
-        case 24:
+        case 33:
         case "end":
           return _context8.stop();
       }
-    }, _callee8, null, [[3, 20]]);
+    }, _callee8, null, [[3, 29]]);
   }));
   return function updateUser(_x15, _x16) {
     return _ref8.apply(this, arguments);
@@ -431,7 +447,7 @@ var updateUser = exports.updateUser = /*#__PURE__*/function () {
 // Reporte de avances de estudiante (adaptado del lab-reservas)
 var getUserLabReservas = exports.getUserLabReservas = /*#__PURE__*/function () {
   var _ref9 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee9(req, res) {
-    var pool, _yield$pool$query21, _yield$pool$query22, rows, avances;
+    var pool, _yield$pool$query23, _yield$pool$query24, rows, avances;
     return _regenerator["default"].wrap(function _callee9$(_context9) {
       while (1) switch (_context9.prev = _context9.next) {
         case 0:
@@ -443,9 +459,9 @@ var getUserLabReservas = exports.getUserLabReservas = /*#__PURE__*/function () {
           _context9.next = 6;
           return pool.query("\n            SELECT \n                a.id AS avance_id,\n                a.id_estudiante,\n                e.numero_matricula,\n                p.nombres,\n                p.apellidopat,\n                p.apellidomat,\n                m.nombre AS modulo_nombre,\n                a.responsable,\n                a.fecha,\n                a.estado\n            FROM avance_estudiante a\n            JOIN estudiante e ON a.id_estudiante = e.id\n            JOIN persona p ON e.per_id = p.id\n            JOIN modulo m ON a.id_modulo = m.id\n            WHERE e.per_id = (SELECT per_id FROM users WHERE id = ?)\n            ORDER BY a.fecha DESC\n        ", [req.params.id]);
         case 6:
-          _yield$pool$query21 = _context9.sent;
-          _yield$pool$query22 = (0, _slicedToArray2["default"])(_yield$pool$query21, 1);
-          rows = _yield$pool$query22[0];
+          _yield$pool$query23 = _context9.sent;
+          _yield$pool$query24 = (0, _slicedToArray2["default"])(_yield$pool$query23, 1);
+          rows = _yield$pool$query24[0];
           avances = rows.map(function (row) {
             return {
               avance_id: row.avance_id,
@@ -507,7 +523,7 @@ var getUserLoanReport = exports.getUserLoanReport = /*#__PURE__*/function () {
 // Dashboard de admin
 var getAdminDashboardData = exports.getAdminDashboardData = /*#__PURE__*/function () {
   var _ref11 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee11(req, res) {
-    var pool, usuario_id, _yield$pool$query23, _yield$pool$query24, userRows, _yield$pool$query25, _yield$pool$query26, users, _yield$pool$query27, _yield$pool$query28, personas, _yield$pool$query29, _yield$pool$query30, estudiantes, _yield$pool$query31, _yield$pool$query32, docentes, _yield$pool$query33, _yield$pool$query34, programas, _yield$pool$query35, _yield$pool$query36, proyectos, _yield$pool$query37, _yield$pool$query38, avances, rolesCount, _yield$pool$query39, _yield$pool$query40, rolesRows;
+    var pool, usuario_id, _yield$pool$query25, _yield$pool$query26, userRows, _yield$pool$query27, _yield$pool$query28, users, _yield$pool$query29, _yield$pool$query30, personas, _yield$pool$query31, _yield$pool$query32, estudiantes, _yield$pool$query33, _yield$pool$query34, docentes, _yield$pool$query35, _yield$pool$query36, programas, _yield$pool$query37, _yield$pool$query38, proyectos, _yield$pool$query39, _yield$pool$query40, avances, rolesCount, _yield$pool$query41, _yield$pool$query42, rolesRows;
     return _regenerator["default"].wrap(function _callee11$(_context11) {
       while (1) switch (_context11.prev = _context11.next) {
         case 0:
@@ -528,9 +544,9 @@ var getAdminDashboardData = exports.getAdminDashboardData = /*#__PURE__*/functio
           _context11.next = 9;
           return pool.query("SELECT r.name FROM users u JOIN model_has_roles mr ON u.id = mr.model_id JOIN roles r ON mr.role_id = r.id WHERE u.id = ?", [usuario_id]);
         case 9:
-          _yield$pool$query23 = _context11.sent;
-          _yield$pool$query24 = (0, _slicedToArray2["default"])(_yield$pool$query23, 1);
-          userRows = _yield$pool$query24[0];
+          _yield$pool$query25 = _context11.sent;
+          _yield$pool$query26 = (0, _slicedToArray2["default"])(_yield$pool$query25, 1);
+          userRows = _yield$pool$query26[0];
           if (!(userRows.length === 0 || userRows[0].name !== 'Admin')) {
             _context11.next = 14;
             break;
@@ -542,45 +558,45 @@ var getAdminDashboardData = exports.getAdminDashboardData = /*#__PURE__*/functio
           _context11.next = 16;
           return pool.query("SELECT * FROM users");
         case 16:
-          _yield$pool$query25 = _context11.sent;
-          _yield$pool$query26 = (0, _slicedToArray2["default"])(_yield$pool$query25, 1);
-          users = _yield$pool$query26[0];
+          _yield$pool$query27 = _context11.sent;
+          _yield$pool$query28 = (0, _slicedToArray2["default"])(_yield$pool$query27, 1);
+          users = _yield$pool$query28[0];
           _context11.next = 21;
           return pool.query("SELECT * FROM persona");
         case 21:
-          _yield$pool$query27 = _context11.sent;
-          _yield$pool$query28 = (0, _slicedToArray2["default"])(_yield$pool$query27, 1);
-          personas = _yield$pool$query28[0];
+          _yield$pool$query29 = _context11.sent;
+          _yield$pool$query30 = (0, _slicedToArray2["default"])(_yield$pool$query29, 1);
+          personas = _yield$pool$query30[0];
           _context11.next = 26;
           return pool.query("SELECT * FROM estudiante");
         case 26:
-          _yield$pool$query29 = _context11.sent;
-          _yield$pool$query30 = (0, _slicedToArray2["default"])(_yield$pool$query29, 1);
-          estudiantes = _yield$pool$query30[0];
+          _yield$pool$query31 = _context11.sent;
+          _yield$pool$query32 = (0, _slicedToArray2["default"])(_yield$pool$query31, 1);
+          estudiantes = _yield$pool$query32[0];
           _context11.next = 31;
           return pool.query("SELECT * FROM docente");
         case 31:
-          _yield$pool$query31 = _context11.sent;
-          _yield$pool$query32 = (0, _slicedToArray2["default"])(_yield$pool$query31, 1);
-          docentes = _yield$pool$query32[0];
+          _yield$pool$query33 = _context11.sent;
+          _yield$pool$query34 = (0, _slicedToArray2["default"])(_yield$pool$query33, 1);
+          docentes = _yield$pool$query34[0];
           _context11.next = 36;
           return pool.query("SELECT * FROM programa_academico");
         case 36:
-          _yield$pool$query33 = _context11.sent;
-          _yield$pool$query34 = (0, _slicedToArray2["default"])(_yield$pool$query33, 1);
-          programas = _yield$pool$query34[0];
+          _yield$pool$query35 = _context11.sent;
+          _yield$pool$query36 = (0, _slicedToArray2["default"])(_yield$pool$query35, 1);
+          programas = _yield$pool$query36[0];
           _context11.next = 41;
           return pool.query("SELECT * FROM proyecto");
         case 41:
-          _yield$pool$query35 = _context11.sent;
-          _yield$pool$query36 = (0, _slicedToArray2["default"])(_yield$pool$query35, 1);
-          proyectos = _yield$pool$query36[0];
+          _yield$pool$query37 = _context11.sent;
+          _yield$pool$query38 = (0, _slicedToArray2["default"])(_yield$pool$query37, 1);
+          proyectos = _yield$pool$query38[0];
           _context11.next = 46;
           return pool.query("SELECT * FROM avance_estudiante");
         case 46:
-          _yield$pool$query37 = _context11.sent;
-          _yield$pool$query38 = (0, _slicedToArray2["default"])(_yield$pool$query37, 1);
-          avances = _yield$pool$query38[0];
+          _yield$pool$query39 = _context11.sent;
+          _yield$pool$query40 = (0, _slicedToArray2["default"])(_yield$pool$query39, 1);
+          avances = _yield$pool$query40[0];
           rolesCount = {
             Admin: 0,
             Docente: 0
@@ -588,9 +604,9 @@ var getAdminDashboardData = exports.getAdminDashboardData = /*#__PURE__*/functio
           _context11.next = 52;
           return pool.query("SELECT r.name, COUNT(mr.model_id) as count FROM roles r LEFT JOIN model_has_roles mr ON r.id = mr.role_id GROUP BY r.name");
         case 52:
-          _yield$pool$query39 = _context11.sent;
-          _yield$pool$query40 = (0, _slicedToArray2["default"])(_yield$pool$query39, 1);
-          rolesRows = _yield$pool$query40[0];
+          _yield$pool$query41 = _context11.sent;
+          _yield$pool$query42 = (0, _slicedToArray2["default"])(_yield$pool$query41, 1);
+          rolesRows = _yield$pool$query42[0];
           rolesRows.forEach(function (row) {
             if (rolesCount.hasOwnProperty(row.name)) {
               rolesCount[row.name] = row.count;

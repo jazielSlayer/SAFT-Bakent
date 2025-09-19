@@ -137,11 +137,27 @@ export const deleteUser = async (req, res) => {
 export const updateUser = async (req, res) => {
     const pool = await connect();
     try {
-        const { nombres, apellidopat, apellidomat, carnet, email, user_name } = req.body;
-        const [userRows] = await pool.query("SELECT per_id FROM users WHERE id = ?", [req.params.id]);
+        const [userRows] = await pool.query("SELECT * FROM users WHERE id = ?", [req.params.id]);
         if (userRows.length === 0) return res.status(404).json({ message: 'Usuario no encontrado' });
 
-        const per_id = userRows[0].per_id;
+        const user = userRows[0];
+        const per_id = user.per_id;
+
+        // Obtener datos actuales de persona
+        const [personaRows] = await pool.query("SELECT * FROM persona WHERE id = ?", [per_id]);
+        if (personaRows.length === 0) return res.status(404).json({ message: 'Persona no encontrada' });
+        const persona = personaRows[0];
+
+        // Solo actualiza los campos enviados, los demás se mantienen igual
+        const {
+            nombres = persona.nombres,
+            apellidopat = persona.apellidopat,
+            apellidomat = persona.apellidomat,
+            carnet = persona.carnet,
+            email = persona.correo,
+            user_name = user.user_name
+        } = req.body;
+
         await pool.query(
             "UPDATE persona SET nombres = ?, apellidopat = ?, apellidomat = ?, carnet = ?, correo = ? WHERE id = ?",
             [nombres, apellidopat, apellidomat, carnet, email, per_id]

@@ -70,7 +70,7 @@ Content-Type: application/json
   "apellidomat": "Gómez",
   "carnet": "123456789",
   "email": "juan.perez@example.com",
-  "user_name": "johPablo"
+  "user_name": "johnPicazo",
 }
 ###
 # Actualizar un usuario
@@ -78,10 +78,11 @@ PUT {{baseUrl}}/users/1
 Content-Type: application/json
 
 {
-  "per_id": 1,
-  "email": "john.Picazo.updated@example.com",
-  "password": "newpassword456",
-  "rol": "user"
+  "per_id": 10,
+  "nombres": "Pablo",
+  "apellidopat": "Picazo",
+  "apellidomat": "Gómez",
+  "carnet": "123456789"
 }
 
 ###
