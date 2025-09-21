@@ -139,4 +139,10 @@ router.put("/proyectos/:id", _proyecto.updateProyecto);
  *           type: integer
  */
 router["delete"]("/proyectos/:id", _proyecto.deleteProyecto);
+
+// Obtener proyectos de un estudiante por su id_estudiante
+router.get('/proyectos/estudiante/:id_estudiante', _proyecto.getProyectoEstudiante);
+
+// Obtener proyectos relacionados a un docente por su id_docente
+router.get('/proyectos/docente/:id_docente', _proyecto.getProyectoDocente);
 var _default = exports["default"] = router;

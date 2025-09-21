@@ -11,13 +11,18 @@ GET {{baseUrl}}/avances
 GET {{baseUrl}}/avances/6
 
 ###
+# Obtener un avance por ID
+GET {{baseUrl}}/avance/estudiante/5
+
+
+###
 # Crear un nuevo avance
 POST {{baseUrl}}/avances
 Content-Type: application/json
 
 {
   "id_estudiante": 5,
-  "id_modulo": 3,
+  "id_modulo": 8,
   "responsable": "Estudiante",
   "fecha": "2025-09-07",
   "estado": "completado"
@@ -30,7 +35,7 @@ Content-Type: application/json
 
 {
   "id_estudiante": 7,
-  "id_modulo": 2,
+  "id_modulo": 8,
   "responsable": "Estudiante2",
   "fecha": "2025-09-08",
   "estado": "en progreso"
@@ -132,6 +137,10 @@ GET {{baseUrl}}/pagos
 ###
 # Obtener un pago por ID
 GET {{baseUrl}}/pagos/1
+
+###
+# Obtener un pago por ID
+GET {{baseUrl}}/pago/estudiante/5
 
 ###
 # Crear un nuevo pago

@@ -56,7 +56,7 @@ Content-Type: application/json
   "codigo": "MOD103",
   "nombre": "Introducción a Programación",
   "id_docente": 1,
-  "id_metodologia": 1,
+  "id_metodologia": 5,
   "duracion": "40 horas",
   "descripcion": "Curso básico de programación",
   "fecha_inicio": "2025-03-01",
@@ -136,6 +136,12 @@ GET {{baseUrl}}/proyectos
 # Obtener un proyecto por ID
 GET {{baseUrl}}/proyectos/1
 
+###
+# Obtener un proyecto por ID
+GET {{baseUrl}}/proyectos/estudiante/5
+###
+# Obtener un proyecto por ID
+GET {{baseUrl}}/proyectos/docente/2
 ###
 # Crear un nuevo proyecto
 POST {{baseUrl}}/proyectos

@@ -36,6 +36,52 @@ export const getAvance = async (req, res) => {
     }
 };
 
+export const getAvanceEstudiante = async (req, res) => {
+    const pool = await connect();
+    try {
+        const id_estudiante = parseInt(req.params.id_estudiante);
+        if (isNaN(id_estudiante) || id_estudiante <= 0) {
+            return res.status(400).json({ message: 'ID de estudiante inválido' });
+        }
+
+        const [estudianteCheck] = await pool.query('SELECT id FROM estudiante WHERE id = ?', [id_estudiante]);
+        if (estudianteCheck.length === 0) {
+            return res.status(404).json({ message: 'Estudiante no encontrado' });
+        }
+
+        const [rows] = await pool.query(`
+            SELECT 
+                a.id,
+                a.id_estudiante,
+                a.id_modulo,
+                a.responsable,
+                a.fecha,
+                a.estado,
+                a.created_at,
+                a.updated_at,
+                e.numero_matricula,
+                p.nombres AS estudiante_nombres,
+                p.apellidopat AS estudiante_apellidopat,
+                p.apellidomat AS estudiante_apellidomat,
+                m.nombre AS modulo_nombre
+            FROM avance_estudiante a
+            JOIN estudiante e ON a.id_estudiante = e.id
+            JOIN persona p ON e.per_id = p.id
+            JOIN modulo m ON a.id_modulo = m.id
+            WHERE a.id_estudiante = ?
+        `, [id_estudiante]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron avances para este estudiante' });
+        }
+
+        res.json(rows);
+    } catch (error) {
+        console.error('Error fetching avance estudiante:', error);
+        res.status(500).json({ message: 'Error al obtener avances del estudiante' });
+    }
+};
+
 export const createAvance = async (req, res) => {
     const pool = await connect();
     const { id_estudiante, id_modulo, responsable, fecha, estado } = req.body;

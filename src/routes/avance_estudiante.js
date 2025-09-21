@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAvances, getAvance, createAvance, updateAvance, deleteAvance } from "../controlers/avance_estudiante";
+import { getAvances, getAvance, createAvance, updateAvance, deleteAvance, getAvanceEstudiante } from "../controlers/avance_estudiante";
 
 const router = Router();
 
@@ -121,5 +121,7 @@ router.put("/avances/:id", updateAvance);
  *           type: integer
  */
 router.delete("/avances/:id", deleteAvance);
+
+router.get('/avance/estudiante/:id_estudiante', getAvanceEstudiante)
 
 export default router;

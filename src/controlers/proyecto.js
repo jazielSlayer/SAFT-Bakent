@@ -48,6 +48,57 @@ export const getProyectos = async (req, res) => {
     }
 };
 
+// Obtener proyectos de un estudiante por su id_estudiante
+export const getProyectoEstudiante = async (req, res) => {
+    const pool = await connect();
+    const { id_estudiante } = req.params;
+    try {
+        const [rows] = await pool.query(`
+            SELECT 
+                p.*,
+                e.numero_matricula,
+                per_e.nombres AS estudiante_nombres,
+                per_e.apellidopat AS estudiante_apellidopat,
+                per_e.apellidomat AS estudiante_apellidomat
+            FROM proyecto p
+            LEFT JOIN estudiante e ON p.id_estudiante = e.id
+            LEFT JOIN persona per_e ON e.per_id = per_e.id
+            WHERE p.id_estudiante = ?
+            ORDER BY p.fecha_entrega DESC
+        `, [id_estudiante]);
+        res.json(rows);
+    } catch (error) {
+        console.error('Error fetching proyectos del estudiante:', error);
+        res.status(500).json({ message: 'Error al obtener proyectos del estudiante' });
+    }
+};
+
+// Obtener proyectos relacionados a un docente (como guía o revisor)
+export const getProyectoDocente = async (req, res) => {
+    const pool = await connect();
+    const { id_docente } = req.params;
+    try {
+        const [rows] = await pool.query(`
+            SELECT 
+                p.*,
+                e.numero_matricula,
+                per_e.nombres AS estudiante_nombres,
+                per_e.apellidopat AS estudiante_apellidopat,
+                per_e.apellidomat AS estudiante_apellidomat
+            FROM proyecto p
+            LEFT JOIN estudiante e ON p.id_estudiante = e.id
+            LEFT JOIN persona per_e ON e.per_id = per_e.id
+            WHERE p.id_docente_guia = ? OR p.id_docente_revisor = ?
+            ORDER BY p.fecha_entrega DESC
+        `, [id_docente, id_docente]);
+        res.json(rows);
+    } catch (error) {
+        console.error('Error fetching proyectos del docente:', error);
+        res.status(500).json({ message: 'Error al obtener proyectos del docente' });
+    }
+};
+
+
 export const getProyecto = async (req, res) => {
     const pool = await connect();
     const { titulo, area_conocimiento, estudiante, page = 1, limit = 10 } = req.query;

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getPagos, getPago, createPago, updatePago, deletePago } from "../controlers/pago";
+import { getPagos, getPago, createPago, updatePago, deletePago, getPagoEstudiante } from "../controlers/pago";
 
 const router = Router();
 
@@ -117,4 +117,5 @@ router.put("/pagos/:id", updatePago);
  */
 router.delete("/pagos/:id", deletePago);
 
+router.get('/pago/estudiante/:id_estudiante', getPagoEstudiante);
 export default router;

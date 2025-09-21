@@ -126,4 +126,5 @@ router.put("/avances/:id", _avance_estudiante.updateAvance);
  *           type: integer
  */
 router["delete"]("/avances/:id", _avance_estudiante.deleteAvance);
+router.get('/avance/estudiante/:id_estudiante', _avance_estudiante.getAvanceEstudiante);
 var _default = exports["default"] = router;

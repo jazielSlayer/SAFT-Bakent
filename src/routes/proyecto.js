@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getProyectos, getProyecto, createProyecto, updateProyecto, deleteProyecto } from "../controlers/proyecto";
+import { getProyectos, getProyecto, createProyecto, updateProyecto, deleteProyecto, getProyectoEstudiante, getProyectoDocente } from "../controlers/proyecto";
 
 const router = Router();
 
@@ -135,4 +135,9 @@ router.put("/proyectos/:id", updateProyecto);
  */
 router.delete("/proyectos/:id", deleteProyecto);
 
+// Obtener proyectos de un estudiante por su id_estudiante
+router.get('/proyectos/estudiante/:id_estudiante', getProyectoEstudiante);
+
+// Obtener proyectos relacionados a un docente por su id_docente
+router.get('/proyectos/docente/:id_docente', getProyectoDocente);
 export default router;

@@ -121,4 +121,5 @@ router.put("/pagos/:id", _pago.updatePago);
  *           type: integer
  */
 router["delete"]("/pagos/:id", _pago.deletePago);
+router.get('/pago/estudiante/:id_estudiante', _pago.getPagoEstudiante);
 var _default = exports["default"] = router;

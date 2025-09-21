@@ -34,6 +34,26 @@ export const getPago = async (req, res) => {
     }
 };
 
+// Obtener pagos de un estudiante por su id_estudiante
+export const getPagoEstudiante = async (req, res) => {
+    const pool = await connect();
+    const { id_estudiante } = req.params;
+    try {
+        const [rows] = await pool.query(`
+            SELECT p.*, e.numero_matricula, per.nombres, per.apellidopat, per.apellidomat
+            FROM pago p
+            JOIN estudiante e ON p.id_estudiante = e.id
+            JOIN persona per ON e.per_id = per.id
+            WHERE p.id_estudiante = ?
+            ORDER BY p.fecha DESC
+        `, [id_estudiante]);
+        res.json(rows);
+    } catch (error) {
+        console.error('Error fetching pagos del estudiante:', error);
+        res.status(500).json({ message: 'Error al obtener pagos del estudiante' });
+    }
+};
+
 export const createPago = async (req, res) => {
     const pool = await connect();
     const { id_estudiante, monto, metodo, comprobante, fecha } = req.body;
