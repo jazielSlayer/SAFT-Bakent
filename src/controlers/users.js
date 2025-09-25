@@ -5,11 +5,32 @@ import bcrypt from 'bcryptjs';
 export const registerUser = async (req, res) => {
     const pool = await connect();
     const { nombres, apellidopat, apellidomat, carnet, email, password, user_name } = req.body;
+    
+    // DEBUG: Verificar qué datos llegan
+    console.log('registerUser recibió:', {
+        nombres,
+        apellidopat,
+        apellidomat, 
+        carnet,
+        email,
+        user_name,
+        password: password ? 'presente' : 'UNDEFINED'
+    });
+    
     try {
+        // Validaciones
+        if (!password || typeof password !== 'string') {
+            return res.status(400).json({ message: "Contraseña requerida y debe ser texto" });
+        }
+        
+        if (!user_name || !email || !nombres) {
+            return res.status(400).json({ message: "Campos obligatorios faltantes" });
+        }
+        
         // Crear persona
         const [personaResults] = await pool.query(
             "INSERT INTO persona (nombres, apellidopat, apellidomat, carnet, correo, estado) VALUES (?, ?, ?, ?, ?, 1)",
-            [nombres, apellidopat, apellidomat, carnet, email]
+            [nombres, apellidopat || '', apellidomat || '', carnet || '', email]
         );
         const per_id = personaResults.insertId;
 
@@ -22,9 +43,28 @@ export const registerUser = async (req, res) => {
             [user_name, per_id, email, hashedPassword]
         );
 
-        res.json({ id: userResults.insertId, user_name, nombres, apellidopat, apellidomat, email });
+        // NO devuelvas la contraseña en la respuesta
+        res.json({ 
+            id: userResults.insertId, 
+            user_name, 
+            nombres, 
+            apellidopat: apellidopat || '', 
+            apellidomat: apellidomat || '', 
+            email 
+        });
     } catch (error) {
         console.error('Error al registrar usuario:', error);
+        
+        // Manejar errores específicos de MySQL
+        if (error.code === 'ER_DUP_ENTRY') {
+            if (error.message.includes('user_name')) {
+                return res.status(409).json({ message: "Nombre de usuario ya existe" });
+            }
+            if (error.message.includes('email')) {
+                return res.status(409).json({ message: "Email ya está registrado" });
+            }
+        }
+        
         res.status(500).json({ message: "Error al registrar usuario" });
     }
 };

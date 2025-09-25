@@ -21,47 +21,95 @@ var registerUser = exports.registerUser = /*#__PURE__*/function () {
           return (0, _database.connect)();
         case 2:
           pool = _context.sent;
-          _req$body = req.body, nombres = _req$body.nombres, apellidopat = _req$body.apellidopat, apellidomat = _req$body.apellidomat, carnet = _req$body.carnet, email = _req$body.email, password = _req$body.password, user_name = _req$body.user_name;
-          _context.prev = 4;
-          _context.next = 7;
-          return pool.query("INSERT INTO persona (nombres, apellidopat, apellidomat, carnet, correo, estado) VALUES (?, ?, ?, ?, ?, 1)", [nombres, apellidopat, apellidomat, carnet, email]);
-        case 7:
+          _req$body = req.body, nombres = _req$body.nombres, apellidopat = _req$body.apellidopat, apellidomat = _req$body.apellidomat, carnet = _req$body.carnet, email = _req$body.email, password = _req$body.password, user_name = _req$body.user_name; // DEBUG: Verificar qué datos llegan
+          console.log('registerUser recibió:', {
+            nombres: nombres,
+            apellidopat: apellidopat,
+            apellidomat: apellidomat,
+            carnet: carnet,
+            email: email,
+            user_name: user_name,
+            password: password ? 'presente' : 'UNDEFINED'
+          });
+          _context.prev = 5;
+          if (!(!password || typeof password !== 'string')) {
+            _context.next = 8;
+            break;
+          }
+          return _context.abrupt("return", res.status(400).json({
+            message: "Contraseña requerida y debe ser texto"
+          }));
+        case 8:
+          if (!(!user_name || !email || !nombres)) {
+            _context.next = 10;
+            break;
+          }
+          return _context.abrupt("return", res.status(400).json({
+            message: "Campos obligatorios faltantes"
+          }));
+        case 10:
+          _context.next = 12;
+          return pool.query("INSERT INTO persona (nombres, apellidopat, apellidomat, carnet, correo, estado) VALUES (?, ?, ?, ?, ?, 1)", [nombres, apellidopat || '', apellidomat || '', carnet || '', email]);
+        case 12:
           _yield$pool$query = _context.sent;
           _yield$pool$query2 = (0, _slicedToArray2["default"])(_yield$pool$query, 1);
           personaResults = _yield$pool$query2[0];
           per_id = personaResults.insertId; // Hashear contraseña
-          _context.next = 13;
+          _context.next = 18;
           return _bcryptjs["default"].hash(password, 10);
-        case 13:
+        case 18:
           hashedPassword = _context.sent;
-          _context.next = 16;
+          _context.next = 21;
           return pool.query("INSERT INTO users (user_name, per_id, email, password, status) VALUES (?, ?, ?, ?, 1)", [user_name, per_id, email, hashedPassword]);
-        case 16:
+        case 21:
           _yield$pool$query3 = _context.sent;
           _yield$pool$query4 = (0, _slicedToArray2["default"])(_yield$pool$query3, 1);
           userResults = _yield$pool$query4[0];
+          // NO devuelvas la contraseña en la respuesta
           res.json({
             id: userResults.insertId,
             user_name: user_name,
             nombres: nombres,
-            apellidopat: apellidopat,
-            apellidomat: apellidomat,
+            apellidopat: apellidopat || '',
+            apellidomat: apellidomat || '',
             email: email
           });
-          _context.next = 26;
+          _context.next = 36;
           break;
-        case 22:
-          _context.prev = 22;
-          _context.t0 = _context["catch"](4);
+        case 27:
+          _context.prev = 27;
+          _context.t0 = _context["catch"](5);
           console.error('Error al registrar usuario:', _context.t0);
+
+          // Manejar errores específicos de MySQL
+          if (!(_context.t0.code === 'ER_DUP_ENTRY')) {
+            _context.next = 35;
+            break;
+          }
+          if (!_context.t0.message.includes('user_name')) {
+            _context.next = 33;
+            break;
+          }
+          return _context.abrupt("return", res.status(409).json({
+            message: "Nombre de usuario ya existe"
+          }));
+        case 33:
+          if (!_context.t0.message.includes('email')) {
+            _context.next = 35;
+            break;
+          }
+          return _context.abrupt("return", res.status(409).json({
+            message: "Email ya está registrado"
+          }));
+        case 35:
           res.status(500).json({
             message: "Error al registrar usuario"
           });
-        case 26:
+        case 36:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[4, 22]]);
+    }, _callee, null, [[5, 27]]);
   }));
   return function registerUser(_x, _x2) {
     return _ref.apply(this, arguments);
