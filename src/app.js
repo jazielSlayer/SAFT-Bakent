@@ -22,6 +22,9 @@ import programaAcademicoRoutes from './routes/programa_academico';
 import proyectoRoutes from './routes/proyecto';
 import tallerRoutes from './routes/taller';
 
+import rolesRoutes from './routes/roles';
+import permisosRoutes from './routes/permisos';
+
 const app = express();
 
 app.use(cors());
@@ -41,6 +44,9 @@ app.use(personaRoutes);
 app.use(programaAcademicoRoutes);
 app.use(proyectoRoutes);
 app.use(tallerRoutes);
+
+app.use(rolesRoutes);
+app.use(permisosRoutes);
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs));
 

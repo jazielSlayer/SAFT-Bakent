@@ -1,0 +1,28 @@
+@baseUrl = http://localhost:3000
+
+### Get all roles
+GET {{baseUrl}}/roles
+
+### Get a role by id
+GET {{baseUrl}}/roles/1
+
+### Create a new role
+POST {{baseUrl}}/roles
+Content-Type: application/json
+
+{
+  "name": "Super Admin",
+  "start_path": "/dashboard",
+  "guard_name": "web"
+}
+
+### Update a role by id
+PUT {{baseUrl}}/roles/3
+Content-Type: application/json
+
+{
+  "name": "Super Admin"
+}
+
+### Delete a role by id
+DELETE {{baseUrl}}/roles/1
