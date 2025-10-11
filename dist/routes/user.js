@@ -307,7 +307,42 @@ router.get("/roles", _users.getRoles);
  */
 router.post("/users/:id/assign-role", _users.assignRoleToUser);
 
-// =====================================================
-// REPORTES
-// =====================================================
+/**
+ * @swagger
+ * /users/role-by-email:
+ * post:
+ *  summary: Get user email and role by email
+ *  tags: [Users]
+ *  requestBody:
+ *    required: true
+ *    content:
+ *      application/json:
+ *        schema:
+ *          type: object
+ *          required:
+ *            - email
+ *          properties:
+ *            email:
+ *              type: string
+ *              description: Email of the user to query
+ *  responses:
+ *    200:
+ *      description: User email and role details
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              email:
+ *                type: string
+ *              role:
+ *                type: string
+ *    400:
+ *      description: Email is required and must be a string
+ *    404:
+ *      description: User not found
+ *    500:
+ *      description: Server error
+ */
+router.post("/users/role-by-email", _users.getUserRoleByEmail);
 var _default = exports["default"] = router;

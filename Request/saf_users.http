@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3000
+@baseUrl = http://localhost:3200
 
 ###
 # ===Funciona Todas las operaciones de persona
@@ -169,5 +169,10 @@ Content-Type: application/json
 ###
 # Eliminar un estudiante
 DELETE {{baseUrl}}/estudiantes/6
+###
+GET {{baseUrl}}/users/role-by-email
+Content-Type: application/json
 
-
+{
+  "email": "xd@gmail.com"
+}

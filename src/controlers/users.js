@@ -406,3 +406,40 @@ export const getRoles = async (req, res) => {
         res.status(500).json({ message: 'Error al obtener roles' });
     }
 };
+
+// Obtener correo y rol por correo
+export const getUserRoleByEmail = async (req, res) => {
+    const pool = await connect();
+    const { email } = req.body;
+
+    try {
+        // Validar que se proporcione un correo
+        if (!email || typeof email !== 'string') {
+            return res.status(400).json({ message: "Correo requerido y debe ser texto" });
+        }
+
+        // Consultar el usuario y su rol asociado
+        const [rows] = await pool.query(`
+            SELECT 
+                u.email,
+                r.name as role_name
+            FROM users u
+            LEFT JOIN roles r ON u.id_roles = r.id
+            WHERE u.email = ?
+        `, [email]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
+        }
+
+        const user = rows[0];
+        res.json({
+            email: user.email,
+            role: user.role_name || "Sin rol asignado"
+        });
+
+    } catch (error) {
+        console.error('Error al obtener rol por correo:', error);
+        res.status(500).json({ message: "Error al obtener el rol del usuario" });
+    }
+};

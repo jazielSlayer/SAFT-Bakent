@@ -4,7 +4,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateUser = exports.saveUser = exports.registerUser = exports.loginUser = exports.getUsers = exports.getUserCount = exports.getUser = exports.getRoles = exports.deleteUser = exports.assignRoleToUser = void 0;
+exports.updateUser = exports.saveUser = exports.registerUser = exports.loginUser = exports.getUsers = exports.getUserRoleByEmail = exports.getUserCount = exports.getUser = exports.getRoles = exports.deleteUser = exports.assignRoleToUser = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
@@ -696,5 +696,65 @@ var getRoles = exports.getRoles = /*#__PURE__*/function () {
   }));
   return function getRoles(_x19, _x20) {
     return _ref10.apply(this, arguments);
+  };
+}();
+
+// Obtener correo y rol por correo
+var getUserRoleByEmail = exports.getUserRoleByEmail = /*#__PURE__*/function () {
+  var _ref11 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee11(req, res) {
+    var pool, email, _yield$pool$query35, _yield$pool$query36, rows, user;
+    return _regenerator["default"].wrap(function _callee11$(_context11) {
+      while (1) switch (_context11.prev = _context11.next) {
+        case 0:
+          _context11.next = 2;
+          return (0, _database.connect)();
+        case 2:
+          pool = _context11.sent;
+          email = req.body.email;
+          _context11.prev = 4;
+          if (!(!email || typeof email !== 'string')) {
+            _context11.next = 7;
+            break;
+          }
+          return _context11.abrupt("return", res.status(400).json({
+            message: "Correo requerido y debe ser texto"
+          }));
+        case 7:
+          _context11.next = 9;
+          return pool.query("\n            SELECT \n                u.email,\n                r.name as role_name\n            FROM users u\n            LEFT JOIN roles r ON u.id_roles = r.id\n            WHERE u.email = ?\n        ", [email]);
+        case 9:
+          _yield$pool$query35 = _context11.sent;
+          _yield$pool$query36 = (0, _slicedToArray2["default"])(_yield$pool$query35, 1);
+          rows = _yield$pool$query36[0];
+          if (!(rows.length === 0)) {
+            _context11.next = 14;
+            break;
+          }
+          return _context11.abrupt("return", res.status(404).json({
+            message: "Usuario no encontrado"
+          }));
+        case 14:
+          user = rows[0];
+          res.json({
+            email: user.email,
+            role: user.role_name || "Sin rol asignado"
+          });
+          _context11.next = 22;
+          break;
+        case 18:
+          _context11.prev = 18;
+          _context11.t0 = _context11["catch"](4);
+          console.error('Error al obtener rol por correo:', _context11.t0);
+          res.status(500).json({
+            message: "Error al obtener el rol del usuario"
+          });
+        case 22:
+        case "end":
+          return _context11.stop();
+      }
+    }, _callee11, null, [[4, 18]]);
+  }));
+  return function getUserRoleByEmail(_x21, _x22) {
+    return _ref11.apply(this, arguments);
   };
 }();
