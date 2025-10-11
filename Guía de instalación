@@ -4,7 +4,8 @@ puedes ver si esta instalado con:
     npm -v
 2. descarga mysql o xampp
 3. clona el repositorio con:
-    git clone https://github.com/jazielSlayer/App-USB-bakent.git
+    git clone https://github.com/jazielSlayer/Frontend-SAT.git
+    
 4. instala las dependencias:
     npm install
 5. crea un archivo llamado .env en la raiz del proyecto que contenga lo siguiente:
@@ -13,8 +14,9 @@ puedes ver si esta instalado con:
     DB_PASSWORD=tu_contraseña
     DB_DATABASE=LaboratorioDB
 6. crea la base de datos ejecutando el script db
+
 7. compila el proyecto con:
-      npm run build //esto con pila el archivo src a dist
+      npm run build //esto compila el archivo src a dist
 8. ejecuta el proyecto con:
     npm run dev //reinicia el servidor al hacer cambios
     npm start //ejecuta los archivos compilados en dist

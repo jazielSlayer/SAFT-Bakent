@@ -1,79 +1,59 @@
 import { Router } from "express"; 
-import { saveUser, deleteUser, getUsers, getUserCount, getUser, updateUser, registerUser, loginUser, getUserLabReservas, getUserLoanReport, getAdminDashboardData } from "../controlers/users";
+import { 
+    saveUser, 
+    deleteUser, 
+    getUsers, 
+    getUserCount, 
+    getUser, 
+    updateUser, 
+    registerUser, 
+    loginUser, 
+    assignRoleToUser,
+    getRoles  
+} from "../controlers/users";
 
 const router = Router();
 
-/**
- * @swagger
- * /users:
- * get:
- *  summary: Get all users
- */
-router.get("/users", getUsers);
-
-/** 
- * @swagger
- * /users/count:
- * get:
- *  summary: Get total number of users
- */
-router.get("/users/count", getUserCount);
-
-/**
- * @swagger
- * /users/{id}:
- * get:
- *  summary: Get a user by id
- *  parameters:
- *    - in: path
- *      name: id
- *      required: true
- *      schema:
- *        type: integer
- */
-router.get("/users/:id", getUser);
-
-/**
- * @swagger
- * /users:
- * post:
- *  summary: Save a new user
- */
-router.post("/users", saveUser);
-
-/**
- * @swagger
- * /users/{id}:
- * delete:
- *  summary: Delete a user by id
- *  parameters:
- *    - in: path
- *      name: id
- *      required: true
- *      schema:
- *        type: integer
- */
-router.delete("/users/:id", deleteUser);
-
-/**
- * @swagger
- * /users/{id}:
- * put:
- *  summary: Update a user by id
- *  parameters:
- *    - in: path
- *      name: id
- *      required: true
- *      schema:
- *        type: integer
- */
-router.put("/users/:id", updateUser);
+// =====================================================
+// AUTENTICACIÓN
+// =====================================================
 
 /**
  * @swagger
  * /users/register:
  * post:
- *  summary: Register a new user
+ *  summary: Register a new user with role assignment
+ *  tags: [Authentication]
+ *  requestBody:
+ *    required: true
+ *    content:
+ *      application/json:
+ *        schema:
+ *          type: object
+ *          required:
+ *            - user_name
+ *            - email
+ *            - password
+ *          properties:
+ *            user_name:
+ *              type: string
+ *            email:
+ *              type: string
+ *            password:
+ *              type: string
+ *            per_id:
+ *              type: integer
+ *            role:
+ *              type: string
+ *              enum: [Admin, Docente, Estudiante]
+ *            nombres:
+ *              type: string
+ *            apellidopat:
+ *              type: string
+ *            apellidomat:
+ *              type: string
+ *            carnet:
+ *              type: string
  */
 router.post("/users/register", registerUser);
 
@@ -82,14 +62,92 @@ router.post("/users/register", registerUser);
  * /users/login:
  * post:
  *  summary: Login a user
+ *  tags: [Authentication]
+ *  requestBody:
+ *    required: true
+ *    content:
+ *      application/json:
+ *        schema:
+ *          type: object
+ *          required:
+ *            - email
+ *            - password
+ *          properties:
+ *            email:
+ *              type: string
+ *            password:
+ *              type: string
+ *  responses:
+ *    200:
+ *      description: Login successful
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              id:
+ *                type: integer
+ *              user_name:
+ *                type: string
+ *              email:
+ *                type: string
+ *              nombres:
+ *                type: string
+ *              apellidopat:
+ *                type: string
+ *              apellidomat:
+ *                type: string
+ *              carnet:
+ *                type: string
+ *              id_roles:
+ *                type: integer
+ *              role:
+ *                type: string
+ *              start_path:
+ *                type: string
+ *    401:
+ *      description: Invalid credentials
+ *    403:
+ *      description: User inactive or no role assigned
+ *    404:
+ *      description: User not found
  */
 router.post("/users/login", loginUser);
 
+// =====================================================
+// CRUD DE USUARIOS
+// =====================================================
+
 /**
  * @swagger
- * /users/{id}/avance-report:
+ * /users:
  * get:
- *  summary: Get a report of student progress for a user
+ *  summary: Get all users with their roles
+ *  tags: [Users]
+ *  responses:
+ *    200:
+ *      description: List of all users
+ */
+router.get("/users", getUsers);
+
+/** 
+ * @swagger
+ * /users/count:
+ * get:
+ *  summary: Get total number of users
+ *  tags: [Users]
+ *  responses:
+ *    200:
+ *      description: Total count of users
+ */
+router.get("/users/count", getUserCount);
+
+/**
+ * @swagger
+ * /users/{id}:
+ * get:
+ *  summary: Get a user by id with role information
+ *  tags: [Users]
  *  parameters:
  *    - in: path
  *      name: id
@@ -98,62 +156,167 @@ router.post("/users/login", loginUser);
  *        type: integer
  *  responses:
  *    200:
- *      description: Successful response
- *      content:
- *        application/json:
- *          schema:
- *            type: object
- *            properties:
- *              usuario_id:
- *                type: integer
- *              total_avances:
- *                type: integer
- *              avances:
- *                type: array
- *                items:
- *                  type: object
- *                  properties:
- *                    avance_id:
- *                      type: integer
- *                    numero_matricula:
- *                      type: string
- *                    nombres:
- *                      type: string
- *                    apellidopat:
- *                      type: string
- *                    apellidomat:
- *                      type: string
- *                    modulo_nombre:
- *                      type: string
- *                    responsable:
- *                      type: string
- *                    fecha:
- *                      type: string
- *                    estado:
- *                      type: string
+ *      description: User details
+ *    404:
+ *      description: User not found
  */
-router.get("/users/:id/avance-report", getUserLabReservas);
+router.get("/users/:id", getUser);
 
 /**
  * @swagger
- * /users/{id}/loan-report:
- * get:
- *  summary: Get a report of loans for a user
+ * /users:
+ * post:
+ *  summary: Save a new user (without password)
+ *  tags: [Users]
+ *  requestBody:
+ *    required: true
+ *    content:
+ *      application/json:
+ *        schema:
+ *          type: object
+ *          properties:
+ *            user_name:
+ *              type: string
+ *            email:
+ *              type: string
+ *            nombres:
+ *              type: string
+ *            apellidopat:
+ *              type: string
+ *            apellidomat:
+ *              type: string
+ *            carnet:
+ *              type: string
+ *            id_roles:
+ *              type: integer
  */
-router.get("/users/:id/loan-report", getUserLoanReport);
+router.post("/users", saveUser);
 
 /**
  * @swagger
- * /users/{id}/admin/dashboard:
- * get:
- *  summary: Get admin dashboard data
+ * /users/{id}:
+ * put:
+ *  summary: Update a user by id (including role)
+ *  tags: [Users]
  *  parameters:
  *    - in: path
  *      name: id
  *      required: true
  *      schema:
  *        type: integer
+ *  requestBody:
+ *    required: true
+ *    content:
+ *      application/json:
+ *        schema:
+ *          type: object
+ *          properties:
+ *            user_name:
+ *              type: string
+ *            email:
+ *              type: string
+ *            nombres:
+ *              type: string
+ *            apellidopat:
+ *              type: string
+ *            apellidomat:
+ *              type: string
+ *            carnet:
+ *              type: string
+ *            id_roles:
+ *              type: integer
  */
-router.get("/users/:id/admin/dashboard", getAdminDashboardData);
+router.put("/users/:id", updateUser);
+
+/**
+ * @swagger
+ * /users/{id}:
+ * delete:
+ *  summary: Delete a user by id (also deletes associated persona)
+ *  tags: [Users]
+ *  parameters:
+ *    - in: path
+ *      name: id
+ *      required: true
+ *      schema:
+ *        type: integer
+ *  responses:
+ *    200:
+ *      description: User deleted successfully
+ *    404:
+ *      description: User not found
+ */
+router.delete("/users/:id", deleteUser);
+
+// =====================================================
+// GESTIÓN DE ROLES
+// =====================================================
+
+/**
+ * @swagger
+ * /roles:
+ * get:
+ *  summary: Get all available roles
+ *  tags: [Roles]
+ *  responses:
+ *    200:
+ *      description: List of all roles
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: array
+ *            items:
+ *              type: object
+ *              properties:
+ *                id:
+ *                  type: integer
+ *                name:
+ *                  type: string
+ *                start_path:
+ *                  type: string
+ *                descripcion:
+ *                  type: string
+ *                is_default:
+ *                  type: boolean
+ */
+router.get("/roles", getRoles);
+
+/**
+ * @swagger
+ * /users/{id}/assign-role:
+ * post:
+ *  summary: Assign a role to a user
+ *  tags: [Roles]
+ *  parameters:
+ *    - in: path
+ *      name: id
+ *      required: true
+ *      schema:
+ *        type: integer
+ *  requestBody:
+ *    required: true
+ *    content:
+ *      application/json:
+ *        schema:
+ *          type: object
+ *          required:
+ *            - role_id
+ *          properties:
+ *            role_id:
+ *              type: integer
+ *              description: ID of the role to assign
+ *  responses:
+ *    200:
+ *      description: Role assigned successfully
+ *    404:
+ *      description: User or role not found
+ */
+router.post("/users/:id/assign-role", assignRoleToUser);
+
+// =====================================================
+// REPORTES
+// =====================================================
+
+
 
 export default router;

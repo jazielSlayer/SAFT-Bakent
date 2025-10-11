@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3000
+@baseUrl = http://localhost:3200
 
 ###
 
@@ -62,10 +62,10 @@ POST {{baseUrl}}/metodologias
 Content-Type: application/json
 
 {
-  "nombre": "Metodología Scrum",
-  "descripcion": "Metodología para desarrollo ágil",
+  "nombre": "Metodología Scrull",
+  "descripcion": "Metodología para gestión de proyectos",
   "objetivos": "Mejorar eficiencia en proyectos",
-  "numero_modulos": "5",
+  "numero_modulos": "14",
   "fecha_inicio": "2025-01-01",
   "fecha_finalizacion": "2025-06-30"
 }

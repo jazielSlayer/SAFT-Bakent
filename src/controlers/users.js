@@ -4,16 +4,14 @@ import bcrypt from 'bcryptjs';
 // Registro de usuario
 export const registerUser = async (req, res) => {
     const pool = await connect();
-    const { nombres, apellidopat, apellidomat, carnet, email, password, user_name } = req.body;
+    const { nombres, apellidopat, apellidomat, carnet, email, password, user_name, per_id, role } = req.body;
     
-    // DEBUG: Verificar qué datos llegan
     console.log('registerUser recibió:', {
+        per_id: per_id || 'NO PROPORCIONADO',
         nombres,
-        apellidopat,
-        apellidomat, 
-        carnet,
         email,
         user_name,
+        role: role || 'NO PROPORCIONADO',
         password: password ? 'presente' : 'UNDEFINED'
     });
     
@@ -23,34 +21,82 @@ export const registerUser = async (req, res) => {
             return res.status(400).json({ message: "Contraseña requerida y debe ser texto" });
         }
         
-        if (!user_name || !email || !nombres) {
+        if (!user_name || !email) {
             return res.status(400).json({ message: "Campos obligatorios faltantes" });
         }
         
-        // Crear persona
-        const [personaResults] = await pool.query(
-            "INSERT INTO persona (nombres, apellidopat, apellidomat, carnet, correo, estado) VALUES (?, ?, ?, ?, ?, 1)",
-            [nombres, apellidopat || '', apellidomat || '', carnet || '', email]
-        );
-        const per_id = personaResults.insertId;
+        let personaId;
+        
+        // Si ya existe per_id (viene del paso 1), usarlo
+        if (per_id) {
+            console.log('Usando per_id existente:', per_id);
+            
+            const [personaCheck] = await pool.query(
+                "SELECT id FROM persona WHERE id = ?",
+                [per_id]
+            );
+            
+            if (personaCheck.length === 0) {
+                return res.status(404).json({ message: "Persona no encontrada" });
+            }
+            
+            personaId = per_id;
+        } else {
+            // Si NO existe per_id, crear nueva persona
+            console.log('Creando nueva persona');
+            
+            if (!nombres) {
+                return res.status(400).json({ message: "Nombres requerido para crear persona" });
+            }
+            
+            const [personaResults] = await pool.query(
+                "INSERT INTO persona (nombres, apellidopat, apellidomat, carnet, correo, estado) VALUES (?, ?, ?, ?, ?, 1)",
+                [nombres, apellidopat || '', apellidomat || '', carnet || '', email]
+            );
+            personaId = personaResults.insertId;
+        }
+
+        // Determinar el role_id basado en el nombre del rol
+        let roleId = null;
+        let roleName = null;
+        
+        if (role) {
+            const [roleCheck] = await pool.query(
+                "SELECT id, name FROM roles WHERE name = ?",
+                [role]
+            );
+            
+            if (roleCheck.length > 0) {
+                roleId = roleCheck[0].id;
+                roleName = roleCheck[0].name;
+                console.log(`Rol encontrado: "${roleName}" (id: ${roleId})`);
+            } else {
+                console.warn(`Rol "${role}" no encontrado en la base de datos`);
+                return res.status(400).json({ message: `Rol "${role}" no válido` });
+            }
+        }
 
         // Hashear contraseña
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Crear usuario
+        // Crear usuario CON id_roles
         const [userResults] = await pool.query(
-            "INSERT INTO users (user_name, per_id, email, password, status) VALUES (?, ?, ?, ?, 1)",
-            [user_name, per_id, email, hashedPassword]
+            "INSERT INTO users (user_name, per_id, id_roles, email, password, status) VALUES (?, ?, ?, ?, ?, 1)",
+            [user_name, personaId, roleId, email, hashedPassword]
         );
 
-        // NO devuelvas la contraseña en la respuesta
+        const userId = userResults.insertId;
+
+        console.log(`Usuario ${userId} creado con rol "${roleName}" (id_roles: ${roleId})`);
+
+        // Retornar datos del usuario con el rol asignado
         res.json({ 
-            id: userResults.insertId, 
+            id: userId, 
             user_name, 
-            nombres, 
-            apellidopat: apellidopat || '', 
-            apellidomat: apellidomat || '', 
-            email 
+            email,
+            per_id: personaId,
+            id_roles: roleId,
+            role: roleName
         });
     } catch (error) {
         console.error('Error al registrar usuario:', error);
@@ -69,19 +115,68 @@ export const registerUser = async (req, res) => {
     }
 };
 
+
 // Login de usuario
 export const loginUser = async (req, res) => {
     const pool = await connect();
     const { email, password } = req.body;
+    
     try {
-        const [rows] = await pool.query("SELECT u.*, p.nombres, p.apellidopat, p.apellidomat FROM users u JOIN persona p ON u.per_id = p.id WHERE u.email = ?", [email]);
-        if (rows.length === 0) return res.status(404).json({ message: "Usuario no encontrado" });
+        const [rows] = await pool.query(`
+            SELECT 
+                u.id,
+                u.user_name,
+                u.email,
+                u.password,
+                u.status,
+                u.id_roles,
+                p.nombres,
+                p.apellidopat,
+                p.apellidomat,
+                p.carnet,
+                r.name as role_name,
+                r.start_path,
+                r.descripcion as role_descripcion
+            FROM users u
+            JOIN persona p ON u.per_id = p.id
+            LEFT JOIN roles r ON u.id_roles = r.id
+            WHERE u.email = ?
+        `, [email]);
+        
+        if (rows.length === 0) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
+        }
 
         const user = rows[0];
+        
+        if (!user.status) {
+            return res.status(403).json({ message: "Usuario inactivo. Contacta al administrador." });
+        }
+        
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(401).json({ message: "Contraseña incorrecta" });
+        if (!isMatch) {
+            return res.status(401).json({ message: "Contraseña incorrecta" });
+        }
 
-        res.json({ id: user.id, user_name: user.user_name, nombres: user.nombres, apellidopat: user.apellidopat, apellidomat: user.apellidomat, email: user.email });
+        if (!user.id_roles || !user.role_name) {
+            return res.status(403).json({ 
+                message: "Usuario sin rol asignado. Contacta al administrador." 
+            });
+        }
+
+        res.json({ 
+            id: user.id, 
+            user_name: user.user_name, 
+            nombres: user.nombres, 
+            apellidopat: user.apellidopat, 
+            apellidomat: user.apellidomat, 
+            email: user.email,
+            carnet: user.carnet,
+            id_roles: user.id_roles,
+            role: user.role_name,
+            start_path: user.start_path
+        });
+        
     } catch (error) {
         console.error('Error en el login:', error);
         res.status(500).json({ message: "Error en el login" });
@@ -92,7 +187,23 @@ export const loginUser = async (req, res) => {
 export const getUsers = async (req, res) => {
     const pool = await connect();
     try {
-        const [rows] = await pool.query("SELECT u.id, u.user_name, u.email, u.status, p.nombres, p.apellidopat, p.apellidomat, p.carnet FROM users u JOIN persona p ON u.per_id = p.id");
+        const [rows] = await pool.query(`
+            SELECT 
+                u.id, 
+                u.user_name, 
+                u.email, 
+                u.status, 
+                u.id_roles,
+                r.name as role_name,
+                p.nombres, 
+                p.apellidopat, 
+                p.apellidomat, 
+                p.carnet 
+            FROM users u 
+            JOIN persona p ON u.per_id = p.id
+            LEFT JOIN roles r ON u.id_roles = r.id
+            ORDER BY u.id
+        `);
         res.json(rows);
     } catch (error) {
         console.error('Error fetching users:', error);
@@ -104,7 +215,25 @@ export const getUsers = async (req, res) => {
 export const getUser = async (req, res) => {
     const pool = await connect();
     try {
-        const [rows] = await pool.query("SELECT u.id, u.user_name, u.email, u.status, p.nombres, p.apellidopat, p.apellidomat, p.carnet FROM users u JOIN persona p ON u.per_id = p.id WHERE u.id = ?", [req.params.id]);
+        const [rows] = await pool.query(`
+            SELECT 
+                u.id, 
+                u.user_name, 
+                u.email, 
+                u.status, 
+                u.id_roles,
+                r.name as role_name,
+                r.start_path,
+                p.nombres, 
+                p.apellidopat, 
+                p.apellidomat, 
+                p.carnet 
+            FROM users u 
+            JOIN persona p ON u.per_id = p.id
+            LEFT JOIN roles r ON u.id_roles = r.id
+            WHERE u.id = ?
+        `, [req.params.id]);
+        
         if (rows.length === 0) return res.status(404).json({ message: 'Usuario no encontrado' });
         res.json(rows[0]);
     } catch (error) {
@@ -128,7 +257,7 @@ export const getUserCount = async (req, res) => {
 // Guardar un usuario
 export const saveUser = async (req, res) => {
     const pool = await connect();
-    const { nombres, apellidopat, apellidomat, carnet, email, user_name } = req.body;
+    const { nombres, apellidopat, apellidomat, carnet, email, user_name, id_roles } = req.body;
     try {
         const [personaResults] = await pool.query(
             "INSERT INTO persona (nombres, apellidopat, apellidomat, carnet, correo, estado) VALUES (?, ?, ?, ?, ?, 1)",
@@ -137,8 +266,8 @@ export const saveUser = async (req, res) => {
         const per_id = personaResults.insertId;
 
         const [userResults] = await pool.query(
-            "INSERT INTO users (user_name, per_id, email, status) VALUES (?, ?, ?, 1)",
-            [user_name, per_id, email]
+            "INSERT INTO users (user_name, per_id, id_roles, email, status) VALUES (?, ?, ?, ?, 1)",
+            [user_name, per_id, id_roles || null, email]
         );
 
         res.json({
@@ -147,13 +276,15 @@ export const saveUser = async (req, res) => {
             nombres,
             apellidopat,
             apellidomat,
-            email
+            email,
+            id_roles
         });
     } catch (error) {
         console.error('Error saving user:', error);
         res.status(500).json({ message: 'Error al guardar usuario' });
     }
 };
+
 
 // Eliminar un usuario
 export const deleteUser = async (req, res) => {
@@ -183,28 +314,28 @@ export const updateUser = async (req, res) => {
         const user = userRows[0];
         const per_id = user.per_id;
 
-        // Obtener datos actuales de persona
         const [personaRows] = await pool.query("SELECT * FROM persona WHERE id = ?", [per_id]);
         if (personaRows.length === 0) return res.status(404).json({ message: 'Persona no encontrada' });
         const persona = personaRows[0];
 
-        // Solo actualiza los campos enviados, los demás se mantienen igual
         const {
             nombres = persona.nombres,
             apellidopat = persona.apellidopat,
             apellidomat = persona.apellidomat,
             carnet = persona.carnet,
             email = persona.correo,
-            user_name = user.user_name
+            user_name = user.user_name,
+            id_roles = user.id_roles
         } = req.body;
 
         await pool.query(
             "UPDATE persona SET nombres = ?, apellidopat = ?, apellidomat = ?, carnet = ?, correo = ? WHERE id = ?",
             [nombres, apellidopat, apellidomat, carnet, email, per_id]
         );
+        
         await pool.query(
-            "UPDATE users SET user_name = ?, email = ? WHERE id = ?",
-            [user_name, email, req.params.id]
+            "UPDATE users SET user_name = ?, email = ?, id_roles = ? WHERE id = ?",
+            [user_name, email, id_roles, req.params.id]
         );
 
         res.json({ message: 'Usuario actualizado' });
@@ -214,106 +345,64 @@ export const updateUser = async (req, res) => {
     }
 };
 
-// Reporte de avances de estudiante (adaptado del lab-reservas)
-export const getUserLabReservas = async (req, res) => {
+
+
+// Asignar rol a usuario
+export const assignRoleToUser = async (req, res) => {
     const pool = await connect();
+    const { role_id } = req.body;
+    const userId = req.params.id;
+    
     try {
-        const [rows] = await pool.query(`
-            SELECT 
-                a.id AS avance_id,
-                a.id_estudiante,
-                e.numero_matricula,
-                p.nombres,
-                p.apellidopat,
-                p.apellidomat,
-                m.nombre AS modulo_nombre,
-                a.responsable,
-                a.fecha,
-                a.estado
-            FROM avance_estudiante a
-            JOIN estudiante e ON a.id_estudiante = e.id
-            JOIN persona p ON e.per_id = p.id
-            JOIN modulo m ON a.id_modulo = m.id
-            WHERE e.per_id = (SELECT per_id FROM users WHERE id = ?)
-            ORDER BY a.fecha DESC
-        `, [req.params.id]);
+        // Verificar que el usuario y rol existan
+        const [userCheck] = await pool.query('SELECT id FROM users WHERE id = ?', [userId]);
+        if (userCheck.length === 0) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+        
+        const [roleCheck] = await pool.query('SELECT id FROM roles WHERE id = ?', [role_id]);
+        if (roleCheck.length === 0) {
+            return res.status(404).json({ message: 'Rol no encontrado' });
+        }
+        
+        // Verificar si ya está asignado
+        const [existing] = await pool.query(
+            'SELECT * FROM model_has_roles WHERE model_id = ? AND role_id = ?',
+            [userId, role_id]
+        );
 
-        const avances = rows.map(row => ({
-            avance_id: row.avance_id,
-            numero_matricula: row.numero_matricula,
-            nombres: row.nombres,
-            apellidopat: row.apellidopat,
-            apellidomat: row.apellidomat,
-            modulo_nombre: row.modulo_nombre,
-            responsable: row.responsable,
-            fecha: row.fecha,
-            estado: row.estado
-        }));
+        if (existing.length > 0) {
+            return res.status(400).json({ message: 'El usuario ya tiene asignado este rol' });
+        }
 
-        res.json({
-            usuario_id: req.params.id,
-            total_avances: avances.length,
-            avances
+        // Asignar el rol
+        await pool.query(
+            'INSERT INTO model_has_roles (model_id, role_id, model_type) VALUES (?, ?, "App\\Models\\User")',
+            [userId, role_id]
+        );
+
+        res.json({ 
+            message: 'Rol asignado correctamente',
+            user_id: userId,
+            role_id: role_id
         });
+
     } catch (error) {
-        console.error('Error fetching student progress report:', error);
-        res.status(500).json({ message: 'Error al generar el reporte de avances' });
+        console.error('Error al asignar rol:', error);
+        res.status(500).json({ 
+            message: 'Error al asignar rol al usuario',
+            error: error.message 
+        });
     }
 };
 
-// Reporte de préstamos (no aplicable en saf, placeholder)
-export const getUserLoanReport = async (req, res) => {
-    res.status(501).json({ message: 'Reporte de préstamos no implementado para la base de datos saf' });
-};
-
-// Dashboard de admin
-export const getAdminDashboardData = async (req, res) => {
+export const getRoles = async (req, res) => {
     const pool = await connect();
     try {
-        const usuario_id = req.body.usuario_id || req.params.usuario_id;
-        if (!usuario_id) {
-            return res.status(401).json({ message: 'Usuario no autenticado' });
-        }
-        const [userRows] = await pool.query("SELECT r.name FROM users u JOIN model_has_roles mr ON u.id = mr.model_id JOIN roles r ON mr.role_id = r.id WHERE u.id = ?", [usuario_id]);
-        if (userRows.length === 0 || userRows[0].name !== 'Admin') {
-            return res.status(403).json({ message: 'Acceso denegado: Solo administradores' });
-        }
-
-        const [users] = await pool.query("SELECT * FROM users");
-        const [personas] = await pool.query("SELECT * FROM persona");
-        const [estudiantes] = await pool.query("SELECT * FROM estudiante");
-        const [docentes] = await pool.query("SELECT * FROM docente");
-        const [programas] = await pool.query("SELECT * FROM programa_academico");
-        const [proyectos] = await pool.query("SELECT * FROM proyecto");
-        const [avances] = await pool.query("SELECT * FROM avance_estudiante");
-
-        const rolesCount = { Admin: 0, Docente: 0 };
-        const [rolesRows] = await pool.query("SELECT r.name, COUNT(mr.model_id) as count FROM roles r LEFT JOIN model_has_roles mr ON r.id = mr.role_id GROUP BY r.name");
-        rolesRows.forEach(row => {
-            if (rolesCount.hasOwnProperty(row.name)) {
-                rolesCount[row.name] = row.count;
-            }
-        });
-
-        res.json({
-            total_users: users.length,
-            roles_count: rolesCount,
-            total_personas: personas.length,
-            total_estudiantes: estudiantes.length,
-            total_docentes: docentes.length,
-            total_programas: programas.length,
-            total_proyectos: proyectos.length,
-            total_avances: avances.length,
-            users,
-            personas,
-            estudiantes,
-            docentes,
-            programas,
-            proyectos,
-            avances
-        });
+        const [rows] = await pool.query("SELECT * FROM roles ORDER BY id");
+        res.json(rows);
     } catch (error) {
-        console.error('Error fetching admin dashboard data:', error);
-        res.status(500).json({ message: 'Error al obtener datos del dashboard' });
+        console.error('Error fetching roles:', error);
+        res.status(500).json({ message: 'Error al obtener roles' });
     }
 };

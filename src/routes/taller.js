@@ -49,7 +49,7 @@ router.get("/talleres", getTalleres);
  *         schema:
  *           type: integer
  */
-router.get("/talleres/:id", getTaller);
+router.get("/taller/:id", getTaller);
 
 /**
  * @swagger
@@ -78,7 +78,7 @@ router.get("/talleres/:id", getTaller);
  *               estado:
  *                 type: boolean
  */
-router.post("/talleres", createTaller);
+router.post("/create-taller", createTaller);
 
 /**
  * @swagger
@@ -113,7 +113,7 @@ router.post("/talleres", createTaller);
  *               estado:
  *                 type: boolean
  */
-router.put("/talleres/:id", updateTaller);
+router.put("/update-taller/:id", updateTaller);
 
 /**
  * @swagger
@@ -127,6 +127,6 @@ router.put("/talleres/:id", updateTaller);
  *         schema:
  *           type: integer
  */
-router.delete("/talleres/:id", deleteTaller);
+router.delete("/delete-taller/:id", deleteTaller);
 
 export default router;

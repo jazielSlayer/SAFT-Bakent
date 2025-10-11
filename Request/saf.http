@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3000
+@baseUrl = http://localhost:3200
 
 ###
 
@@ -55,7 +55,7 @@ Content-Type: application/json
 {
   "codigo": "MOD103",
   "nombre": "Introducción a Programación",
-  "id_docente": 1,
+  "id_docente": 6,
   "id_metodologia": 5,
   "duracion": "40 horas",
   "descripcion": "Curso básico de programación",
@@ -191,7 +191,7 @@ GET {{baseUrl}}/talleres
 
 ###
 # Obtener un taller por ID
-GET {{baseUrl}}/talleres/1
+GET {{baseUrl}}/taller/3
 
 ###
 # Crear un nuevo taller
@@ -200,7 +200,7 @@ Content-Type: application/json
 
 { 
   "titulo": "Taller de Capacitacion", 
-  "id_metodologia": 1, 
+  "id_metodologia": 5, 
   "tipo_taller": "Práctico", 
   "evaluacion_final": "Proyecto", 
   "duracion": "20 horas", 
