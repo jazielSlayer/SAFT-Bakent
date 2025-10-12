@@ -22,6 +22,8 @@ import programaAcademicoRoutes from './routes/programa_academico';
 import proyectoRoutes from './routes/proyecto';
 import tallerRoutes from './routes/taller';
 
+import auteticacionRoutes from './routes/RutasAutenticacion'
+
 import rolesRoutes from './routes/roles';
 import permisosRoutes from './routes/permisos';
 
@@ -44,6 +46,8 @@ app.use(personaRoutes);
 app.use(programaAcademicoRoutes);
 app.use(proyectoRoutes);
 app.use(tallerRoutes);
+
+app.use(auteticacionRoutes)
 
 app.use(rolesRoutes);
 app.use(permisosRoutes);
