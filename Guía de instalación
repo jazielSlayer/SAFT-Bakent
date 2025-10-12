@@ -3,16 +3,28 @@ puedes ver si esta instalado con:
     node -v
     npm -v
 2. descarga mysql o xampp
+
 3. clona el repositorio con:
     git clone https://github.com/jazielSlayer/Frontend-SAT.git
     
 4. instala las dependencias:
     npm install
+    
 5. crea un archivo llamado .env en la raiz del proyecto que contenga lo siguiente:
-    DB_HOST=localhost
-    DB_USER=tu_usuario
-    DB_PASSWORD=tu_contraseña
-    DB_DATABASE=LaboratorioDB
+    genera un archivo .env
+        New-Item -Path .env -ItemType File -Force
+    crea las variables dentro del archivo .env
+        Add-Content -Path .env -Value "DB_HOST = localhost"
+        Add-Content -Path .env -Value "DB_USER = root"
+        Add-Content -Path .env -Value "DB_PASSWORD = "
+        Add-Content -Path .env -Value "DB_DATABASE = saf"
+
+        Debe remplazar example@gmail.com por su correo
+        Add-Content -Path .env -Value "CORREO_APP = example@gmail.com "
+
+        Debe remplasar esta contraseña de ejemplo por la contraseña de aplicacion de google que generre en esta pagina de google (https://myaccount.google.com/apppasswords?pli=1&rapt=AEjHL4MBatzGXSV5f-OI9U1v8ujdutvXwSkByemPACclTJANJBc6yTPJhopYmYIYqE_NtoCxRqvJMY_kx_E6loH_xljv-dPt1oqRblPceA-A_a9meGtBeoU)
+        Add-Content -Path .env -Value "CONTRASENA_APP = Poner la contraseña generada"
+
 6. crea la base de datos ejecutando el script db
 
 7. compila el proyecto con:
