@@ -147,8 +147,7 @@ var createEstudiante = exports.createEstudiante = /*#__PURE__*/function () {
             message: 'Programa académico no encontrado'
           }));
         case 23:
-          // Validar estado (0 o 1)
-          estadoValue = estado === true || estado === 1 ? 1 : 0; // Insertar en la tabla estudiante
+          estadoValue = estado === true || estado === 1 ? 1 : 0;
           _context3.next = 26;
           return pool.query('INSERT INTO estudiante (per_id, id_programa_academico, numero_matricula, fecha_inscripcion, estado) VALUES (?, ?, ?, ?, ?)', [per_id, id_programa_academico, numero_matricula, fecha_inscripcion, estadoValue]);
         case 26:

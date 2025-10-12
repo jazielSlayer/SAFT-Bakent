@@ -21,8 +21,7 @@ var getTalleres = exports.getTalleres = /*#__PURE__*/function () {
           pool = _context.sent;
           _req$query = req.query, titulo = _req$query.titulo, tipo_taller = _req$query.tipo_taller, fecha_realizacion = _req$query.fecha_realizacion, _req$query$page = _req$query.page, page = _req$query$page === void 0 ? 1 : _req$query$page, _req$query$limit = _req$query.limit, limit = _req$query$limit === void 0 ? 10 : _req$query$limit;
           _context.prev = 4;
-          // Construir la consulta base
-          query = "\n            SELECT \n                t.id,\n                t.titulo,\n                t.id_metodologia,        \n                t.tipo_taller,\n                t.evaluacion_final,\n                t.duracion,\n                t.resultado,\n                t.fecha_realizacion,\n                m.nombre AS metodologia_nombre\n            FROM taller t\n            LEFT JOIN metodologia m ON t.id_metodologia = m.id\n        "; // Agregar condiciones de filtro
+          query = "\n            SELECT \n                t.id,\n                t.titulo,\n                t.id_metodologia,        \n                t.tipo_taller,\n                t.evaluacion_final,\n                t.duracion,\n                t.resultado,\n                t.fecha_realizacion,\n                m.nombre AS metodologia_nombre\n            FROM taller t\n            LEFT JOIN metodologia m ON t.id_metodologia = m.id\n        ";
           conditions = [];
           params = [];
           if (titulo) {
@@ -51,16 +50,10 @@ var getTalleres = exports.getTalleres = /*#__PURE__*/function () {
           if (conditions.length > 0) {
             query += ' WHERE ' + conditions.join(' AND ');
           }
-
-          // Agregar ordenamiento
           query += ' ORDER BY t.fecha_realizacion DESC';
-
-          // Agregar paginación
           offset = (page - 1) * limit;
           query += ' LIMIT ? OFFSET ?';
           params.push(parseInt(limit), parseInt(offset));
-
-          // Ejecutar la consulta
           _context.next = 22;
           return pool.query(query, params);
         case 22:
@@ -68,14 +61,13 @@ var getTalleres = exports.getTalleres = /*#__PURE__*/function () {
           _yield$pool$query2 = (0, _slicedToArray2["default"])(_yield$pool$query, 1);
           rows = _yield$pool$query2[0];
           _context.next = 27;
-          return pool.query("SELECT COUNT(*) as total \n             FROM taller t\n             ".concat(conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : ''), params.slice(0, params.length - 2) // Excluir parámetros de paginación
-          );
+          return pool.query("SELECT COUNT(*) as total \n             FROM taller t\n             ".concat(conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : ''), params.slice(0, params.length - 2));
         case 27:
           _yield$pool$query3 = _context.sent;
           _yield$pool$query4 = (0, _slicedToArray2["default"])(_yield$pool$query3, 1);
           countResult = _yield$pool$query4[0];
           totalItems = countResult[0].total;
-          totalPages = Math.ceil(totalItems / limit); // Responder según los resultados
+          totalPages = Math.ceil(totalItems / limit);
           if (!(rows.length === 0)) {
             _context.next = 34;
             break;
@@ -169,7 +161,6 @@ var getTaller = exports.getTaller = /*#__PURE__*/function () {
             message: 'Taller no encontrado'
           }));
         case 14:
-          // Devolver el taller encontrado
           res.json({
             message: 'Taller encontrado',
             data: rows[0]
@@ -251,7 +242,6 @@ var createTaller = exports.createTaller = /*#__PURE__*/function () {
             message: 'Metodología no encontrada'
           }));
         case 16:
-          // Validar tipo_taller (asumiendo valores permitidos: 'Teórico', 'Práctico', 'Mixto')
           validTipos = ['Teórico', 'Práctico', 'Mixto'];
           if (validTipos.includes(tipo_taller)) {
             _context3.next = 19;
@@ -267,7 +257,6 @@ var createTaller = exports.createTaller = /*#__PURE__*/function () {
           _yield$pool$query9 = _context3.sent;
           _yield$pool$query10 = (0, _slicedToArray2["default"])(_yield$pool$query9, 1);
           results = _yield$pool$query10[0];
-          // Devolver la respuesta con los datos insertados
           res.json({
             id: results.insertId,
             titulo: titulo,
@@ -395,7 +384,6 @@ var updateTaller = exports.updateTaller = /*#__PURE__*/function () {
             message: "Tipo de taller inv\xE1lido. Use: ".concat(validTipos.join(', '))
           }));
         case 31:
-          // Construir la consulta de actualización dinámicamente
           fields = [];
           values = [];
           if (titulo) {
@@ -426,8 +414,6 @@ var updateTaller = exports.updateTaller = /*#__PURE__*/function () {
             fields.push('fecha_realizacion = ?');
             values.push(fecha_realizacion);
           }
-
-          // Ejecutar la consulta de actualización
           _context4.next = 42;
           return pool.query("UPDATE taller SET ".concat(fields.join(', '), " WHERE id = ?"), [].concat(values, [id]));
         case 42:

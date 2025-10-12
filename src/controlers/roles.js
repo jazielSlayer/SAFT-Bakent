@@ -1,6 +1,5 @@
 import { connect } from '../database';
 
-// Obtener todos los roles
 export const getRoles = async (req, res) => {
     let pool;
     try {
@@ -15,7 +14,6 @@ export const getRoles = async (req, res) => {
     }
 };
 
-// Obtener un rol por ID
 export const getRole = async (req, res) => {
     let pool;
     try {
@@ -31,19 +29,16 @@ export const getRole = async (req, res) => {
     }
 };
 
-// Crear un nuevo rol
 export const createRole = async (req, res) => {
     let pool;
     try {
         pool = await connect();
         const { name, descripcion, start_path, is_default, guard_name } = req.body;
 
-        // Validaciones
         if (!name || !start_path || !guard_name) {
             return res.status(400).json({ message: "Campos obligatorios faltantes: name, start_path, guard_name" });
         }
 
-        // Verificar si ya existe un rol con el mismo name y guard_name
         const [existingRole] = await pool.query(
             "SELECT * FROM roles WHERE name = ? AND guard_name = ?",
             [name, guard_name]
@@ -76,7 +71,7 @@ export const createRole = async (req, res) => {
     }
 };
 
-// Actualizar un rol
+
 export const updateRole = async (req, res) => {
     let pool;
     try {
@@ -86,7 +81,6 @@ export const updateRole = async (req, res) => {
 
         const role = roleRows[0];
 
-        // Solo actualiza los campos enviados, los demás se mantienen igual
         const {
             name = role.name,
             descripcion = role.descripcion,
@@ -95,7 +89,6 @@ export const updateRole = async (req, res) => {
             guard_name = role.guard_name
         } = req.body;
 
-        // Verificar si el nuevo name y guard_name ya existen (excluyendo el rol actual)
         const [existingRole] = await pool.query(
             "SELECT * FROM roles WHERE name = ? AND guard_name = ? AND id != ?",
             [name, guard_name, req.params.id]
@@ -109,7 +102,6 @@ export const updateRole = async (req, res) => {
             [name, descripcion, start_path, is_default, guard_name, req.params.id]
         );
 
-        // Obtener el rol actualizado
         const [updatedRole] = await pool.query("SELECT * FROM roles WHERE id = ?", [req.params.id]);
         res.json({ message: 'Rol actualizado', role: updatedRole[0] });
     } catch (error) {
@@ -123,7 +115,7 @@ export const updateRole = async (req, res) => {
     }
 };
 
-// Eliminar un rol
+
 export const deleteRole = async (req, res) => {
     let pool;
     try {
@@ -150,5 +142,5 @@ export const deleteRole = async (req, res) => {
         }
         res.status(500).json({ message: 'Error al eliminar rol' });
     }
-    // No es necesario finally ni pool.release()
+  
 };

@@ -155,7 +155,6 @@ var createObservacion = exports.createObservacion = /*#__PURE__*/function () {
           _yield$pool$query7 = _context3.sent;
           _yield$pool$query8 = (0, _slicedToArray2["default"])(_yield$pool$query7, 1);
           results = _yield$pool$query8[0];
-          // Devolver el registro insertado
           res.json({
             id: results.insertId,
             id_estudiante: id_estudiante,
@@ -283,7 +282,6 @@ var updateObservacion = exports.updateObservacion = /*#__PURE__*/function () {
             message: 'El autor excede el límite de 100 caracteres'
           }));
         case 31:
-          // Construir la consulta de actualización dinámicamente
           fields = [];
           values = [];
           if (id_estudiante) {
@@ -302,8 +300,6 @@ var updateObservacion = exports.updateObservacion = /*#__PURE__*/function () {
             fields.push('fecha = ?');
             values.push(fecha);
           }
-
-          // Ejecutar la consulta de actualización
           _context4.next = 39;
           return pool.query("UPDATE observacion SET ".concat(fields.join(', '), " WHERE id = ?"), [].concat(values, [id]));
         case 39:

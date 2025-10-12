@@ -7,10 +7,11 @@ const router = Router();
  * @swagger
  * /metodologias:
  *   get:
- *     summary: Get all methodologies
+ *     summary: Obtener todas las metodologías
+ *     tags: [Metodologías]
  *     responses:
  *       200:
- *         description: Successful response
+ *         description: Lista de metodologías obtenida exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -20,18 +21,27 @@ const router = Router();
  *                 properties:
  *                   id:
  *                     type: integer
+ *                     description: ID único de la metodología
  *                   nombre:
  *                     type: string
+ *                     description: Nombre de la metodología
  *                   descripcion:
  *                     type: string
+ *                     description: Descripción detallada de la metodología
  *                   objetivos:
  *                     type: string
+ *                     description: Objetivos de la metodología
  *                   numero_modulos:
- *                     type: string
+ *                     type: integer
+ *                     description: Número de módulos que componen la metodología
  *                   fecha_inicio:
  *                     type: string
+ *                     description: Fecha de inicio de la metodología (formato ISO 8601, ej. YYYY-MM-DD)
  *                   fecha_finalizacion:
  *                     type: string
+ *                     description: Fecha de finalización de la metodología (formato ISO 8601, ej. YYYY-MM-DD)
+ *       500:
+ *         description: Error del servidor
  */
 router.get("/metodologias", getMetodologias);
 
@@ -39,13 +49,48 @@ router.get("/metodologias", getMetodologias);
  * @swagger
  * /metodologias/{id}:
  *   get:
- *     summary: Get a methodology by ID
+ *     summary: Obtener una metodología por su ID
+ *     tags: [Metodologías]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: integer
+ *         description: ID único de la metodología
+ *     responses:
+ *       200:
+ *         description: Metodología obtenida exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   description: ID único de la metodología
+ *                 nombre:
+ *                   type: string
+ *                   description: Nombre de la metodología
+ *                 descripcion:
+ *                   type: string
+ *                   description: Descripción detallada de la metodología
+ *                 objetivos:
+ *                   type: string
+ *                   description: Objetivos de la metodología
+ *                 numero_modulos:
+ *                   type: integer
+ *                   description: Número de módulos que componen la metodología
+ *                 fecha_inicio:
+ *                   type: string
+ *                   description: Fecha de inicio de la metodología (formato ISO 8601, ej. YYYY-MM-DD)
+ *                 fecha_finalizacion:
+ *                   type: string
+ *                   description: Fecha de finalización de la metodología (formato ISO 8601, ej. YYYY-MM-DD)
+ *       404:
+ *         description: Metodología no encontrada
+ *       500:
+ *         description: Error del servidor
  */
 router.get("/metodologias/:id", getMetodologia);
 
@@ -53,26 +98,66 @@ router.get("/metodologias/:id", getMetodologia);
  * @swagger
  * /metodologias:
  *   post:
- *     summary: Create a new methodology
+ *     summary: Crear una nueva metodología
+ *     tags: [Metodologías]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - nombre
+ *               - descripcion
+ *               - objetivos
+ *               - numero_modulos
+ *               - fecha_inicio
+ *               - fecha_finalizacion
  *             properties:
  *               nombre:
  *                 type: string
+ *                 description: Nombre de la metodología
  *               descripcion:
  *                 type: string
+ *                 description: Descripción detallada de la metodología
  *               objetivos:
  *                 type: string
+ *                 description: Objetivos de la metodología
  *               numero_modulos:
- *                 type: string
+ *                 type: integer
+ *                 description: Número de módulos que componen la metodología
  *               fecha_inicio:
  *                 type: string
+ *                 description: Fecha de inicio de la metodología (formato ISO 8601, ej. YYYY-MM-DD)
  *               fecha_finalizacion:
  *                 type: string
+ *                 description: Fecha de finalización de la metodología (formato ISO 8601, ej. YYYY-MM-DD)
+ *     responses:
+ *       201:
+ *         description: Metodología creada exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 nombre:
+ *                   type: string
+ *                 descripcion:
+ *                   type: string
+ *                 objetivos:
+ *                   type: string
+ *                 numero_modulos:
+ *                   type: integer
+ *                 fecha_inicio:
+ *                   type: string
+ *                 fecha_finalizacion:
+ *                   type: string
+ *       400:
+ *         description: Solicitud inválida
+ *       500:
+ *         description: Error del servidor
  */
 router.post("/metodologias", createMetodologia);
 
@@ -80,13 +165,15 @@ router.post("/metodologias", createMetodologia);
  * @swagger
  * /metodologias/{id}:
  *   put:
- *     summary: Update a methodology
+ *     summary: Actualizar una metodología
+ *     tags: [Metodologías]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: integer
+ *         description: ID único de la metodología
  *     requestBody:
  *       required: true
  *       content:
@@ -96,16 +183,50 @@ router.post("/metodologias", createMetodologia);
  *             properties:
  *               nombre:
  *                 type: string
+ *                 description: Nombre de la metodología
  *               descripcion:
  *                 type: string
+ *                 description: Descripción detallada de la metodología
  *               objetivos:
  *                 type: string
+ *                 description: Objetivos de la metodología
  *               numero_modulos:
- *                 type: string
+ *                 type: integer
+ *                 description: Número de módulos que componen la metodología
  *               fecha_inicio:
  *                 type: string
+ *                 description: Fecha de inicio de la metodología (formato ISO 8601, ej. YYYY-MM-DD)
  *               fecha_finalizacion:
  *                 type: string
+ *                 description: Fecha de finalización de la metodología (formato ISO 8601, ej. YYYY-MM-DD)
+ *     responses:
+ *       200:
+ *         description: Metodología actualizada exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 nombre:
+ *                   type: string
+ *                 descripcion:
+ *                   type: string
+ *                 objetivos:
+ *                   type: string
+ *                 numero_modulos:
+ *                   type: integer
+ *                 fecha_inicio:
+ *                   type: string
+ *                 fecha_finalizacion:
+ *                   type: string
+ *       400:
+ *         description: Solicitud inválida
+ *       404:
+ *         description: Metodología no encontrada
+ *       500:
+ *         description: Error del servidor
  */
 router.put("/metodologias/:id", updateMetodologia);
 
@@ -113,13 +234,22 @@ router.put("/metodologias/:id", updateMetodologia);
  * @swagger
  * /metodologias/{id}:
  *   delete:
- *     summary: Delete a methodology
+ *     summary: Eliminar una metodología
+ *     tags: [Metodologías]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: integer
+ *         description: ID único de la metodología
+ *     responses:
+ *       204:
+ *         description: Metodología eliminada exitosamente
+ *       404:
+ *         description: Metodología no encontrada
+ *       500:
+ *         description: Error del servidor
  */
 router.delete("/metodologias/:id", deleteMetodologia);
 

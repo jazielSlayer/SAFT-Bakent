@@ -48,7 +48,6 @@ export const getProyectos = async (req, res) => {
     }
 };
 
-// Obtener proyectos de un estudiante por su id_estudiante
 export const getProyectoEstudiante = async (req, res) => {
     const pool = await connect();
     const { id_estudiante } = req.params;
@@ -73,7 +72,6 @@ export const getProyectoEstudiante = async (req, res) => {
     }
 };
 
-// Obtener proyectos relacionados a un docente (como guía o revisor)
 export const getProyectoDocente = async (req, res) => {
     const pool = await connect();
     const { id_docente } = req.params;
@@ -104,7 +102,6 @@ export const getProyecto = async (req, res) => {
     const { titulo, area_conocimiento, estudiante, page = 1, limit = 10 } = req.query;
 
     try {
-        // Construir la consulta base
         let query = `
             SELECT 
                 p.id,
@@ -139,7 +136,6 @@ export const getProyecto = async (req, res) => {
             LEFT JOIN persona per_d_revisor ON d_revisor.per_id = per_d_revisor.id
         `;
 
-        // Agregar condiciones de filtro
         const conditions = [];
         const params = [];
         
@@ -160,28 +156,23 @@ export const getProyecto = async (req, res) => {
             query += ' WHERE ' + conditions.join(' AND ');
         }
 
-        // Agregar ordenamiento
         query += ' ORDER BY p.fecha_entrega DESC';
 
-        // Agregar paginación
         const offset = (page - 1) * limit;
         query += ' LIMIT ? OFFSET ?';
         params.push(parseInt(limit), parseInt(offset));
 
-        // Ejecutar la consulta
         const [rows] = await pool.query(query, params);
 
-        // Obtener el total de proyectos para paginación
         const [countResult] = await pool.query(
             `SELECT COUNT(*) as total 
              FROM proyecto p
              ${conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : ''}`,
-            params.slice(0, params.length - 2) // Excluir parámetros de paginación
+            params.slice(0, params.length - 2) 
         );
         const totalItems = countResult[0].total;
         const totalPages = Math.ceil(totalItems / limit);
 
-        // Responder según los resultados
         if (rows.length === 0) {
             return res.status(200).json({ 
                 message: 'No se encontraron proyectos', 
@@ -223,12 +214,10 @@ export const createProyecto = async (req, res) => {
     } = req.body;
 
     try {
-        // Validar campos requeridos
         if (!id_estudiante || !id_docente_guia || !id_docente_revisor || !titulo || !linea_investigacion || !area_conocimiento || !fecha_entrega) {
             return res.status(400).json({ message: 'Faltan campos requeridos: id_estudiante, id_docente_guia, id_docente_revisor, titulo, linea_investigacion, area_conocimiento, fecha_entrega' });
         }
 
-        // Validar formato de fechas (YYYY-MM-DD)
         if (!/^\d{4}-\d{2}-\d{2}$/.test(fecha_entrega)) {
             return res.status(400).json({ message: 'Formato de fecha_entrega inválido (use YYYY-MM-DD)' });
         }
@@ -236,30 +225,25 @@ export const createProyecto = async (req, res) => {
             return res.status(400).json({ message: 'Formato de fecha_defensa inválido (use YYYY-MM-DD)' });
         }
 
-        // Validar que id_estudiante existe
         const [estudianteCheck] = await pool.query('SELECT id FROM estudiante WHERE id = ?', [id_estudiante]);
         if (estudianteCheck.length === 0) {
             return res.status(400).json({ message: 'Estudiante no encontrado' });
         }
 
-        // Validar que id_docente_guia existe
         const [docenteGuiaCheck] = await pool.query('SELECT id FROM docente WHERE id = ?', [id_docente_guia]);
         if (docenteGuiaCheck.length === 0) {
             return res.status(400).json({ message: 'Docente guía no encontrado' });
         }
 
-        // Validar que id_docente_revisor existe
         const [docenteRevisorCheck] = await pool.query('SELECT id FROM docente WHERE id = ?', [id_docente_revisor]);
         if (docenteRevisorCheck.length === 0) {
             return res.status(400).json({ message: 'Docente revisor no encontrado' });
         }
 
-        // Validar que calificacion, si se proporciona, sea un número válido
         if (calificacion !== null && (isNaN(calificacion) || calificacion < 0 || calificacion > 100)) {
             return res.status(400).json({ message: 'Calificación debe ser un número entre 0 y 100' });
         }
 
-        // Insertar en la tabla proyecto
         const [results] = await pool.query(
             `INSERT INTO proyecto (
                 id_estudiante, 
@@ -289,7 +273,6 @@ export const createProyecto = async (req, res) => {
             ]
         );
 
-        // Devolver la respuesta con los datos insertados
         res.json({
             id: results.insertId,
             id_estudiante,
@@ -334,25 +317,22 @@ export const updateProyecto = async (req, res) => {
     const id = parseInt(req.params.id);
 
     try {
-        // Validar que el ID sea un número válido
+
         if (isNaN(id) || id <= 0) {
             return res.status(400).json({ message: 'ID del proyecto inválido' });
         }
 
-        // Verificar que el proyecto exista
         const [proyectoCheck] = await pool.query('SELECT id FROM proyecto WHERE id = ?', [id]);
         if (proyectoCheck.length === 0) {
             return res.status(404).json({ message: 'Proyecto no encontrado' });
         }
 
-        // Validar que al menos un campo se proporcione para actualizar
         if (!id_estudiante && !id_docente_guia && !id_docente_revisor && !titulo && !linea_investigacion && 
             !area_conocimiento && calificacion === undefined && !fecha_entrega && !fecha_defensa && 
             !resumen && !observacion) {
             return res.status(400).json({ message: 'Se debe proporcionar al menos un campo para actualizar' });
         }
 
-        // Validar claves foráneas si se proporcionan
         if (id_estudiante) {
             const [estudianteCheck] = await pool.query('SELECT id FROM estudiante WHERE id = ?', [id_estudiante]);
             if (estudianteCheck.length === 0) {
@@ -374,7 +354,6 @@ export const updateProyecto = async (req, res) => {
             }
         }
 
-        // Validar formatos de fechas si se proporcionan
         if (fecha_entrega && !/^\d{4}-\d{2}-\d{2}$/.test(fecha_entrega)) {
             return res.status(400).json({ message: 'Formato de fecha_entrega inválido (use YYYY-MM-DD)' });
         }
@@ -382,12 +361,10 @@ export const updateProyecto = async (req, res) => {
             return res.status(400).json({ message: 'Formato de fecha_defensa inválido (use YYYY-MM-DD)' });
         }
 
-        // Validar calificación si se proporciona
         if (calificacion !== undefined && (isNaN(calificacion) || calificacion < 0 || calificacion > 100)) {
             return res.status(400).json({ message: 'Calificación debe ser un número entre 0 y 100' });
         }
 
-        // Construir la consulta de actualización dinámicamente
         const fields = [];
         const values = [];
 
@@ -423,22 +400,21 @@ export const updateProyecto = async (req, res) => {
             fields.push('fecha_entrega = ?');
             values.push(fecha_entrega);
         }
-        if (fecha_defensa !== undefined) { // Permitir null explícitamente
+        if (fecha_defensa !== undefined) { 
             fields.push('fecha_defensa = ?');
             values.push(fecha_defensa);
         }
-        if (resumen !== undefined) { // Permitir null explícitamente
+        if (resumen !== undefined) { 
             fields.push('resumen = ?');
             values.push(resumen);
         }
-        if (observacion !== undefined) { // Permitir null explícitamente
+        if (observacion !== undefined) { 
             fields.push('observacion = ?');
             values.push(observacion);
         }
-        // Actualizar updated_at automáticamente
+
         fields.push('updated_at = NOW()');
 
-        // Ejecutar la consulta de actualización
         const [results] = await pool.query(
             `UPDATE proyecto SET ${fields.join(', ')} WHERE id = ?`,
             [...values, id]
@@ -448,7 +424,6 @@ export const updateProyecto = async (req, res) => {
             return res.status(404).json({ message: 'Proyecto no encontrado o ningún cambio realizado' });
         }
 
-        // Obtener el proyecto actualizado para devolverlo
         const [updatedProyecto] = await pool.query(
             `SELECT 
                 p.id,

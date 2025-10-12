@@ -7,7 +7,7 @@ const router = Router();
  * @swagger
  * /roles:
  * get:
- *  summary: Get all roles
+ *  summary: Obtener todos los roles
  */
 router.get("/roles", getRoles);
 
@@ -15,7 +15,7 @@ router.get("/roles", getRoles);
  * @swagger
  * /roles/{id}:
  * get:
- *  summary: Get a role by id
+ *  summary: Obtener el rol por ID
  *  parameters:
  *    - in: path
  *      name: id
@@ -29,7 +29,7 @@ router.get("/roles/:id", getRole);
  * @swagger
  * /roles:
  * post:
- *  summary: Create a new role
+ *  summary: Creamos un nuevo rol
  */
 router.post("/roles", createRole);
 
@@ -37,7 +37,7 @@ router.post("/roles", createRole);
  * @swagger
  * /roles/{id}:
  * put:
- *  summary: Update a role by id
+ *  summary: Actaulizamos un rol por ID
  *  parameters:
  *    - in: path
  *      name: id
@@ -51,7 +51,7 @@ router.put("/roles/:id", updateRole);
  * @swagger
  * /roles/{id}:
  * delete:
- *  summary: Delete a role by id
+ *  summary: Eliminamos un rol por ID
  *  parameters:
  *    - in: path
  *      name: id

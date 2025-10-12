@@ -54,8 +54,6 @@ var getProyectos = exports.getProyectos = /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }();
-
-// Obtener proyectos de un estudiante por su id_estudiante
 var getProyectoEstudiante = exports.getProyectoEstudiante = /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee2(req, res) {
     var pool, id_estudiante, _yield$pool$query3, _yield$pool$query4, rows;
@@ -94,8 +92,6 @@ var getProyectoEstudiante = exports.getProyectoEstudiante = /*#__PURE__*/functio
     return _ref2.apply(this, arguments);
   };
 }();
-
-// Obtener proyectos relacionados a un docente (como guía o revisor)
 var getProyectoDocente = exports.getProyectoDocente = /*#__PURE__*/function () {
   var _ref3 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
     var pool, id_docente, _yield$pool$query5, _yield$pool$query6, rows;
@@ -146,8 +142,7 @@ var getProyecto = exports.getProyecto = /*#__PURE__*/function () {
           pool = _context4.sent;
           _req$query = req.query, titulo = _req$query.titulo, area_conocimiento = _req$query.area_conocimiento, estudiante = _req$query.estudiante, _req$query$page = _req$query.page, page = _req$query$page === void 0 ? 1 : _req$query$page, _req$query$limit = _req$query.limit, limit = _req$query$limit === void 0 ? 10 : _req$query$limit;
           _context4.prev = 4;
-          // Construir la consulta base
-          query = "\n            SELECT \n                p.id,\n                p.titulo,\n                p.linea_investigacion,\n                p.area_conocimiento,\n                p.calificacion,\n                p.fecha_entrega,\n                p.fecha_defensa,\n                p.resumen,\n                p.observacion,\n                p.created_at,\n                p.updated_at,\n                e.numero_matricula,\n                per_e.nombres AS estudiante_nombres,\n                per_e.apellidopat AS estudiante_apellidopat,\n                per_e.apellidomat AS estudiante_apellidomat,\n                d.numero_item AS guia_numero_item,\n                per_d.nombres AS guia_nombres,\n                per_d.apellidopat AS guia_apellidopat,\n                per_d.apellidomat AS guia_apellidomat,\n                d_revisor.numero_item AS revisor_numero_item,\n                per_d_revisor.nombres AS revisor_nombres,\n                per_d_revisor.apellidopat AS revisor_apellidopat,\n                per_d_revisor.apellidomat AS revisor_apellidomat\n            FROM proyecto p\n            LEFT JOIN estudiante e ON p.id_estudiante = e.id\n            LEFT JOIN persona per_e ON e.per_id = per_e.id\n            LEFT JOIN docente d ON p.id_docente_guia = d.id\n            LEFT JOIN persona per_d ON d.per_id = per_d.id\n            LEFT JOIN docente d_revisor ON p.id_docente_revisor = d_revisor.id\n            LEFT JOIN persona per_d_revisor ON d_revisor.per_id = per_d_revisor.id\n        "; // Agregar condiciones de filtro
+          query = "\n            SELECT \n                p.id,\n                p.titulo,\n                p.linea_investigacion,\n                p.area_conocimiento,\n                p.calificacion,\n                p.fecha_entrega,\n                p.fecha_defensa,\n                p.resumen,\n                p.observacion,\n                p.created_at,\n                p.updated_at,\n                e.numero_matricula,\n                per_e.nombres AS estudiante_nombres,\n                per_e.apellidopat AS estudiante_apellidopat,\n                per_e.apellidomat AS estudiante_apellidomat,\n                d.numero_item AS guia_numero_item,\n                per_d.nombres AS guia_nombres,\n                per_d.apellidopat AS guia_apellidopat,\n                per_d.apellidomat AS guia_apellidomat,\n                d_revisor.numero_item AS revisor_numero_item,\n                per_d_revisor.nombres AS revisor_nombres,\n                per_d_revisor.apellidopat AS revisor_apellidopat,\n                per_d_revisor.apellidomat AS revisor_apellidomat\n            FROM proyecto p\n            LEFT JOIN estudiante e ON p.id_estudiante = e.id\n            LEFT JOIN persona per_e ON e.per_id = per_e.id\n            LEFT JOIN docente d ON p.id_docente_guia = d.id\n            LEFT JOIN persona per_d ON d.per_id = per_d.id\n            LEFT JOIN docente d_revisor ON p.id_docente_revisor = d_revisor.id\n            LEFT JOIN persona per_d_revisor ON d_revisor.per_id = per_d_revisor.id\n        ";
           conditions = [];
           params = [];
           if (titulo) {
@@ -165,16 +160,10 @@ var getProyecto = exports.getProyecto = /*#__PURE__*/function () {
           if (conditions.length > 0) {
             query += ' WHERE ' + conditions.join(' AND ');
           }
-
-          // Agregar ordenamiento
           query += ' ORDER BY p.fecha_entrega DESC';
-
-          // Agregar paginación
           offset = (page - 1) * limit;
           query += ' LIMIT ? OFFSET ?';
           params.push(parseInt(limit), parseInt(offset));
-
-          // Ejecutar la consulta
           _context4.next = 18;
           return pool.query(query, params);
         case 18:
@@ -182,14 +171,13 @@ var getProyecto = exports.getProyecto = /*#__PURE__*/function () {
           _yield$pool$query8 = (0, _slicedToArray2["default"])(_yield$pool$query7, 1);
           rows = _yield$pool$query8[0];
           _context4.next = 23;
-          return pool.query("SELECT COUNT(*) as total \n             FROM proyecto p\n             ".concat(conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : ''), params.slice(0, params.length - 2) // Excluir parámetros de paginación
-          );
+          return pool.query("SELECT COUNT(*) as total \n             FROM proyecto p\n             ".concat(conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : ''), params.slice(0, params.length - 2));
         case 23:
           _yield$pool$query9 = _context4.sent;
           _yield$pool$query10 = (0, _slicedToArray2["default"])(_yield$pool$query9, 1);
           countResult = _yield$pool$query10[0];
           totalItems = countResult[0].total;
-          totalPages = Math.ceil(totalItems / limit); // Responder según los resultados
+          totalPages = Math.ceil(totalItems / limit);
           if (!(rows.length === 0)) {
             _context4.next = 30;
             break;
@@ -341,7 +329,6 @@ var createProyecto = exports.createProyecto = /*#__PURE__*/function () {
           _yield$pool$query17 = _context5.sent;
           _yield$pool$query18 = (0, _slicedToArray2["default"])(_yield$pool$query17, 1);
           results = _yield$pool$query18[0];
-          // Devolver la respuesta con los datos insertados
           res.json({
             id: results.insertId,
             id_estudiante: id_estudiante,
@@ -512,7 +499,6 @@ var updateProyecto = exports.updateProyecto = /*#__PURE__*/function () {
             message: 'Calificación debe ser un número entre 0 y 100'
           }));
         case 47:
-          // Construir la consulta de actualización dinámicamente
           fields = [];
           values = [];
           if (id_estudiante) {
@@ -548,24 +534,18 @@ var updateProyecto = exports.updateProyecto = /*#__PURE__*/function () {
             values.push(fecha_entrega);
           }
           if (fecha_defensa !== undefined) {
-            // Permitir null explícitamente
             fields.push('fecha_defensa = ?');
             values.push(fecha_defensa);
           }
           if (resumen !== undefined) {
-            // Permitir null explícitamente
             fields.push('resumen = ?');
             values.push(resumen);
           }
           if (observacion !== undefined) {
-            // Permitir null explícitamente
             fields.push('observacion = ?');
             values.push(observacion);
           }
-          // Actualizar updated_at automáticamente
           fields.push('updated_at = NOW()');
-
-          // Ejecutar la consulta de actualización
           _context6.next = 63;
           return pool.query("UPDATE proyecto SET ".concat(fields.join(', '), " WHERE id = ?"), [].concat(values, [id]));
         case 63:

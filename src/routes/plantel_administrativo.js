@@ -2,15 +2,15 @@ import { Router } from "express";
 import { getPlanteles, getPlantel, createPlantel, updatePlantel, deletePlantel } from "../controlers/plantel_administrativo";
 
 const router = Router();
-
 /**
  * @swagger
  * /planteles:
  *   get:
- *     summary: Get all administrative staff
+ *     summary: Obtener todos los miembros del personal administrativo
+ *     tags: [Planteles]
  *     responses:
  *       200:
- *         description: Successful response
+ *         description: Lista de personal administrativo obtenida exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -20,14 +20,21 @@ const router = Router();
  *                 properties:
  *                   id:
  *                     type: integer
+ *                     description: ID único del miembro del personal
  *                   per_id:
  *                     type: integer
+ *                     description: ID de la persona asociada al miembro del personal
  *                   cargo:
  *                     type: string
+ *                     description: Cargo o rol del miembro del personal
  *                   unidad:
  *                     type: string
+ *                     description: Unidad o departamento al que pertenece
  *                   estado:
  *                     type: boolean
+ *                     description: Estado activo/inactivo del miembro del personal
+ *       500:
+ *         description: Error del servidor
  */
 router.get("/planteles", getPlanteles);
 
@@ -35,13 +42,42 @@ router.get("/planteles", getPlanteles);
  * @swagger
  * /planteles/{id}:
  *   get:
- *     summary: Get an administrative staff member by ID
+ *     summary: Obtener un miembro del personal administrativo por su ID
+ *     tags: [Planteles]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: integer
+ *         description: ID único del miembro del personal administrativo
+ *     responses:
+ *       200:
+ *         description: Miembro del personal administrativo obtenido exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   description: ID único del miembro del personal
+ *                 per_id:
+ *                   type: integer
+ *                   description: ID de la persona asociada
+ *                 cargo:
+ *                   type: string
+ *                   description: Cargo o rol del miembro del personal
+ *                 unidad:
+ *                   type: string
+ *                   description: Unidad o departamento al que pertenece
+ *                 estado:
+ *                   type: boolean
+ *                   description: Estado activo/inactivo del miembro del personal
+ *       404:
+ *         description: Miembro del personal no encontrado
+ *       500:
+ *         description: Error del servidor
  */
 router.get("/planteles/:id", getPlantel);
 
@@ -49,22 +85,53 @@ router.get("/planteles/:id", getPlantel);
  * @swagger
  * /planteles:
  *   post:
- *     summary: Create a new administrative staff member
+ *     summary: Crear un nuevo miembro del personal administrativo
+ *     tags: [Planteles]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - per_id
+ *               - cargo
+ *               - unidad
  *             properties:
  *               per_id:
  *                 type: integer
+ *                 description: ID de la persona asociada al miembro del personal
  *               cargo:
  *                 type: string
+ *                 description: Cargo o rol del miembro del personal
  *               unidad:
  *                 type: string
+ *                 description: Unidad o departamento al que pertenece
  *               estado:
  *                 type: boolean
+ *                 description: Estado activo/inactivo del miembro del personal
+ *     responses:
+ *       201:
+ *         description: Miembro del personal administrativo creado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 per_id:
+ *                   type: integer
+ *                 cargo:
+ *                   type: string
+ *                 unidad:
+ *                   type: string
+ *                 estado:
+ *                   type: boolean
+ *       400:
+ *         description: Solicitud inválida
+ *       500:
+ *         description: Error del servidor
  */
 router.post("/planteles", createPlantel);
 
@@ -72,13 +139,15 @@ router.post("/planteles", createPlantel);
  * @swagger
  * /planteles/{id}:
  *   put:
- *     summary: Update an administrative staff member
+ *     summary: Actualizar un miembro del personal administrativo
+ *     tags: [Planteles]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: integer
+ *         description: ID único del miembro del personal administrativo
  *     requestBody:
  *       required: true
  *       content:
@@ -88,12 +157,40 @@ router.post("/planteles", createPlantel);
  *             properties:
  *               per_id:
  *                 type: integer
+ *                 description: ID de la persona asociada al miembro del personal
  *               cargo:
  *                 type: string
+ *                 description: Cargo o rol del miembro del personal
  *               unidad:
  *                 type: string
+ *                 description: Unidad o departamento al que pertenece
  *               estado:
  *                 type: boolean
+ *                 description: Estado activo/inactivo del miembro del personal
+ *     responses:
+ *       200:
+ *         description: Miembro del personal administrativo actualizado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 per_id:
+ *                   type: integer
+ *                 cargo:
+ *                   type: string
+ *                 unidad:
+ *                   type: string
+ *                 estado:
+ *                   type: boolean
+ *       400:
+ *         description: Solicitud inválida
+ *       404:
+ *         description: Miembro del personal no encontrado
+ *       500:
+ *         description: Error del servidor
  */
 router.put("/planteles/:id", updatePlantel);
 
@@ -101,13 +198,22 @@ router.put("/planteles/:id", updatePlantel);
  * @swagger
  * /planteles/{id}:
  *   delete:
- *     summary: Delete an administrative staff member
+ *     summary: Eliminar un miembro del personal administrativo
+ *     tags: [Planteles]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: integer
+ *         description: ID único del miembro del personal administrativo
+ *     responses:
+ *       204:
+ *         description: Miembro del personal administrativo eliminado exitosamente
+ *       404:
+ *         description: Miembro del personal no encontrado
+ *       500:
+ *         description: Error del servidor
  */
 router.delete("/planteles/:id", deletePlantel);
 

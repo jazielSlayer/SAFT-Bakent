@@ -215,7 +215,6 @@ var createAvance = exports.createAvance = /*#__PURE__*/function () {
             message: 'Módulo no encontrado'
           }));
         case 23:
-          // Validar estado si se proporciona
           validEstados = ['completado', 'pendiente', 'en progreso'];
           if (!(estado && !validEstados.includes(estado))) {
             _context4.next = 26;
@@ -231,7 +230,6 @@ var createAvance = exports.createAvance = /*#__PURE__*/function () {
           _yield$pool$query13 = _context4.sent;
           _yield$pool$query14 = (0, _slicedToArray2["default"])(_yield$pool$query13, 1);
           results = _yield$pool$query14[0];
-          // Devolver el registro insertado
           res.json({
             id: results.insertId,
             id_estudiante: id_estudiante,
@@ -375,7 +373,6 @@ var updateAvance = exports.updateAvance = /*#__PURE__*/function () {
             message: "Estado inv\xE1lido. Use: ".concat(validEstados.join(', '))
           }));
         case 39:
-          // Construir la consulta de actualización dinámicamente
           fields = [];
           values = [];
           if (id_estudiante) {
@@ -398,8 +395,6 @@ var updateAvance = exports.updateAvance = /*#__PURE__*/function () {
             fields.push('estado = ?');
             values.push(estado);
           }
-
-          // Ejecutar la consulta de actualización
           _context5.next = 48;
           return pool.query("UPDATE avance_estudiante SET ".concat(fields.join(', '), " WHERE id = ?"), [].concat(values, [id]));
         case 48:

@@ -7,10 +7,11 @@ const router = Router();
  * @swagger
  * /docentes:
  *   get:
- *     summary: Get all teachers
+ *     summary: Obtener todos los docentes
+ *     tags: [Docentes]
  *     responses:
  *       200:
- *         description: Successful response
+ *         description: Lista de docentes obtenida exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -20,16 +21,24 @@ const router = Router();
  *                 properties:
  *                   id:
  *                     type: integer
+ *                     description: ID único del docente
  *                   per_id:
  *                     type: integer
+ *                     description: ID de la persona asociada al docente
  *                   numero_item:
  *                     type: string
+ *                     description: Número de item o código asignado al docente
  *                   especialidad:
  *                     type: string
+ *                     description: Especialidad o área de conocimiento del docente
  *                   tipo_contrato:
  *                     type: string
+ *                     description: Tipo de contrato del docente (ej. permanente, temporal)
  *                   estado:
  *                     type: boolean
+ *                     description: Estado activo/inactivo del docente
+ *       500:
+ *         description: Error del servidor
  */
 router.get("/docentes", getDocentes);
 
@@ -37,13 +46,45 @@ router.get("/docentes", getDocentes);
  * @swagger
  * /docentes/{id}:
  *   get:
- *     summary: Get a teacher by ID
+ *     summary: Obtener un docente por su ID
+ *     tags: [Docentes]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: integer
+ *         description: ID único del docente
+ *     responses:
+ *       200:
+ *         description: Docente obtenido exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   description: ID único del docente
+ *                 per_id:
+ *                   type: integer
+ *                   description: ID de la persona asociada al docente
+ *                 numero_item:
+ *                   type: string
+ *                   description: Número de item o código asignado al docente
+ *                 especialidad:
+ *                   type: string
+ *                   description: Especialidad o área de conocimiento del docente
+ *                 tipo_contrato:
+ *                   type: string
+ *                   description: Tipo de contrato del docente (ej. permanente, temporal)
+ *                 estado:
+ *                   type: boolean
+ *                   description: Estado activo/inactivo del docente
+ *       404:
+ *         description: Docente no encontrado
+ *       500:
+ *         description: Error del servidor
  */
 router.get("/docentes/:id", getDocente);
 
@@ -51,24 +92,59 @@ router.get("/docentes/:id", getDocente);
  * @swagger
  * /docentes:
  *   post:
- *     summary: Create a new teacher
+ *     summary: Crear un nuevo docente
+ *     tags: [Docentes]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - per_id
+ *               - numero_item
+ *               - especialidad
+ *               - tipo_contrato
  *             properties:
  *               per_id:
  *                 type: integer
+ *                 description: ID de la persona asociada al docente
  *               numero_item:
  *                 type: string
+ *                 description: Número de item o código asignado al docente
  *               especialidad:
  *                 type: string
+ *                 description: Especialidad o área de conocimiento del docente
  *               tipo_contrato:
  *                 type: string
+ *                 description: Tipo de contrato del docente (ej. permanente, temporal)
  *               estado:
  *                 type: boolean
+ *                 description: Estado activo/inactivo del docente
+ *     responses:
+ *       201:
+ *         description: Docente creado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 per_id:
+ *                   type: integer
+ *                 numero_item:
+ *                   type: string
+ *                 especialidad:
+ *                   type: string
+ *                 tipo_contrato:
+ *                   type: string
+ *                 estado:
+ *                   type: boolean
+ *       400:
+ *         description: Solicitud inválida
+ *       500:
+ *         description: Error del servidor
  */
 router.post("/docentes", createDocente);
 
@@ -76,13 +152,15 @@ router.post("/docentes", createDocente);
  * @swagger
  * /docentes/{id}:
  *   put:
- *     summary: Update a teacher
+ *     summary: Actualizar un docente
+ *     tags: [Docentes]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: integer
+ *         description: ID único del docente
  *     requestBody:
  *       required: true
  *       content:
@@ -92,14 +170,45 @@ router.post("/docentes", createDocente);
  *             properties:
  *               per_id:
  *                 type: integer
+ *                 description: ID de la persona asociada al docente
  *               numero_item:
  *                 type: string
+ *                 description: Número de item o código asignado al docente
  *               especialidad:
  *                 type: string
+ *                 description: Especialidad o área de conocimiento del docente
  *               tipo_contrato:
  *                 type: string
+ *                 description: Tipo de contrato del docente (ej. permanente, temporal)
  *               estado:
  *                 type: boolean
+ *                 description: Estado activo/inactivo del docente
+ *     responses:
+ *       200:
+ *         description: Docente actualizado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 per_id:
+ *                   type: integer
+ *                 numero_item:
+ *                   type: string
+ *                 especialidad:
+ *                   type: string
+ *                 tipo_contrato:
+ *                   type: string
+ *                 estado:
+ *                   type: boolean
+ *       400:
+ *         description: Solicitud inválida
+ *       404:
+ *         description: Docente no encontrado
+ *       500:
+ *         description: Error del servidor
  */
 router.put("/docentes/:id", updateDocente);
 
@@ -107,13 +216,22 @@ router.put("/docentes/:id", updateDocente);
  * @swagger
  * /docentes/{id}:
  *   delete:
- *     summary: Delete a teacher
+ *     summary: Eliminar un docente
+ *     tags: [Docentes]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: integer
+ *         description: ID único del docente
+ *     responses:
+ *       204:
+ *         description: Docente eliminado exitosamente
+ *       404:
+ *         description: Docente no encontrado
+ *       500:
+ *         description: Error del servidor
  */
 router.delete("/docentes/:id", deleteDocente);
 

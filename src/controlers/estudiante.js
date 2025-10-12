@@ -39,32 +39,27 @@ export const createEstudiante = async (req, res) => {
     const { per_id, id_programa_academico, numero_matricula, fecha_inscripcion, estado } = req.body;
 
     try {
-        // Validar campos requeridos
+
         if (!per_id || !id_programa_academico || !numero_matricula || !fecha_inscripcion) {
             return res.status(400).json({ message: 'Faltan campos requeridos' });
         }
 
-        // Validar formato de fecha_inscripcion (YYYY-MM-DD)
         if (!/^\d{4}-\d{2}-\d{2}$/.test(fecha_inscripcion)) {
             return res.status(400).json({ message: 'Formato de fecha inválido (use YYYY-MM-DD)' });
         }
 
-        // Validar que per_id existe
         const [personaCheck] = await pool.query('SELECT id FROM persona WHERE id = ?', [per_id]);
         if (personaCheck.length === 0) {
             return res.status(400).json({ message: 'Persona no encontrada' });
         }
 
-        // Validar que id_programa_academico existe
         const [programaCheck] = await pool.query('SELECT id FROM programa_academico WHERE id = ?', [id_programa_academico]);
         if (programaCheck.length === 0) {
             return res.status(400).json({ message: 'Programa académico no encontrado' });
         }
 
-        // Validar estado (0 o 1)
         const estadoValue = estado === true || estado === 1 ? 1 : 0;
 
-        // Insertar en la tabla estudiante
         const [results] = await pool.query(
             'INSERT INTO estudiante (per_id, id_programa_academico, numero_matricula, fecha_inscripcion, estado) VALUES (?, ?, ?, ?, ?)',
             [per_id, id_programa_academico, numero_matricula, fecha_inscripcion, estadoValue]

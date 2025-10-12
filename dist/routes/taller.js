@@ -12,7 +12,7 @@ var router = (0, _express.Router)();
  * @swagger
  * /talleres:
  *   get:
- *     summary: Get all workshops
+ *     summary: Obtener los datos de los talleres
  *     responses:
  *       200:
  *         description: Successful response
@@ -46,7 +46,7 @@ router.get("/talleres", _taller.getTalleres);
  * @swagger
  * /talleres/{id}:
  *   get:
- *     summary: Get a workshop by ID
+ *     summary: Obtener los datos de taller por ID
  *     parameters:
  *       - in: path
  *         name: id
@@ -60,7 +60,7 @@ router.get("/taller/:id", _taller.getTaller);
  * @swagger
  * /talleres:
  *   post:
- *     summary: Create a new workshop
+ *     summary: Crea un nuevo taller
  *     requestBody:
  *       required: true
  *       content:
@@ -89,7 +89,7 @@ router.post("/create-taller", _taller.createTaller);
  * @swagger
  * /talleres/{id}:
  *   put:
- *     summary: Update a workshop
+ *     summary: Actaulaizar un tallaer por ID
  *     parameters:
  *       - in: path
  *         name: id
@@ -124,7 +124,7 @@ router.put("/update-taller/:id", _taller.updateTaller);
  * @swagger
  * /talleres/{id}:
  *   delete:
- *     summary: Delete a workshop
+ *     summary: Eliminar un taller
  *     parameters:
  *       - in: path
  *         name: id

@@ -87,35 +87,30 @@ export const createAvance = async (req, res) => {
     const { id_estudiante, id_modulo, responsable, fecha, estado } = req.body;
 
     try {
-        // Validar campos requeridos
+        
         if (!id_estudiante || !id_modulo || !fecha) {
             return res.status(400).json({ message: 'Faltan campos requeridos: id_estudiante, id_modulo, fecha' });
         }
 
-        // Validar formato de fecha (YYYY-MM-DD)
         if (!/^\d{4}-\d{2}-\d{2}$/.test(fecha)) {
             return res.status(400).json({ message: 'Formato de fecha inválido (use YYYY-MM-DD)' });
         }
 
-        // Validar id_estudiante
         const [estudianteCheck] = await pool.query('SELECT id FROM estudiante WHERE id = ?', [id_estudiante]);
         if (estudianteCheck.length === 0) {
             return res.status(400).json({ message: 'Estudiante no encontrado' });
         }
 
-        // Validar id_modulo
         const [moduloCheck] = await pool.query('SELECT id FROM modulo WHERE id = ?', [id_modulo]);
         if (moduloCheck.length === 0) {
             return res.status(400).json({ message: 'Módulo no encontrado' });
         }
 
-        // Validar estado si se proporciona
         const validEstados = ['completado', 'pendiente', 'en progreso'];
         if (estado && !validEstados.includes(estado)) {
             return res.status(400).json({ message: `Estado inválido. Use: ${validEstados.join(', ')}` });
         }
 
-        // Insertar en avance_estudiante
         const [results] = await pool.query(
             `INSERT INTO avance_estudiante (
                 id_estudiante, 
@@ -127,7 +122,6 @@ export const createAvance = async (req, res) => {
             [id_estudiante, id_modulo, responsable || null, fecha, estado || 'pendiente']
         );
 
-        // Devolver el registro insertado
         res.json({
             id: results.insertId,
             id_estudiante,
@@ -154,23 +148,20 @@ export const updateAvance = async (req, res) => {
     const id = parseInt(req.params.id);
 
     try {
-        // Validar que el ID sea un número válido
+        
         if (isNaN(id) || id <= 0) {
             return res.status(400).json({ message: 'ID del avance inválido' });
         }
 
-        // Verificar que el avance exista
         const [avanceCheck] = await pool.query('SELECT id FROM avance_estudiante WHERE id = ?', [id]);
         if (avanceCheck.length === 0) {
             return res.status(404).json({ message: 'Avance no encontrado' });
         }
 
-        // Validar que al menos un campo se proporcione para actualizar
         if (!id_estudiante && !id_modulo && responsable === undefined && !fecha && estado === undefined) {
             return res.status(400).json({ message: 'Se debe proporcionar al menos un campo para actualizar' });
         }
 
-        // Validar id_estudiante si se proporciona
         if (id_estudiante) {
             const [estudianteCheck] = await pool.query('SELECT id FROM estudiante WHERE id = ?', [id_estudiante]);
             if (estudianteCheck.length === 0) {
@@ -178,7 +169,6 @@ export const updateAvance = async (req, res) => {
             }
         }
 
-        // Validar id_modulo si se proporciona
         if (id_modulo) {
             const [moduloCheck] = await pool.query('SELECT id FROM modulo WHERE id = ?', [id_modulo]);
             if (moduloCheck.length === 0) {
@@ -186,12 +176,10 @@ export const updateAvance = async (req, res) => {
             }
         }
 
-        // Validar formato de fecha si se proporciona
         if (fecha && !/^\d{4}-\d{2}-\d{2}$/.test(fecha)) {
             return res.status(400).json({ message: 'Formato de fecha inválido (use YYYY-MM-DD)' });
         }
 
-        // Validar estado si se proporciona
         if (estado) {
             const validEstados = ['completado', 'pendiente', 'en progreso'];
             if (!validEstados.includes(estado)) {
@@ -199,7 +187,6 @@ export const updateAvance = async (req, res) => {
             }
         }
 
-        // Construir la consulta de actualización dinámicamente
         const fields = [];
         const values = [];
 
@@ -224,7 +211,6 @@ export const updateAvance = async (req, res) => {
             values.push(estado);
         }
 
-        // Ejecutar la consulta de actualización
         const [results] = await pool.query(
             `UPDATE avance_estudiante SET ${fields.join(', ')} WHERE id = ?`,
             [...values, id]
@@ -234,7 +220,6 @@ export const updateAvance = async (req, res) => {
             return res.status(404).json({ message: 'Avance no encontrado o ningún cambio realizado' });
         }
 
-        // Obtener el avance actualizado con datos relacionados
         const [updatedAvance] = await pool.query(
             `SELECT 
                 a.id,

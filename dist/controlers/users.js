@@ -10,7 +10,6 @@ var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/sli
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _database = require("../database");
 var _bcryptjs = _interopRequireDefault(require("bcryptjs"));
-// Registro de usuario
 var registerUser = exports.registerUser = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee(req, res) {
     var pool, _req$body, nombres, apellidopat, apellidomat, carnet, email, password, user_name, per_id, role, personaId, _yield$pool$query, _yield$pool$query2, personaCheck, _yield$pool$query3, _yield$pool$query4, personaResults, roleId, roleName, _yield$pool$query5, _yield$pool$query6, roleCheck, hashedPassword, _yield$pool$query7, _yield$pool$query8, userResults, userId;
@@ -70,7 +69,6 @@ var registerUser = exports.registerUser = /*#__PURE__*/function () {
           _context.next = 31;
           break;
         case 22:
-          // Si NO existe per_id, crear nueva persona
           console.log('Creando nueva persona');
           if (nombres) {
             _context.next = 25;
@@ -88,7 +86,6 @@ var registerUser = exports.registerUser = /*#__PURE__*/function () {
           personaResults = _yield$pool$query4[0];
           personaId = personaResults.insertId;
         case 31:
-          // Determinar el role_id basado en el nombre del rol
           roleId = null;
           roleName = null;
           if (!role) {
@@ -128,8 +125,6 @@ var registerUser = exports.registerUser = /*#__PURE__*/function () {
           userResults = _yield$pool$query8[0];
           userId = userResults.insertId;
           console.log("Usuario ".concat(userId, " creado con rol \"").concat(roleName, "\" (id_roles: ").concat(roleId, ")"));
-
-          // Retornar datos del usuario con el rol asignado
           res.json({
             id: userId,
             user_name: user_name,
@@ -144,8 +139,6 @@ var registerUser = exports.registerUser = /*#__PURE__*/function () {
           _context.prev = 60;
           _context.t0 = _context["catch"](5);
           console.error('Error al registrar usuario:', _context.t0);
-
-          // Manejar errores específicos de MySQL
           if (!(_context.t0.code === 'ER_DUP_ENTRY')) {
             _context.next = 68;
             break;
@@ -179,8 +172,6 @@ var registerUser = exports.registerUser = /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }();
-
-// Login de usuario
 var loginUser = exports.loginUser = /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee2(req, res) {
     var pool, _req$body2, email, password, _yield$pool$query9, _yield$pool$query10, rows, user, isMatch;
@@ -267,8 +258,6 @@ var loginUser = exports.loginUser = /*#__PURE__*/function () {
     return _ref2.apply(this, arguments);
   };
 }();
-
-// Obtener todos los usuarios
 var getUsers = exports.getUsers = /*#__PURE__*/function () {
   var _ref3 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
     var pool, _yield$pool$query11, _yield$pool$query12, rows;
@@ -306,8 +295,6 @@ var getUsers = exports.getUsers = /*#__PURE__*/function () {
     return _ref3.apply(this, arguments);
   };
 }();
-
-// Obtener un usuario por ID
 var getUser = exports.getUser = /*#__PURE__*/function () {
   var _ref4 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee4(req, res) {
     var pool, _yield$pool$query13, _yield$pool$query14, rows;
@@ -353,8 +340,6 @@ var getUser = exports.getUser = /*#__PURE__*/function () {
     return _ref4.apply(this, arguments);
   };
 }();
-
-// Contar usuarios
 var getUserCount = exports.getUserCount = /*#__PURE__*/function () {
   var _ref5 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee5(req, res) {
     var pool, _yield$pool$query15, _yield$pool$query16, rows;
@@ -392,8 +377,6 @@ var getUserCount = exports.getUserCount = /*#__PURE__*/function () {
     return _ref5.apply(this, arguments);
   };
 }();
-
-// Guardar un usuario
 var saveUser = exports.saveUser = /*#__PURE__*/function () {
   var _ref6 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee6(req, res) {
     var pool, _req$body3, nombres, apellidopat, apellidomat, carnet, email, user_name, id_roles, _yield$pool$query17, _yield$pool$query18, personaResults, per_id, _yield$pool$query19, _yield$pool$query20, userResults;
@@ -447,8 +430,6 @@ var saveUser = exports.saveUser = /*#__PURE__*/function () {
     return _ref6.apply(this, arguments);
   };
 }();
-
-// Eliminar un usuario
 var deleteUser = exports.deleteUser = /*#__PURE__*/function () {
   var _ref7 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee7(req, res) {
     var pool, _yield$pool$query21, _yield$pool$query22, userRows, per_id;
@@ -503,8 +484,6 @@ var deleteUser = exports.deleteUser = /*#__PURE__*/function () {
     return _ref7.apply(this, arguments);
   };
 }();
-
-// Actualizar un usuario
 var updateUser = exports.updateUser = /*#__PURE__*/function () {
   var _ref8 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee8(req, res) {
     var pool, _yield$pool$query23, _yield$pool$query24, userRows, user, per_id, _yield$pool$query25, _yield$pool$query26, personaRows, persona, _req$body4, _req$body4$nombres, nombres, _req$body4$apellidopa, apellidopat, _req$body4$apellidoma, apellidomat, _req$body4$carnet, carnet, _req$body4$email, email, _req$body4$user_name, user_name, _req$body4$id_roles, id_roles;
@@ -576,8 +555,6 @@ var updateUser = exports.updateUser = /*#__PURE__*/function () {
     return _ref8.apply(this, arguments);
   };
 }();
-
-// Asignar rol a usuario
 var assignRoleToUser = exports.assignRoleToUser = /*#__PURE__*/function () {
   var _ref9 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee9(req, res) {
     var pool, role_id, userId, _yield$pool$query27, _yield$pool$query28, userCheck, _yield$pool$query29, _yield$pool$query30, roleCheck, _yield$pool$query31, _yield$pool$query32, existing;
@@ -698,8 +675,6 @@ var getRoles = exports.getRoles = /*#__PURE__*/function () {
     return _ref10.apply(this, arguments);
   };
 }();
-
-// Obtener correo y rol por correo
 var getUserRoleByEmail = exports.getUserRoleByEmail = /*#__PURE__*/function () {
   var _ref11 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee11(req, res) {
     var pool, email, _yield$pool$query35, _yield$pool$query36, rows, user;

@@ -9,9 +9,6 @@ var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"))
 var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _database = require("../database");
-// controllers/permissions.js
-
-// Obtener todos los permisos
 var getPermissions = exports.getPermissions = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee(req, res) {
     var pool, _yield$pool$query, _yield$pool$query2, rows;
@@ -49,8 +46,6 @@ var getPermissions = exports.getPermissions = /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }();
-
-// Obtener un permiso por ID
 var getPermission = exports.getPermission = /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee2(req, res) {
     var pool, _yield$pool$query3, _yield$pool$query4, rows;
@@ -96,8 +91,6 @@ var getPermission = exports.getPermission = /*#__PURE__*/function () {
     return _ref2.apply(this, arguments);
   };
 }();
-
-// Crear un nuevo permiso
 var createPermission = exports.createPermission = /*#__PURE__*/function () {
   var _ref3 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
     var pool, _req$body, name, guard_name, _yield$pool$query5, _yield$pool$query6, results;
@@ -108,7 +101,7 @@ var createPermission = exports.createPermission = /*#__PURE__*/function () {
           return (0, _database.connect)();
         case 2:
           pool = _context3.sent;
-          _req$body = req.body, name = _req$body.name, guard_name = _req$body.guard_name; // Validaciones
+          _req$body = req.body, name = _req$body.name, guard_name = _req$body.guard_name;
           if (!(!name || !guard_name)) {
             _context3.next = 6;
             break;
@@ -156,8 +149,6 @@ var createPermission = exports.createPermission = /*#__PURE__*/function () {
     return _ref3.apply(this, arguments);
   };
 }();
-
-// Actualizar un permiso
 var updatePermission = exports.updatePermission = /*#__PURE__*/function () {
   var _ref4 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee4(req, res) {
     var pool, _yield$pool$query7, _yield$pool$query8, permissionRows, permission, _req$body2, _req$body2$name, name, _req$body2$guard_name, guard_name;
@@ -183,7 +174,7 @@ var updatePermission = exports.updatePermission = /*#__PURE__*/function () {
             message: 'Permiso no encontrado'
           }));
         case 11:
-          permission = permissionRows[0]; // Solo actualiza los campos enviados, los demás se mantienen igual
+          permission = permissionRows[0];
           _req$body2 = req.body, _req$body2$name = _req$body2.name, name = _req$body2$name === void 0 ? permission.name : _req$body2$name, _req$body2$guard_name = _req$body2.guard_name, guard_name = _req$body2$guard_name === void 0 ? permission.guard_name : _req$body2$guard_name;
           _context4.next = 15;
           return pool.query("UPDATE permissions SET name = ?, guard_name = ? WHERE id = ?", [name, guard_name, req.params.id]);
@@ -210,8 +201,6 @@ var updatePermission = exports.updatePermission = /*#__PURE__*/function () {
     return _ref4.apply(this, arguments);
   };
 }();
-
-// Eliminar un permiso
 var deletePermission = exports.deletePermission = /*#__PURE__*/function () {
   var _ref5 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee5(req, res) {
     var pool, _yield$pool$query9, _yield$pool$query10, rows;
@@ -262,8 +251,6 @@ var deletePermission = exports.deletePermission = /*#__PURE__*/function () {
     return _ref5.apply(this, arguments);
   };
 }();
-
-// Obtener permisos de un rol específico
 var getPermissionsByRole = exports.getPermissionsByRole = /*#__PURE__*/function () {
   var _ref6 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee6(req, res) {
     var pool, _yield$pool$query11, _yield$pool$query12, rows;
@@ -301,8 +288,6 @@ var getPermissionsByRole = exports.getPermissionsByRole = /*#__PURE__*/function 
     return _ref6.apply(this, arguments);
   };
 }();
-
-// Asignar un permiso a un rol
 var assignPermissionToRole = exports.assignPermissionToRole = /*#__PURE__*/function () {
   var _ref7 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee7(req, res) {
     var pool, permission_id, _yield$pool$query13, _yield$pool$query14, roleRows, _yield$pool$query15, _yield$pool$query16, permRows, _yield$pool$query17, _yield$pool$query18, existing;
@@ -398,8 +383,6 @@ var assignPermissionToRole = exports.assignPermissionToRole = /*#__PURE__*/funct
     return _ref7.apply(this, arguments);
   };
 }();
-
-// Remover un permiso de un rol
 var removePermissionFromRole = exports.removePermissionFromRole = /*#__PURE__*/function () {
   var _ref8 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee8(req, res) {
     var pool, permission_id, _yield$pool$query19, _yield$pool$query20, existing;

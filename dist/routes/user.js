@@ -8,15 +8,11 @@ var _express = require("express");
 var _users = require("../controlers/users");
 var router = (0, _express.Router)();
 
-// =====================================================
-// AUTENTICACIÓN
-// =====================================================
-
 /**
  * @swagger
  * /users/register:
  * post:
- *  summary: Register a new user with role assignment
+ *  summary: Rgistrar nuevo usuario
  *  tags: [Authentication]
  *  requestBody:
  *    required: true
@@ -55,7 +51,7 @@ router.post("/users/register", _users.registerUser);
  * @swagger
  * /users/login:
  * post:
- *  summary: Login a user
+ *  summary: Login del usuaro
  *  tags: [Authentication]
  *  requestBody:
  *    required: true
@@ -73,7 +69,7 @@ router.post("/users/register", _users.registerUser);
  *              type: string
  *  responses:
  *    200:
- *      description: Login successful
+ *      description: formulario de entrada
  *      content:
  *        application/json:
  *          schema:
@@ -100,27 +96,23 @@ router.post("/users/register", _users.registerUser);
  *              start_path:
  *                type: string
  *    401:
- *      description: Invalid credentials
+ *      description: Credenciales invalidas
  *    403:
- *      description: User inactive or no role assigned
+ *      description: Usuario inactivo o rol no definido
  *    404:
- *      description: User not found
+ *      description: Uusuario no registrado
  */
 router.post("/users/login", _users.loginUser);
-
-// =====================================================
-// CRUD DE USUARIOS
-// =====================================================
 
 /**
  * @swagger
  * /users:
  * get:
- *  summary: Get all users with their roles
+ *  summary: Obtener todos los datos de los usuarios
  *  tags: [Users]
  *  responses:
  *    200:
- *      description: List of all users
+ *      description: Lista de usuarios
  */
 router.get("/users", _users.getUsers);
 
@@ -128,11 +120,11 @@ router.get("/users", _users.getUsers);
  * @swagger
  * /users/count:
  * get:
- *  summary: Get total number of users
+ *  summary: Obtener el total de usuarios
  *  tags: [Users]
  *  responses:
  *    200:
- *      description: Total count of users
+ *      description: Total de cuentas de usuarios
  */
 router.get("/users/count", _users.getUserCount);
 
@@ -140,7 +132,7 @@ router.get("/users/count", _users.getUserCount);
  * @swagger
  * /users/{id}:
  * get:
- *  summary: Get a user by id with role information
+ *  summary: Obtener la informacion del usuaio por ID
  *  tags: [Users]
  *  parameters:
  *    - in: path
@@ -150,9 +142,9 @@ router.get("/users/count", _users.getUserCount);
  *        type: integer
  *  responses:
  *    200:
- *      description: User details
+ *      description: Detalles de usuarios
  *    404:
- *      description: User not found
+ *      description: Uusario no registrado
  */
 router.get("/users/:id", _users.getUser);
 
@@ -160,7 +152,7 @@ router.get("/users/:id", _users.getUser);
  * @swagger
  * /users:
  * post:
- *  summary: Save a new user (without password)
+ *  summary: Gurdar usuario
  *  tags: [Users]
  *  requestBody:
  *    required: true
@@ -190,7 +182,7 @@ router.post("/users", _users.saveUser);
  * @swagger
  * /users/{id}:
  * put:
- *  summary: Update a user by id (including role)
+ *  summary: Actualizar usuario por ID (Incluido el rol)
  *  tags: [Users]
  *  parameters:
  *    - in: path
@@ -226,7 +218,7 @@ router.put("/users/:id", _users.updateUser);
  * @swagger
  * /users/{id}:
  * delete:
- *  summary: Delete a user by id (also deletes associated persona)
+ *  summary: Eliminacion del usuario (incluido la persona)
  *  tags: [Users]
  *  parameters:
  *    - in: path
@@ -236,25 +228,21 @@ router.put("/users/:id", _users.updateUser);
  *        type: integer
  *  responses:
  *    200:
- *      description: User deleted successfully
+ *      description: Usuario eliminado
  *    404:
- *      description: User not found
+ *      description: Usuario no encontrado
  */
 router["delete"]("/users/:id", _users.deleteUser);
-
-// =====================================================
-// GESTIÓN DE ROLES
-// =====================================================
 
 /**
  * @swagger
  * /roles:
  * get:
- *  summary: Get all available roles
+ *  summary: Obtener todos los roles
  *  tags: [Roles]
  *  responses:
  *    200:
- *      description: List of all roles
+ *      description: Lista de roles
  *      content:
  *        application/json:
  *          schema:
@@ -279,7 +267,7 @@ router.get("/roles", _users.getRoles);
  * @swagger
  * /users/{id}/assign-role:
  * post:
- *  summary: Assign a role to a user
+ *  summary: Asisgnacion de roles
  *  tags: [Roles]
  *  parameters:
  *    - in: path
@@ -298,12 +286,12 @@ router.get("/roles", _users.getRoles);
  *          properties:
  *            role_id:
  *              type: integer
- *              description: ID of the role to assign
+ *              description: ID de rol asignado
  *  responses:
  *    200:
- *      description: Role assigned successfully
+ *      description: Role asignado
  *    404:
- *      description: User or role not found
+ *      description: Rol de usuario no asignado
  */
 router.post("/users/:id/assign-role", _users.assignRoleToUser);
 
@@ -311,7 +299,7 @@ router.post("/users/:id/assign-role", _users.assignRoleToUser);
  * @swagger
  * /users/role-by-email:
  * post:
- *  summary: Get user email and role by email
+ *  summary: Obtenr el correo y el rol del usuario por correo
  *  tags: [Users]
  *  requestBody:
  *    required: true
@@ -324,10 +312,10 @@ router.post("/users/:id/assign-role", _users.assignRoleToUser);
  *          properties:
  *            email:
  *              type: string
- *              description: Email of the user to query
+ *              description: Ingresar el email del usuario
  *  responses:
  *    200:
- *      description: User email and role details
+ *      description: email y rol del Usuario
  *      content:
  *        application/json:
  *          schema:
@@ -338,9 +326,9 @@ router.post("/users/:id/assign-role", _users.assignRoleToUser);
  *              role:
  *                type: string
  *    400:
- *      description: Email is required and must be a string
+ *      description: Email es requerido
  *    404:
- *      description: User not found
+ *      description: Usuario no encontrado
  *    500:
  *      description: Server error
  */

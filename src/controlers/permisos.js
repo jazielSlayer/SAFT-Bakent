@@ -1,8 +1,5 @@
-// controllers/permissions.js
-
 import { connect } from '../database';
 
-// Obtener todos los permisos
 export const getPermissions = async (req, res) => {
     const pool = await connect();
     try {
@@ -14,7 +11,6 @@ export const getPermissions = async (req, res) => {
     }
 };
 
-// Obtener un permiso por ID
 export const getPermission = async (req, res) => {
     const pool = await connect();
     try {
@@ -27,12 +23,10 @@ export const getPermission = async (req, res) => {
     }
 };
 
-// Crear un nuevo permiso
 export const createPermission = async (req, res) => {
     const pool = await connect();
     const { name, guard_name } = req.body;
-    
-    // Validaciones
+
     if (!name || !guard_name) {
         return res.status(400).json({ message: "Campos obligatorios faltantes: name, guard_name" });
     }
@@ -57,7 +51,6 @@ export const createPermission = async (req, res) => {
     }
 };
 
-// Actualizar un permiso
 export const updatePermission = async (req, res) => {
     const pool = await connect();
     try {
@@ -66,7 +59,6 @@ export const updatePermission = async (req, res) => {
 
         const permission = permissionRows[0];
 
-        // Solo actualiza los campos enviados, los demás se mantienen igual
         const {
             name = permission.name,
             guard_name = permission.guard_name
@@ -84,7 +76,6 @@ export const updatePermission = async (req, res) => {
     }
 };
 
-// Eliminar un permiso
 export const deletePermission = async (req, res) => {
     const pool = await connect();
     try {
@@ -99,7 +90,6 @@ export const deletePermission = async (req, res) => {
     }
 };
 
-// Obtener permisos de un rol específico
 export const getPermissionsByRole = async (req, res) => {
     const pool = await connect();
     try {
@@ -116,7 +106,6 @@ export const getPermissionsByRole = async (req, res) => {
     }
 };
 
-// Asignar un permiso a un rol
 export const assignPermissionToRole = async (req, res) => {
     const pool = await connect();
     const { permission_id } = req.body;
@@ -126,14 +115,12 @@ export const assignPermissionToRole = async (req, res) => {
     }
 
     try {
-        // Verificar si el rol y permiso existen
         const [roleRows] = await pool.query("SELECT * FROM roles WHERE id = ?", [req.params.roleId]);
         if (roleRows.length === 0) return res.status(404).json({ message: 'Rol no encontrado' });
 
         const [permRows] = await pool.query("SELECT * FROM permissions WHERE id = ?", [permission_id]);
         if (permRows.length === 0) return res.status(404).json({ message: 'Permiso no encontrado' });
 
-        // Verificar si ya está asignado
         const [existing] = await pool.query("SELECT * FROM role_has_permissions WHERE role_id = ? AND permission_id = ?", [req.params.roleId, permission_id]);
         if (existing.length > 0) return res.status(409).json({ message: 'Permiso ya asignado a este rol' });
 
@@ -152,7 +139,6 @@ export const assignPermissionToRole = async (req, res) => {
     }
 };
 
-// Remover un permiso de un rol
 export const removePermissionFromRole = async (req, res) => {
     const pool = await connect();
     const { permission_id } = req.body;

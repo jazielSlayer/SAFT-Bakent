@@ -9,7 +9,6 @@ var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"))
 var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _database = require("../database");
-// Obtener todos los roles
 var getRoles = exports.getRoles = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee(req, res) {
     var pool, _yield$pool$query, _yield$pool$query2, rows;
@@ -51,8 +50,6 @@ var getRoles = exports.getRoles = /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }();
-
-// Obtener un rol por ID
 var getRole = exports.getRole = /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee2(req, res) {
     var pool, _yield$pool$query3, _yield$pool$query4, rows;
@@ -102,8 +99,6 @@ var getRole = exports.getRole = /*#__PURE__*/function () {
     return _ref2.apply(this, arguments);
   };
 }();
-
-// Crear un nuevo rol
 var createRole = exports.createRole = /*#__PURE__*/function () {
   var _ref3 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
     var pool, _req$body, name, descripcion, start_path, is_default, guard_name, _yield$pool$query5, _yield$pool$query6, existingRole, _yield$pool$query7, _yield$pool$query8, results;
@@ -115,7 +110,7 @@ var createRole = exports.createRole = /*#__PURE__*/function () {
           return (0, _database.connect)();
         case 3:
           pool = _context3.sent;
-          _req$body = req.body, name = _req$body.name, descripcion = _req$body.descripcion, start_path = _req$body.start_path, is_default = _req$body.is_default, guard_name = _req$body.guard_name; // Validaciones
+          _req$body = req.body, name = _req$body.name, descripcion = _req$body.descripcion, start_path = _req$body.start_path, is_default = _req$body.is_default, guard_name = _req$body.guard_name;
           if (!(!name || !start_path || !guard_name)) {
             _context3.next = 7;
             break;
@@ -183,8 +178,6 @@ var createRole = exports.createRole = /*#__PURE__*/function () {
     return _ref3.apply(this, arguments);
   };
 }();
-
-// Actualizar un rol
 var updateRole = exports.updateRole = /*#__PURE__*/function () {
   var _ref4 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee4(req, res) {
     var pool, _yield$pool$query9, _yield$pool$query10, roleRows, role, _req$body2, _req$body2$name, name, _req$body2$descripcio, descripcion, _req$body2$start_path, start_path, _req$body2$is_default, is_default, _req$body2$guard_name, guard_name, _yield$pool$query11, _yield$pool$query12, existingRole, _yield$pool$query13, _yield$pool$query14, updatedRole;
@@ -210,8 +203,8 @@ var updateRole = exports.updateRole = /*#__PURE__*/function () {
             message: 'Rol no encontrado'
           }));
         case 11:
-          role = roleRows[0]; // Solo actualiza los campos enviados, los demás se mantienen igual
-          _req$body2 = req.body, _req$body2$name = _req$body2.name, name = _req$body2$name === void 0 ? role.name : _req$body2$name, _req$body2$descripcio = _req$body2.descripcion, descripcion = _req$body2$descripcio === void 0 ? role.descripcion : _req$body2$descripcio, _req$body2$start_path = _req$body2.start_path, start_path = _req$body2$start_path === void 0 ? role.start_path : _req$body2$start_path, _req$body2$is_default = _req$body2.is_default, is_default = _req$body2$is_default === void 0 ? role.is_default : _req$body2$is_default, _req$body2$guard_name = _req$body2.guard_name, guard_name = _req$body2$guard_name === void 0 ? role.guard_name : _req$body2$guard_name; // Verificar si el nuevo name y guard_name ya existen (excluyendo el rol actual)
+          role = roleRows[0];
+          _req$body2 = req.body, _req$body2$name = _req$body2.name, name = _req$body2$name === void 0 ? role.name : _req$body2$name, _req$body2$descripcio = _req$body2.descripcion, descripcion = _req$body2$descripcio === void 0 ? role.descripcion : _req$body2$descripcio, _req$body2$start_path = _req$body2.start_path, start_path = _req$body2$start_path === void 0 ? role.start_path : _req$body2$start_path, _req$body2$is_default = _req$body2.is_default, is_default = _req$body2$is_default === void 0 ? role.is_default : _req$body2$is_default, _req$body2$guard_name = _req$body2.guard_name, guard_name = _req$body2$guard_name === void 0 ? role.guard_name : _req$body2$guard_name;
           _context4.next = 15;
           return pool.query("SELECT * FROM roles WHERE name = ? AND guard_name = ? AND id != ?", [name, guard_name, req.params.id]);
         case 15:
@@ -270,8 +263,6 @@ var updateRole = exports.updateRole = /*#__PURE__*/function () {
     return _ref4.apply(this, arguments);
   };
 }();
-
-// Eliminar un rol
 var deleteRole = exports.deleteRole = /*#__PURE__*/function () {
   var _ref5 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee5(req, res) {
     var pool, _yield$pool$query15, _yield$pool$query16, rows, _yield$pool$query17, _yield$pool$query18, users, _yield$pool$query19, _yield$pool$query20, permisos;

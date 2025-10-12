@@ -91,8 +91,6 @@ var getPago = exports.getPago = /*#__PURE__*/function () {
     return _ref2.apply(this, arguments);
   };
 }();
-
-// Obtener pagos de un estudiante por su id_estudiante
 var getPagoEstudiante = exports.getPagoEstudiante = /*#__PURE__*/function () {
   var _ref3 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
     var pool, id_estudiante, _yield$pool$query5, _yield$pool$query6, rows;
@@ -165,7 +163,6 @@ var createPago = exports.createPago = /*#__PURE__*/function () {
             message: 'Estudiante no encontrado'
           }));
         case 14:
-          // Validar monto (debe ser un número positivo)
           parsedMonto = parseFloat(monto);
           if (!(isNaN(parsedMonto) || parsedMonto <= 0)) {
             _context4.next = 17;
@@ -183,7 +180,6 @@ var createPago = exports.createPago = /*#__PURE__*/function () {
             message: 'Formato de fecha inválido (use YYYY-MM-DD)'
           }));
         case 19:
-          // Validar metodo si se proporciona
           validMetodos = ['efectivo', 'transferencia', 'tarjeta'];
           if (!(metodo && !validMetodos.includes(metodo))) {
             _context4.next = 22;
@@ -207,7 +203,6 @@ var createPago = exports.createPago = /*#__PURE__*/function () {
           _yield$pool$query9 = _context4.sent;
           _yield$pool$query10 = (0, _slicedToArray2["default"])(_yield$pool$query9, 1);
           results = _yield$pool$query10[0];
-          // Devolver el registro insertado
           res.json({
             id: results.insertId,
             id_estudiante: id_estudiante,
@@ -333,7 +328,6 @@ var updatePago = exports.updatePago = /*#__PURE__*/function () {
             message: 'Formato de fecha inválido (use YYYY-MM-DD)'
           }));
         case 31:
-          // Validar metodo si se proporciona
           validMetodos = ['efectivo', 'transferencia', 'tarjeta'];
           if (!(metodo && !validMetodos.includes(metodo))) {
             _context5.next = 34;
@@ -351,7 +345,6 @@ var updatePago = exports.updatePago = /*#__PURE__*/function () {
             message: 'El comprobante excede el límite de 100 caracteres'
           }));
         case 36:
-          // Construir la consulta de actualización dinámicamente
           fields = [];
           values = [];
           if (id_estudiante) {
@@ -374,8 +367,6 @@ var updatePago = exports.updatePago = /*#__PURE__*/function () {
             fields.push('fecha = ?');
             values.push(fecha);
           }
-
-          // Ejecutar la consulta de actualización
           _context5.next = 45;
           return pool.query("UPDATE pago SET ".concat(fields.join(', '), " WHERE id = ?"), [].concat(values, [id]));
         case 45:

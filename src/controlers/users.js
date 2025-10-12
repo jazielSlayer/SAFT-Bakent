@@ -1,7 +1,7 @@
 import { connect } from '../database';
 import bcrypt from 'bcryptjs';
 
-// Registro de usuario
+
 export const registerUser = async (req, res) => {
     const pool = await connect();
     const { nombres, apellidopat, apellidomat, carnet, email, password, user_name, per_id, role } = req.body;
@@ -16,7 +16,7 @@ export const registerUser = async (req, res) => {
     });
     
     try {
-        // Validaciones
+
         if (!password || typeof password !== 'string') {
             return res.status(400).json({ message: "Contraseña requerida y debe ser texto" });
         }
@@ -27,7 +27,6 @@ export const registerUser = async (req, res) => {
         
         let personaId;
         
-        // Si ya existe per_id (viene del paso 1), usarlo
         if (per_id) {
             console.log('Usando per_id existente:', per_id);
             
@@ -42,7 +41,6 @@ export const registerUser = async (req, res) => {
             
             personaId = per_id;
         } else {
-            // Si NO existe per_id, crear nueva persona
             console.log('Creando nueva persona');
             
             if (!nombres) {
@@ -56,7 +54,6 @@ export const registerUser = async (req, res) => {
             personaId = personaResults.insertId;
         }
 
-        // Determinar el role_id basado en el nombre del rol
         let roleId = null;
         let roleName = null;
         
@@ -76,10 +73,8 @@ export const registerUser = async (req, res) => {
             }
         }
 
-        // Hashear contraseña
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Crear usuario CON id_roles
         const [userResults] = await pool.query(
             "INSERT INTO users (user_name, per_id, id_roles, email, password, status) VALUES (?, ?, ?, ?, ?, 1)",
             [user_name, personaId, roleId, email, hashedPassword]
@@ -89,7 +84,6 @@ export const registerUser = async (req, res) => {
 
         console.log(`Usuario ${userId} creado con rol "${roleName}" (id_roles: ${roleId})`);
 
-        // Retornar datos del usuario con el rol asignado
         res.json({ 
             id: userId, 
             user_name, 
@@ -101,7 +95,6 @@ export const registerUser = async (req, res) => {
     } catch (error) {
         console.error('Error al registrar usuario:', error);
         
-        // Manejar errores específicos de MySQL
         if (error.code === 'ER_DUP_ENTRY') {
             if (error.message.includes('user_name')) {
                 return res.status(409).json({ message: "Nombre de usuario ya existe" });
@@ -116,7 +109,6 @@ export const registerUser = async (req, res) => {
 };
 
 
-// Login de usuario
 export const loginUser = async (req, res) => {
     const pool = await connect();
     const { email, password } = req.body;
@@ -183,7 +175,7 @@ export const loginUser = async (req, res) => {
     }
 };
 
-// Obtener todos los usuarios
+
 export const getUsers = async (req, res) => {
     const pool = await connect();
     try {
@@ -211,7 +203,6 @@ export const getUsers = async (req, res) => {
     }
 };
 
-// Obtener un usuario por ID
 export const getUser = async (req, res) => {
     const pool = await connect();
     try {
@@ -242,7 +233,7 @@ export const getUser = async (req, res) => {
     }
 };
 
-// Contar usuarios
+
 export const getUserCount = async (req, res) => {
     const pool = await connect();
     try {
@@ -254,7 +245,7 @@ export const getUserCount = async (req, res) => {
     }
 };
 
-// Guardar un usuario
+
 export const saveUser = async (req, res) => {
     const pool = await connect();
     const { nombres, apellidopat, apellidomat, carnet, email, user_name, id_roles } = req.body;
@@ -286,7 +277,7 @@ export const saveUser = async (req, res) => {
 };
 
 
-// Eliminar un usuario
+
 export const deleteUser = async (req, res) => {
     const pool = await connect();
     try {
@@ -304,7 +295,7 @@ export const deleteUser = async (req, res) => {
     }
 };
 
-// Actualizar un usuario
+
 export const updateUser = async (req, res) => {
     const pool = await connect();
     try {
@@ -346,15 +337,12 @@ export const updateUser = async (req, res) => {
 };
 
 
-
-// Asignar rol a usuario
 export const assignRoleToUser = async (req, res) => {
     const pool = await connect();
     const { role_id } = req.body;
     const userId = req.params.id;
     
     try {
-        // Verificar que el usuario y rol existan
         const [userCheck] = await pool.query('SELECT id FROM users WHERE id = ?', [userId]);
         if (userCheck.length === 0) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
@@ -364,8 +352,7 @@ export const assignRoleToUser = async (req, res) => {
         if (roleCheck.length === 0) {
             return res.status(404).json({ message: 'Rol no encontrado' });
         }
-        
-        // Verificar si ya está asignado
+
         const [existing] = await pool.query(
             'SELECT * FROM model_has_roles WHERE model_id = ? AND role_id = ?',
             [userId, role_id]
@@ -375,7 +362,6 @@ export const assignRoleToUser = async (req, res) => {
             return res.status(400).json({ message: 'El usuario ya tiene asignado este rol' });
         }
 
-        // Asignar el rol
         await pool.query(
             'INSERT INTO model_has_roles (model_id, role_id, model_type) VALUES (?, ?, "App\\Models\\User")',
             [userId, role_id]
@@ -407,18 +393,16 @@ export const getRoles = async (req, res) => {
     }
 };
 
-// Obtener correo y rol por correo
+
 export const getUserRoleByEmail = async (req, res) => {
     const pool = await connect();
     const { email } = req.body;
 
     try {
-        // Validar que se proporcione un correo
         if (!email || typeof email !== 'string') {
             return res.status(400).json({ message: "Correo requerido y debe ser texto" });
         }
 
-        // Consultar el usuario y su rol asociado
         const [rows] = await pool.query(`
             SELECT 
                 u.email,

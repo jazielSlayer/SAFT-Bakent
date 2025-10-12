@@ -5,7 +5,6 @@ export const getTalleres = async (req, res) => {
     const { titulo, tipo_taller, fecha_realizacion, page = 1, limit = 10 } = req.query;
 
     try {
-        // Construir la consulta base
         let query = `
             SELECT 
                 t.id,
@@ -21,7 +20,6 @@ export const getTalleres = async (req, res) => {
             LEFT JOIN metodologia m ON t.id_metodologia = m.id
         `;
 
-        // Agregar condiciones de filtro
         const conditions = [];
         const params = [];
 
@@ -45,28 +43,23 @@ export const getTalleres = async (req, res) => {
             query += ' WHERE ' + conditions.join(' AND ');
         }
 
-        // Agregar ordenamiento
         query += ' ORDER BY t.fecha_realizacion DESC';
 
-        // Agregar paginación
         const offset = (page - 1) * limit;
         query += ' LIMIT ? OFFSET ?';
         params.push(parseInt(limit), parseInt(offset));
 
-        // Ejecutar la consulta
         const [rows] = await pool.query(query, params);
 
-        // Obtener el total de talleres para paginación
         const [countResult] = await pool.query(
             `SELECT COUNT(*) as total 
              FROM taller t
              ${conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : ''}`,
-            params.slice(0, params.length - 2) // Excluir parámetros de paginación
+            params.slice(0, params.length - 2) 
         );
         const totalItems = countResult[0].total;
         const totalPages = Math.ceil(totalItems / limit);
 
-        // Responder según los resultados
         if (rows.length === 0) {
             return res.status(200).json({ 
                 message: 'No se encontraron talleres', 
@@ -96,12 +89,10 @@ export const getTaller = async (req, res) => {
     const id = parseInt(req.params.id);
 
     try {
-        // Validar que el ID sea un número entero positivo
         if (isNaN(id) || id <= 0) {
             return res.status(400).json({ message: 'ID del taller inválido' });
         }
 
-        // Ejecutar la consulta
         const [rows] = await pool.query(`
             SELECT 
                 t.id,
@@ -118,12 +109,9 @@ export const getTaller = async (req, res) => {
             WHERE t.id = ?
         `, [id]);
 
-        // Verificar si se encontró el taller
         if (rows.length === 0) {
             return res.status(404).json({ message: 'Taller no encontrado' });
         }
-
-        // Devolver el taller encontrado
         res.json({
             message: 'Taller encontrado',
             data: rows[0]
@@ -153,29 +141,22 @@ export const createTaller = async (req, res) => {
     } = req.body;
 
     try {
-        // Validar campos requeridos
         if (!titulo || !id_metodologia || !tipo_taller || !fecha_realizacion) {
             return res.status(400).json({ message: 'Faltan campos requeridos: titulo, id_metodologia, tipo_taller, fecha_realizacion' });
         }
-
-        // Validar formato de fecha (YYYY-MM-DD)
         if (!/^\d{4}-\d{2}-\d{2}$/.test(fecha_realizacion)) {
             return res.status(400).json({ message: 'Formato de fecha_realizacion inválido (use YYYY-MM-DD)' });
         }
-
-        // Validar que id_metodologia exista
         const [metodologiaCheck] = await pool.query('SELECT id FROM metodologia WHERE id = ?', [id_metodologia]);
         if (metodologiaCheck.length === 0) {
             return res.status(400).json({ message: 'Metodología no encontrada' });
         }
 
-        // Validar tipo_taller (asumiendo valores permitidos: 'Teórico', 'Práctico', 'Mixto')
         const validTipos = ['Teórico', 'Práctico', 'Mixto'];
         if (!validTipos.includes(tipo_taller)) {
             return res.status(400).json({ message: `Tipo de taller inválido. Use: ${validTipos.join(', ')}` });
         }
 
-        // Insertar en la tabla taller
         const [results] = await pool.query(
             `INSERT INTO taller (
                 titulo, 
@@ -189,7 +170,6 @@ export const createTaller = async (req, res) => {
             [titulo, id_metodologia, tipo_taller, evaluacion_final || null, duracion || null, resultado || null, fecha_realizacion]
         );
 
-        // Devolver la respuesta con los datos insertados
         res.json({
             id: results.insertId,
             titulo,
@@ -226,24 +206,20 @@ export const updateTaller = async (req, res) => {
     const id = parseInt(req.params.id);
 
     try {
-        // Validar que el ID sea un número válido
         if (isNaN(id) || id <= 0) {
             return res.status(400).json({ message: 'ID del taller inválido' });
         }
 
-        // Verificar que el taller exista
         const [tallerCheck] = await pool.query('SELECT id FROM taller WHERE id = ?', [id]);
         if (tallerCheck.length === 0) {
             return res.status(404).json({ message: 'Taller no encontrado' });
         }
 
-        // Validar que al menos un campo se proporcione para actualizar
         if (!titulo && !id_metodologia && !tipo_taller && evaluacion_final === undefined && 
             duracion === undefined && !resultado && !fecha_realizacion) {
             return res.status(400).json({ message: 'Se debe proporcionar al menos un campo para actualizar' });
         }
 
-        // Validar id_metodologia si se proporciona
         if (id_metodologia) {
             const [metodologiaCheck] = await pool.query('SELECT id FROM metodologia WHERE id = ?', [id_metodologia]);
             if (metodologiaCheck.length === 0) {
@@ -251,12 +227,10 @@ export const updateTaller = async (req, res) => {
             }
         }
 
-        // Validar formato de fecha si se proporciona
         if (fecha_realizacion && !/^\d{4}-\d{2}-\d{2}$/.test(fecha_realizacion)) {
             return res.status(400).json({ message: 'Formato de fecha_realizacion inválido (use YYYY-MM-DD)' });
         }
 
-        // Validar tipo_taller si se proporciona
         if (tipo_taller) {
             const validTipos = ['Teórico', 'Práctico', 'Mixto'];
             if (!validTipos.includes(tipo_taller)) {
@@ -264,7 +238,6 @@ export const updateTaller = async (req, res) => {
             }
         }
 
-        // Construir la consulta de actualización dinámicamente
         const fields = [];
         const values = [];
 
@@ -297,7 +270,6 @@ export const updateTaller = async (req, res) => {
             values.push(fecha_realizacion);
         }
 
-        // Ejecutar la consulta de actualización
         const [results] = await pool.query(
             `UPDATE taller SET ${fields.join(', ')} WHERE id = ?`,
             [...values, id]
@@ -307,7 +279,6 @@ export const updateTaller = async (req, res) => {
             return res.status(404).json({ message: 'Taller no encontrado o ningún cambio realizado' });
         }
 
-        // Obtener el taller actualizado
         const [updatedTaller] = await pool.query(
             `SELECT 
                 t.id,
