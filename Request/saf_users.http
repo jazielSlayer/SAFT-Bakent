@@ -170,7 +170,7 @@ Content-Type: application/json
 # Eliminar un estudiante
 DELETE {{baseUrl}}/estudiantes/6
 ###
-GET {{baseUrl}}/users/role-by-email
+POST {{baseUrl}}/users/role-by-email
 Content-Type: application/json
 
 {

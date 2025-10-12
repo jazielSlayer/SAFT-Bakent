@@ -10,9 +10,11 @@ export const getTalleres = async (req, res) => {
             SELECT 
                 t.id,
                 t.titulo,
+                t.id_metodologia,        
                 t.tipo_taller,
                 t.evaluacion_final,
                 t.duracion,
+                t.resultado,
                 t.fecha_realizacion,
                 m.nombre AS metodologia_nombre
             FROM taller t
@@ -104,9 +106,11 @@ export const getTaller = async (req, res) => {
             SELECT 
                 t.id,
                 t.titulo,
+                t.id_metodologia,        
                 t.tipo_taller,
                 t.evaluacion_final,
                 t.duracion,
+                t.resultado,
                 t.fecha_realizacion,
                 m.nombre AS metodologia_nombre
             FROM taller t
@@ -144,6 +148,7 @@ export const createTaller = async (req, res) => {
         tipo_taller, 
         evaluacion_final, 
         duracion, 
+        resultado,
         fecha_realizacion 
     } = req.body;
 
@@ -178,9 +183,10 @@ export const createTaller = async (req, res) => {
                 tipo_taller, 
                 evaluacion_final, 
                 duracion, 
+                resultado,
                 fecha_realizacion
-            ) VALUES (?, ?, ?, ?, ?, ?)`,
-            [titulo, id_metodologia, tipo_taller, evaluacion_final || null, duracion || null, fecha_realizacion]
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            [titulo, id_metodologia, tipo_taller, evaluacion_final || null, duracion || null, resultado || null, fecha_realizacion]
         );
 
         // Devolver la respuesta con los datos insertados
@@ -191,6 +197,7 @@ export const createTaller = async (req, res) => {
             tipo_taller,
             evaluacion_final,
             duracion,
+            resultado,
             fecha_realizacion
         });
     } catch (error) {
@@ -213,6 +220,7 @@ export const updateTaller = async (req, res) => {
         tipo_taller, 
         evaluacion_final, 
         duracion, 
+        resultado,
         fecha_realizacion 
     } = req.body;
     const id = parseInt(req.params.id);
@@ -231,7 +239,7 @@ export const updateTaller = async (req, res) => {
 
         // Validar que al menos un campo se proporcione para actualizar
         if (!titulo && !id_metodologia && !tipo_taller && evaluacion_final === undefined && 
-            duracion === undefined && !fecha_realizacion) {
+            duracion === undefined && !resultado && !fecha_realizacion) {
             return res.status(400).json({ message: 'Se debe proporcionar al menos un campo para actualizar' });
         }
 
@@ -280,6 +288,10 @@ export const updateTaller = async (req, res) => {
             fields.push('duracion = ?');
             values.push(duracion);
         }
+        if (resultado !== undefined) {
+            fields.push('resultado = ?');
+            values.push(resultado);
+        }
         if (fecha_realizacion) {
             fields.push('fecha_realizacion = ?');
             values.push(fecha_realizacion);
@@ -303,6 +315,7 @@ export const updateTaller = async (req, res) => {
                 t.tipo_taller,
                 t.evaluacion_final,
                 t.duracion,
+                t.resultado,
                 t.fecha_realizacion,
                 m.nombre AS metodologia_nombre
              FROM taller t

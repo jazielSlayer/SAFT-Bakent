@@ -22,7 +22,7 @@ var getTalleres = exports.getTalleres = /*#__PURE__*/function () {
           _req$query = req.query, titulo = _req$query.titulo, tipo_taller = _req$query.tipo_taller, fecha_realizacion = _req$query.fecha_realizacion, _req$query$page = _req$query.page, page = _req$query$page === void 0 ? 1 : _req$query$page, _req$query$limit = _req$query.limit, limit = _req$query$limit === void 0 ? 10 : _req$query$limit;
           _context.prev = 4;
           // Construir la consulta base
-          query = "\n            SELECT \n                t.id,\n                t.titulo,\n                t.tipo_taller,\n                t.evaluacion_final,\n                t.duracion,\n                t.fecha_realizacion,\n                m.nombre AS metodologia_nombre\n            FROM taller t\n            LEFT JOIN metodologia m ON t.id_metodologia = m.id\n        "; // Agregar condiciones de filtro
+          query = "\n            SELECT \n                t.id,\n                t.titulo,\n                t.id_metodologia,        \n                t.tipo_taller,\n                t.evaluacion_final,\n                t.duracion,\n                t.resultado,\n                t.fecha_realizacion,\n                m.nombre AS metodologia_nombre\n            FROM taller t\n            LEFT JOIN metodologia m ON t.id_metodologia = m.id\n        "; // Agregar condiciones de filtro
           conditions = [];
           params = [];
           if (titulo) {
@@ -156,7 +156,7 @@ var getTaller = exports.getTaller = /*#__PURE__*/function () {
           }));
         case 7:
           _context2.next = 9;
-          return pool.query("\n            SELECT \n                t.id,\n                t.titulo,\n                t.tipo_taller,\n                t.evaluacion_final,\n                t.duracion,\n                t.fecha_realizacion,\n                m.nombre AS metodologia_nombre\n            FROM taller t\n            LEFT JOIN metodologia m ON t.id_metodologia = m.id\n            WHERE t.id = ?\n        ", [id]);
+          return pool.query("\n            SELECT \n                t.id,\n                t.titulo,\n                t.id_metodologia,        \n                t.tipo_taller,\n                t.evaluacion_final,\n                t.duracion,\n                t.resultado,\n                t.fecha_realizacion,\n                m.nombre AS metodologia_nombre\n            FROM taller t\n            LEFT JOIN metodologia m ON t.id_metodologia = m.id\n            WHERE t.id = ?\n        ", [id]);
         case 9:
           _yield$pool$query5 = _context2.sent;
           _yield$pool$query6 = (0, _slicedToArray2["default"])(_yield$pool$query5, 1);
@@ -211,7 +211,7 @@ var getTaller = exports.getTaller = /*#__PURE__*/function () {
 }();
 var createTaller = exports.createTaller = /*#__PURE__*/function () {
   var _ref3 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
-    var pool, _req$body, titulo, id_metodologia, tipo_taller, evaluacion_final, duracion, fecha_realizacion, _yield$pool$query7, _yield$pool$query8, metodologiaCheck, validTipos, _yield$pool$query9, _yield$pool$query10, results;
+    var pool, _req$body, titulo, id_metodologia, tipo_taller, evaluacion_final, duracion, resultado, fecha_realizacion, _yield$pool$query7, _yield$pool$query8, metodologiaCheck, validTipos, _yield$pool$query9, _yield$pool$query10, results;
     return _regenerator["default"].wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
@@ -219,7 +219,7 @@ var createTaller = exports.createTaller = /*#__PURE__*/function () {
           return (0, _database.connect)();
         case 2:
           pool = _context3.sent;
-          _req$body = req.body, titulo = _req$body.titulo, id_metodologia = _req$body.id_metodologia, tipo_taller = _req$body.tipo_taller, evaluacion_final = _req$body.evaluacion_final, duracion = _req$body.duracion, fecha_realizacion = _req$body.fecha_realizacion;
+          _req$body = req.body, titulo = _req$body.titulo, id_metodologia = _req$body.id_metodologia, tipo_taller = _req$body.tipo_taller, evaluacion_final = _req$body.evaluacion_final, duracion = _req$body.duracion, resultado = _req$body.resultado, fecha_realizacion = _req$body.fecha_realizacion;
           _context3.prev = 4;
           if (!(!titulo || !id_metodologia || !tipo_taller || !fecha_realizacion)) {
             _context3.next = 7;
@@ -262,7 +262,7 @@ var createTaller = exports.createTaller = /*#__PURE__*/function () {
           }));
         case 19:
           _context3.next = 21;
-          return pool.query("INSERT INTO taller (\n                titulo, \n                id_metodologia, \n                tipo_taller, \n                evaluacion_final, \n                duracion, \n                fecha_realizacion\n            ) VALUES (?, ?, ?, ?, ?, ?)", [titulo, id_metodologia, tipo_taller, evaluacion_final || null, duracion || null, fecha_realizacion]);
+          return pool.query("INSERT INTO taller (\n                titulo, \n                id_metodologia, \n                tipo_taller, \n                evaluacion_final, \n                duracion, \n                resultado,\n                fecha_realizacion\n            ) VALUES (?, ?, ?, ?, ?, ?, ?)", [titulo, id_metodologia, tipo_taller, evaluacion_final || null, duracion || null, resultado || null, fecha_realizacion]);
         case 21:
           _yield$pool$query9 = _context3.sent;
           _yield$pool$query10 = (0, _slicedToArray2["default"])(_yield$pool$query9, 1);
@@ -275,6 +275,7 @@ var createTaller = exports.createTaller = /*#__PURE__*/function () {
             tipo_taller: tipo_taller,
             evaluacion_final: evaluacion_final,
             duracion: duracion,
+            resultado: resultado,
             fecha_realizacion: fecha_realizacion
           });
           _context3.next = 35;
@@ -314,7 +315,7 @@ var createTaller = exports.createTaller = /*#__PURE__*/function () {
 }();
 var updateTaller = exports.updateTaller = /*#__PURE__*/function () {
   var _ref4 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee4(req, res) {
-    var pool, _req$body2, titulo, id_metodologia, tipo_taller, evaluacion_final, duracion, fecha_realizacion, id, _yield$pool$query11, _yield$pool$query12, tallerCheck, _yield$pool$query13, _yield$pool$query14, metodologiaCheck, validTipos, fields, values, _yield$pool$query15, _yield$pool$query16, results, _yield$pool$query17, _yield$pool$query18, updatedTaller;
+    var pool, _req$body2, titulo, id_metodologia, tipo_taller, evaluacion_final, duracion, resultado, fecha_realizacion, id, _yield$pool$query11, _yield$pool$query12, tallerCheck, _yield$pool$query13, _yield$pool$query14, metodologiaCheck, validTipos, fields, values, _yield$pool$query15, _yield$pool$query16, results, _yield$pool$query17, _yield$pool$query18, updatedTaller;
     return _regenerator["default"].wrap(function _callee4$(_context4) {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
@@ -322,7 +323,7 @@ var updateTaller = exports.updateTaller = /*#__PURE__*/function () {
           return (0, _database.connect)();
         case 2:
           pool = _context4.sent;
-          _req$body2 = req.body, titulo = _req$body2.titulo, id_metodologia = _req$body2.id_metodologia, tipo_taller = _req$body2.tipo_taller, evaluacion_final = _req$body2.evaluacion_final, duracion = _req$body2.duracion, fecha_realizacion = _req$body2.fecha_realizacion;
+          _req$body2 = req.body, titulo = _req$body2.titulo, id_metodologia = _req$body2.id_metodologia, tipo_taller = _req$body2.tipo_taller, evaluacion_final = _req$body2.evaluacion_final, duracion = _req$body2.duracion, resultado = _req$body2.resultado, fecha_realizacion = _req$body2.fecha_realizacion;
           id = parseInt(req.params.id);
           _context4.prev = 5;
           if (!(isNaN(id) || id <= 0)) {
@@ -347,7 +348,7 @@ var updateTaller = exports.updateTaller = /*#__PURE__*/function () {
             message: 'Taller no encontrado'
           }));
         case 15:
-          if (!(!titulo && !id_metodologia && !tipo_taller && evaluacion_final === undefined && duracion === undefined && !fecha_realizacion)) {
+          if (!(!titulo && !id_metodologia && !tipo_taller && evaluacion_final === undefined && duracion === undefined && !resultado && !fecha_realizacion)) {
             _context4.next = 17;
             break;
           }
@@ -417,29 +418,33 @@ var updateTaller = exports.updateTaller = /*#__PURE__*/function () {
             fields.push('duracion = ?');
             values.push(duracion);
           }
+          if (resultado !== undefined) {
+            fields.push('resultado = ?');
+            values.push(resultado);
+          }
           if (fecha_realizacion) {
             fields.push('fecha_realizacion = ?');
             values.push(fecha_realizacion);
           }
 
           // Ejecutar la consulta de actualización
-          _context4.next = 41;
+          _context4.next = 42;
           return pool.query("UPDATE taller SET ".concat(fields.join(', '), " WHERE id = ?"), [].concat(values, [id]));
-        case 41:
+        case 42:
           _yield$pool$query15 = _context4.sent;
           _yield$pool$query16 = (0, _slicedToArray2["default"])(_yield$pool$query15, 1);
           results = _yield$pool$query16[0];
           if (!(results.affectedRows === 0)) {
-            _context4.next = 46;
+            _context4.next = 47;
             break;
           }
           return _context4.abrupt("return", res.status(404).json({
             message: 'Taller no encontrado o ningún cambio realizado'
           }));
-        case 46:
-          _context4.next = 48;
-          return pool.query("SELECT \n                t.id,\n                t.titulo,\n                t.tipo_taller,\n                t.evaluacion_final,\n                t.duracion,\n                t.fecha_realizacion,\n                m.nombre AS metodologia_nombre\n             FROM taller t\n             LEFT JOIN metodologia m ON t.id_metodologia = m.id\n             WHERE t.id = ?", [id]);
-        case 48:
+        case 47:
+          _context4.next = 49;
+          return pool.query("SELECT \n                t.id,\n                t.titulo,\n                t.tipo_taller,\n                t.evaluacion_final,\n                t.duracion,\n                t.resultado,\n                t.fecha_realizacion,\n                m.nombre AS metodologia_nombre\n             FROM taller t\n             LEFT JOIN metodologia m ON t.id_metodologia = m.id\n             WHERE t.id = ?", [id]);
+        case 49:
           _yield$pool$query17 = _context4.sent;
           _yield$pool$query18 = (0, _slicedToArray2["default"])(_yield$pool$query17, 1);
           updatedTaller = _yield$pool$query18[0];
@@ -447,36 +452,36 @@ var updateTaller = exports.updateTaller = /*#__PURE__*/function () {
             message: 'Taller actualizado',
             data: updatedTaller[0]
           });
-          _context4.next = 62;
+          _context4.next = 63;
           break;
-        case 54:
-          _context4.prev = 54;
+        case 55:
+          _context4.prev = 55;
           _context4.t0 = _context4["catch"](5);
           console.error('Error updating taller:', _context4.t0);
           if (!(_context4.t0.code === 'ER_NO_REFERENCED_ROW_2')) {
-            _context4.next = 59;
+            _context4.next = 60;
             break;
           }
           return _context4.abrupt("return", res.status(400).json({
             message: 'Clave foránea inválida: metodología no existe'
           }));
-        case 59:
+        case 60:
           if (!(_context4.t0.code === 'ER_DUP_ENTRY')) {
-            _context4.next = 61;
+            _context4.next = 62;
             break;
           }
           return _context4.abrupt("return", res.status(400).json({
             message: 'Entrada duplicada en el taller'
           }));
-        case 61:
+        case 62:
           res.status(500).json({
             message: "Error al actualizar taller: ".concat(_context4.t0.message)
           });
-        case 62:
+        case 63:
         case "end":
           return _context4.stop();
       }
-    }, _callee4, null, [[5, 54]]);
+    }, _callee4, null, [[5, 55]]);
   }));
   return function updateTaller(_x7, _x8) {
     return _ref4.apply(this, arguments);

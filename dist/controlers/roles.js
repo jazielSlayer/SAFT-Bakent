@@ -341,14 +341,10 @@ var deleteRole = exports.deleteRole = /*#__PURE__*/function () {
             message: 'Error al eliminar rol'
           });
         case 34:
-          _context5.prev = 34;
-          if (pool) pool.release();
-          return _context5.finish(34);
-        case 37:
         case "end":
           return _context5.stop();
       }
-    }, _callee5, null, [[0, 28, 34, 37]]);
+    }, _callee5, null, [[0, 28]]);
   }));
   return function deleteRole(_x9, _x10) {
     return _ref5.apply(this, arguments);

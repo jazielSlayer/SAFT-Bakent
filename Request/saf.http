@@ -195,14 +195,14 @@ GET {{baseUrl}}/taller/3
 
 ###
 # Crear un nuevo taller
-POST {{baseUrl}}/talleres
+POST {{baseUrl}}/create-taller
 Content-Type: application/json
 
 { 
-  "titulo": "Taller de Capacitacion", 
-  "id_metodologia": 5, 
+  "titulo": "Taller de nivelacion", 
+  "id_metodologia": 6, 
   "tipo_taller": "Práctico", 
-  "evaluacion_final": "Proyecto", 
+  "evaluacion_final": "examen", 
   "duracion": "20 horas", 
   "fecha_realizacion": "2025-03-01" 
 }

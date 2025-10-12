@@ -131,7 +131,6 @@ export const deleteRole = async (req, res) => {
         const [rows] = await pool.query("SELECT * FROM roles WHERE id = ?", [req.params.id]);
         if (rows.length === 0) return res.status(404).json({ message: 'Rol no encontrado' });
 
-        // Verificar si el rol está siendo usado en otras tablas
         const [users] = await pool.query("SELECT * FROM users WHERE id_roles = ?", [req.params.id]);
         const [permisos] = await pool.query("SELECT * FROM permisos_roles WHERE id_rol = ?", [req.params.id]);
         if (users.length > 0 || permisos.length > 0) {
@@ -150,7 +149,6 @@ export const deleteRole = async (req, res) => {
             });
         }
         res.status(500).json({ message: 'Error al eliminar rol' });
-    } finally {
-        if (pool) pool.release();
     }
+    // No es necesario finally ni pool.release()
 };
