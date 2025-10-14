@@ -4,8 +4,10 @@ Esta guía proporciona instrucciones paso a paso para configurar y ejecutar el b
 
 ## Prerrequisitos
 
-1. **Instalar Node.js**
+<h2>1. Instalar Node.js</h2>
+
    - Descarga e instala Node.js desde [https://nodejs.org/es](https://nodejs.org/es).
+
 >[!IMPORTANT]
 >Espera a que se instale por completo el node js
 
@@ -15,24 +17,32 @@ Esta guía proporciona instrucciones paso a paso para configurar y ejecutar el b
      npm -v
      ```
 
-2. **Instalar MySQL o XAMPP**
+<h2>2. Instalar MySQL o XAMPP</h2>
+
    - Descarga e instala MySQL o XAMPP para configurar un servidor de base de datos local.
+   
 >[!NOTE]
 >Puedes decargar XAMPP desde: https://www.apachefriends.org/es/download.html
 
-## Pasos de Instalación
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
+## Pasos de Instalación
+
 <h2>3. Clonar el Repositorio</h2>
+
    - Clona el repositorio del proyecto usando:
-     ```bash
-     git clone https://github.com/jazielSlayer/Frontend-SAT.git
-     ```
+   
+   ```bash
+   git clone https://github.com/jazielSlayer/Frontend-SAT.git
+   ```
 
 <h2>4. Instalar Dependencias</h2>
+
    - Navega al directorio del proyecto e instala las dependencias requeridas:
-     ```bash
-     npm install
-     ```
+   
+   ```bash
+   npm install
+   ```
 
 <h2>5. Configurar Variables de Entorno</h2>
 
@@ -62,6 +72,7 @@ Esta guía proporciona instrucciones paso a paso para configurar y ejecutar el b
      ```
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 <h2>6. Configurar la Base de Datos</h2>
+
    - Ejecuta el script de la base de datos (`db`) para crear la estructura de la base de datos necesaria.
 
 <h2>7. Compilar el Proyecto</h2>
