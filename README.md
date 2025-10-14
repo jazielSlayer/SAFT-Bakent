@@ -33,7 +33,7 @@ Esta guía proporciona instrucciones paso a paso para configurar y ejecutar el b
    - Clona el repositorio del proyecto usando:
    
    ```bash
-   git clone https://github.com/jazielSlayer/Frontend-SAT.git
+   git clone https://github.com/jazielSlayer/SAFT-Bakent.git
    ```
 
 <h2>4. Instalar Dependencias</h2>
