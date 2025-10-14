@@ -6,10 +6,11 @@ Esta guía proporciona instrucciones paso a paso para configurar y ejecutar el b
 
 1. **Instalar Node.js**
    - Descarga e instala Node.js desde [https://nodejs.org/es](https://nodejs.org/es).
-   - Verifica la instalación ejecutando:
 >[!NOTE]
 >Espera a que se instale por completo el node js
 
+<br></br>
+   - Verifica la instalación ejecutando:
      ```bash
      node -v
      npm -v
