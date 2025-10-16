@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3000
+@baseUrl = http://localhost:3200
 
 ### Get all roles
 GET {{baseUrl}}/roles
@@ -26,3 +26,11 @@ Content-Type: application/json
 
 ### Delete a role by id
 DELETE {{baseUrl}}/roles/1
+
+###
+POST {{baseUrl}}/users/20/assign-role
+Content-Type: application/json
+
+{
+  "role_id": 3
+}

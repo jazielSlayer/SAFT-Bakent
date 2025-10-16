@@ -4,7 +4,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateRole = exports.getRoles = exports.getRole = exports.deleteRole = exports.createRole = void 0;
+exports.updateRole = exports.removeRoleFromUser = exports.getUserRoleByEmail = exports.getRoles = exports.getRole = exports.deleteRole = exports.createRole = exports.assignRoleToUser = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
@@ -37,14 +37,10 @@ var getRoles = exports.getRoles = /*#__PURE__*/function () {
             message: 'Error al obtener roles'
           });
         case 16:
-          _context.prev = 16;
-          if (pool) pool.release();
-          return _context.finish(16);
-        case 19:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[0, 12, 16, 19]]);
+    }, _callee, null, [[0, 12]]);
   }));
   return function getRoles(_x, _x2) {
     return _ref.apply(this, arguments);
@@ -86,14 +82,10 @@ var getRole = exports.getRole = /*#__PURE__*/function () {
             message: 'Error al obtener rol'
           });
         case 18:
-          _context2.prev = 18;
-          if (pool) pool.release();
-          return _context2.finish(18);
-        case 21:
         case "end":
           return _context2.stop();
       }
-    }, _callee2, null, [[0, 14, 18, 21]]);
+    }, _callee2, null, [[0, 14]]);
   }));
   return function getRole(_x3, _x4) {
     return _ref2.apply(this, arguments);
@@ -165,14 +157,10 @@ var createRole = exports.createRole = /*#__PURE__*/function () {
             message: "Error al crear rol"
           });
         case 28:
-          _context3.prev = 28;
-          if (pool) pool.release();
-          return _context3.finish(28);
-        case 31:
         case "end":
           return _context3.stop();
       }
-    }, _callee3, null, [[0, 22, 28, 31]]);
+    }, _callee3, null, [[0, 22]]);
   }));
   return function createRole(_x5, _x6) {
     return _ref3.apply(this, arguments);
@@ -250,14 +238,10 @@ var updateRole = exports.updateRole = /*#__PURE__*/function () {
             message: 'Error al actualizar rol'
           });
         case 36:
-          _context4.prev = 36;
-          if (pool) pool.release();
-          return _context4.finish(36);
-        case 39:
         case "end":
           return _context4.stop();
       }
-    }, _callee4, null, [[0, 30, 36, 39]]);
+    }, _callee4, null, [[0, 30]]);
   }));
   return function updateRole(_x7, _x8) {
     return _ref4.apply(this, arguments);
@@ -339,5 +323,222 @@ var deleteRole = exports.deleteRole = /*#__PURE__*/function () {
   }));
   return function deleteRole(_x9, _x10) {
     return _ref5.apply(this, arguments);
+  };
+}();
+var assignRoleToUser = exports.assignRoleToUser = /*#__PURE__*/function () {
+  var _ref6 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee6(req, res) {
+    var pool, role_id, userId, _yield$pool$query21, _yield$pool$query22, userCheck, _yield$pool$query23, _yield$pool$query24, roleCheck;
+    return _regenerator["default"].wrap(function _callee6$(_context6) {
+      while (1) switch (_context6.prev = _context6.next) {
+        case 0:
+          _context6.prev = 0;
+          _context6.next = 3;
+          return (0, _database.connect)();
+        case 3:
+          pool = _context6.sent;
+          console.log('Received request - Params:', req.params, 'Body:', req.body);
+          role_id = req.body.role_id;
+          userId = req.params.id; // Changed from req.params.userId to req.params.id
+          if (!(!userId || !role_id)) {
+            _context6.next = 9;
+            break;
+          }
+          return _context6.abrupt("return", res.status(400).json({
+            message: 'Faltan parámetros: userId o role_id'
+          }));
+        case 9:
+          _context6.next = 11;
+          return pool.query('SELECT id FROM users WHERE id = ?', [userId]);
+        case 11:
+          _yield$pool$query21 = _context6.sent;
+          _yield$pool$query22 = (0, _slicedToArray2["default"])(_yield$pool$query21, 1);
+          userCheck = _yield$pool$query22[0];
+          if (!(userCheck.length === 0)) {
+            _context6.next = 16;
+            break;
+          }
+          return _context6.abrupt("return", res.status(404).json({
+            message: 'Usuario no encontrado'
+          }));
+        case 16:
+          _context6.next = 18;
+          return pool.query('SELECT id FROM roles WHERE id = ?', [role_id]);
+        case 18:
+          _yield$pool$query23 = _context6.sent;
+          _yield$pool$query24 = (0, _slicedToArray2["default"])(_yield$pool$query23, 1);
+          roleCheck = _yield$pool$query24[0];
+          if (!(roleCheck.length === 0)) {
+            _context6.next = 23;
+            break;
+          }
+          return _context6.abrupt("return", res.status(404).json({
+            message: 'Rol no encontrado'
+          }));
+        case 23:
+          _context6.next = 25;
+          return pool.query('UPDATE users SET id_roles = ? WHERE id = ?', [role_id, userId]);
+        case 25:
+          res.json({
+            message: 'Rol asignado correctamente',
+            user_id: userId,
+            role_id: role_id
+          });
+          _context6.next = 32;
+          break;
+        case 28:
+          _context6.prev = 28;
+          _context6.t0 = _context6["catch"](0);
+          console.error('Error al asignar rol:', _context6.t0);
+          res.status(500).json({
+            message: 'Error al asignar rol al usuario',
+            error: _context6.t0.message
+          });
+        case 32:
+        case "end":
+          return _context6.stop();
+      }
+    }, _callee6, null, [[0, 28]]);
+  }));
+  return function assignRoleToUser(_x11, _x12) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+var removeRoleFromUser = exports.removeRoleFromUser = /*#__PURE__*/function () {
+  var _ref7 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee7(req, res) {
+    var pool, role_id, userId, _yield$pool$query25, _yield$pool$query26, userRows, _yield$pool$query27, _yield$pool$query28, existing;
+    return _regenerator["default"].wrap(function _callee7$(_context7) {
+      while (1) switch (_context7.prev = _context7.next) {
+        case 0:
+          _context7.prev = 0;
+          _context7.next = 3;
+          return (0, _database.connect)();
+        case 3:
+          pool = _context7.sent;
+          console.log('Received request - Params:', req.params, 'Body:', req.body);
+          role_id = req.body.role_id;
+          userId = req.params.userId;
+          if (role_id) {
+            _context7.next = 9;
+            break;
+          }
+          return _context7.abrupt("return", res.status(400).json({
+            message: 'El ID del rol es obligatorio'
+          }));
+        case 9:
+          _context7.next = 11;
+          return pool.query('SELECT * FROM users WHERE id = ?', [userId]);
+        case 11:
+          _yield$pool$query25 = _context7.sent;
+          _yield$pool$query26 = (0, _slicedToArray2["default"])(_yield$pool$query25, 1);
+          userRows = _yield$pool$query26[0];
+          if (!(userRows.length === 0)) {
+            _context7.next = 16;
+            break;
+          }
+          return _context7.abrupt("return", res.status(404).json({
+            message: 'Usuario no encontrado'
+          }));
+        case 16:
+          _context7.next = 18;
+          return pool.query('SELECT * FROM model_has_roles WHERE model_id = ? AND role_id = ? AND model_type = ?', [userId, role_id, "App\\Models\\User"]);
+        case 18:
+          _yield$pool$query27 = _context7.sent;
+          _yield$pool$query28 = (0, _slicedToArray2["default"])(_yield$pool$query27, 1);
+          existing = _yield$pool$query28[0];
+          if (!(existing.length === 0)) {
+            _context7.next = 23;
+            break;
+          }
+          return _context7.abrupt("return", res.status(404).json({
+            message: 'El rol no está asignado a este usuario'
+          }));
+        case 23:
+          _context7.next = 25;
+          return pool.query('DELETE FROM model_has_roles WHERE model_id = ? AND role_id = ? AND model_type = ?', [userId, role_id, "App\\Models\\User"]);
+        case 25:
+          _context7.next = 27;
+          return pool.query('UPDATE users SET id_roles = NULL WHERE id = ?', [userId]);
+        case 27:
+          res.json({
+            message: 'Rol eliminado del usuario',
+            userId: userId,
+            role_id: role_id
+          });
+          _context7.next = 34;
+          break;
+        case 30:
+          _context7.prev = 30;
+          _context7.t0 = _context7["catch"](0);
+          console.error('Error removing role from user:', _context7.t0);
+          res.status(500).json({
+            message: 'Error al eliminar rol del usuario',
+            error: _context7.t0.message
+          });
+        case 34:
+        case "end":
+          return _context7.stop();
+      }
+    }, _callee7, null, [[0, 30]]);
+  }));
+  return function removeRoleFromUser(_x13, _x14) {
+    return _ref7.apply(this, arguments);
+  };
+}();
+var getUserRoleByEmail = exports.getUserRoleByEmail = /*#__PURE__*/function () {
+  var _ref8 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee8(req, res) {
+    var pool, email, _yield$pool$query29, _yield$pool$query30, rows, user;
+    return _regenerator["default"].wrap(function _callee8$(_context8) {
+      while (1) switch (_context8.prev = _context8.next) {
+        case 0:
+          _context8.prev = 0;
+          _context8.next = 3;
+          return (0, _database.connect)();
+        case 3:
+          pool = _context8.sent;
+          email = req.body.email;
+          if (!(!email || typeof email !== 'string')) {
+            _context8.next = 7;
+            break;
+          }
+          return _context8.abrupt("return", res.status(400).json({
+            message: "Correo requerido y debe ser texto"
+          }));
+        case 7:
+          _context8.next = 9;
+          return pool.query("\n            SELECT \n                u.email,\n                r.name as role_name\n            FROM users u\n            LEFT JOIN roles r ON u.id_roles = r.id\n            WHERE u.email = ?\n        ", [email]);
+        case 9:
+          _yield$pool$query29 = _context8.sent;
+          _yield$pool$query30 = (0, _slicedToArray2["default"])(_yield$pool$query29, 1);
+          rows = _yield$pool$query30[0];
+          if (!(rows.length === 0)) {
+            _context8.next = 14;
+            break;
+          }
+          return _context8.abrupt("return", res.status(404).json({
+            message: "Usuario no encontrado"
+          }));
+        case 14:
+          user = rows[0];
+          res.json({
+            email: user.email,
+            role: user.role_name || "Sin rol asignado"
+          });
+          _context8.next = 22;
+          break;
+        case 18:
+          _context8.prev = 18;
+          _context8.t0 = _context8["catch"](0);
+          console.error('Error al obtener rol por correo:', _context8.t0);
+          res.status(500).json({
+            message: "Error al obtener el rol del usuario"
+          });
+        case 22:
+        case "end":
+          return _context8.stop();
+      }
+    }, _callee8, null, [[0, 18]]);
+  }));
+  return function getUserRoleByEmail(_x15, _x16) {
+    return _ref8.apply(this, arguments);
   };
 }();

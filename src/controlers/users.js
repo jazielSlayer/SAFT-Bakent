@@ -338,33 +338,42 @@ export const updateUser = async (req, res) => {
 
 
 export const assignRoleToUser = async (req, res) => {
-    const pool = await connect();
-    const { role_id } = req.body;
-    const userId = req.params.id;
-    
+    let pool;
     try {
+        pool = await connect();
+        const { role_id } = req.body; // El role_id viene en el cuerpo de la solicitud
+        const userId = req.params.userId; // Asegúrate de que la ruta sea /users/:userId/roles
+
+        // Validar que los parámetros existan
+        if (!userId || !role_id) {
+            return res.status(400).json({ message: 'Faltan parámetros: userId o role_id' });
+        }
+
+        // Verificar si el usuario existe
         const [userCheck] = await pool.query('SELECT id FROM users WHERE id = ?', [userId]);
         if (userCheck.length === 0) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
-        
+
+        // Verificar si el rol existe
         const [roleCheck] = await pool.query('SELECT id FROM roles WHERE id = ?', [role_id]);
         if (roleCheck.length === 0) {
             return res.status(404).json({ message: 'Rol no encontrado' });
         }
 
+        // Verificar si el rol ya está asignado
         const [existing] = await pool.query(
-            'SELECT * FROM model_has_roles WHERE model_id = ? AND role_id = ?',
-            [userId, role_id]
+            'SELECT * FROM model_has_roles WHERE model_id = ? AND role_id = ? AND model_type = ?',
+            [userId, role_id, 'App\\Models\\User']
         );
-
         if (existing.length > 0) {
             return res.status(400).json({ message: 'El usuario ya tiene asignado este rol' });
         }
 
+        // Asignar el rol
         await pool.query(
-            'INSERT INTO model_has_roles (model_id, role_id, model_type) VALUES (?, ?, "App\\Models\\User")',
-            [userId, role_id]
+            'INSERT INTO model_has_roles (model_id, role_id, model_type) VALUES (?, ?, ?)',
+            [userId, role_id, 'App\\Models\\User']
         );
 
         res.json({ 
@@ -372,58 +381,11 @@ export const assignRoleToUser = async (req, res) => {
             user_id: userId,
             role_id: role_id
         });
-
     } catch (error) {
         console.error('Error al asignar rol:', error);
         res.status(500).json({ 
             message: 'Error al asignar rol al usuario',
             error: error.message 
         });
-    }
-};
-
-export const getRoles = async (req, res) => {
-    const pool = await connect();
-    try {
-        const [rows] = await pool.query("SELECT * FROM roles ORDER BY id");
-        res.json(rows);
-    } catch (error) {
-        console.error('Error fetching roles:', error);
-        res.status(500).json({ message: 'Error al obtener roles' });
-    }
-};
-
-
-export const getUserRoleByEmail = async (req, res) => {
-    const pool = await connect();
-    const { email } = req.body;
-
-    try {
-        if (!email || typeof email !== 'string') {
-            return res.status(400).json({ message: "Correo requerido y debe ser texto" });
-        }
-
-        const [rows] = await pool.query(`
-            SELECT 
-                u.email,
-                r.name as role_name
-            FROM users u
-            LEFT JOIN roles r ON u.id_roles = r.id
-            WHERE u.email = ?
-        `, [email]);
-
-        if (rows.length === 0) {
-            return res.status(404).json({ message: "Usuario no encontrado" });
-        }
-
-        const user = rows[0];
-        res.json({
-            email: user.email,
-            role: user.role_name || "Sin rol asignado"
-        });
-
-    } catch (error) {
-        console.error('Error al obtener rol por correo:', error);
-        res.status(500).json({ message: "Error al obtener el rol del usuario" });
-    }
+    } 
 };

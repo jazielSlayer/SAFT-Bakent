@@ -9,9 +9,7 @@ export const getRoles = async (req, res) => {
     } catch (error) {
         console.error('Error fetching roles:', error);
         res.status(500).json({ message: 'Error al obtener roles' });
-    } finally {
-        if (pool) pool.release();
-    }
+    } 
 };
 
 export const getRole = async (req, res) => {
@@ -24,9 +22,7 @@ export const getRole = async (req, res) => {
     } catch (error) {
         console.error('Error fetching role:', error);
         res.status(500).json({ message: 'Error al obtener rol' });
-    } finally {
-        if (pool) pool.release();
-    }
+    } 
 };
 
 export const createRole = async (req, res) => {
@@ -66,11 +62,8 @@ export const createRole = async (req, res) => {
             return res.status(409).json({ message: "Ya existe un rol con este nombre y guard_name" });
         }
         res.status(500).json({ message: "Error al crear rol" });
-    } finally {
-        if (pool) pool.release();
-    }
+    } 
 };
-
 
 export const updateRole = async (req, res) => {
     let pool;
@@ -110,11 +103,8 @@ export const updateRole = async (req, res) => {
             return res.status(409).json({ message: "Ya existe un rol con este nombre y guard_name" });
         }
         res.status(500).json({ message: 'Error al actualizar rol' });
-    } finally {
-        if (pool) pool.release();
-    }
+    } 
 };
-
 
 export const deleteRole = async (req, res) => {
     let pool;
@@ -142,5 +132,115 @@ export const deleteRole = async (req, res) => {
         }
         res.status(500).json({ message: 'Error al eliminar rol' });
     }
-  
+};
+
+export const assignRoleToUser = async (req, res) => {
+    let pool;
+    try {
+        pool = await connect();
+        console.log('Received request - Params:', req.params, 'Body:', req.body);
+        const { role_id } = req.body;
+        const userId = req.params.id; // Changed from req.params.userId to req.params.id
+
+        if (!userId || !role_id) {
+            return res.status(400).json({ message: 'Faltan parámetros: userId o role_id' });
+        }
+
+        const [userCheck] = await pool.query('SELECT id FROM users WHERE id = ?', [userId]);
+        if (userCheck.length === 0) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        const [roleCheck] = await pool.query('SELECT id FROM roles WHERE id = ?', [role_id]);
+        if (roleCheck.length === 0) {
+            return res.status(404).json({ message: 'Rol no encontrado' });
+        }
+
+        await pool.query('UPDATE users SET id_roles = ? WHERE id = ?', [role_id, userId]);
+
+        res.json({
+            message: 'Rol asignado correctamente',
+            user_id: userId,
+            role_id: role_id
+        });
+    } catch (error) {
+        console.error('Error al asignar rol:', error);
+        res.status(500).json({
+            message: 'Error al asignar rol al usuario',
+            error: error.message
+        });
+    }
+};
+
+export const removeRoleFromUser = async (req, res) => {
+    let pool;
+    try {
+        pool = await connect();
+        console.log('Received request - Params:', req.params, 'Body:', req.body);
+        const { role_id } = req.body;
+        const userId = req.params.userId;
+
+        if (!role_id) {
+            return res.status(400).json({ message: 'El ID del rol es obligatorio' });
+        }
+
+        const [userRows] = await pool.query('SELECT * FROM users WHERE id = ?', [userId]);
+        if (userRows.length === 0) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        const [existing] = await pool.query(
+            'SELECT * FROM model_has_roles WHERE model_id = ? AND role_id = ? AND model_type = ?',
+            [userId, role_id, 'App\\Models\\User']
+        );
+        if (existing.length === 0) {
+            return res.status(404).json({ message: 'El rol no está asignado a este usuario' });
+        }
+
+        await pool.query(
+            'DELETE FROM model_has_roles WHERE model_id = ? AND role_id = ? AND model_type = ?',
+            [userId, role_id, 'App\\Models\\User']
+        );
+
+        await pool.query('UPDATE users SET id_roles = NULL WHERE id = ?', [userId]);
+
+        res.json({ message: 'Rol eliminado del usuario', userId, role_id });
+    } catch (error) {
+        console.error('Error removing role from user:', error);
+        res.status(500).json({ message: 'Error al eliminar rol del usuario', error: error.message });
+    }
+};
+
+export const getUserRoleByEmail = async (req, res) => {
+    let pool;
+    try {
+        pool = await connect();
+        const { email } = req.body;
+
+        if (!email || typeof email !== 'string') {
+            return res.status(400).json({ message: "Correo requerido y debe ser texto" });
+        }
+
+        const [rows] = await pool.query(`
+            SELECT 
+                u.email,
+                r.name as role_name
+            FROM users u
+            LEFT JOIN roles r ON u.id_roles = r.id
+            WHERE u.email = ?
+        `, [email]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
+        }
+
+        const user = rows[0];
+        res.json({
+            email: user.email,
+            role: user.role_name || "Sin rol asignado"
+        });
+    } catch (error) {
+        console.error('Error al obtener rol por correo:', error);
+        res.status(500).json({ message: "Error al obtener el rol del usuario" });
+    }
 };

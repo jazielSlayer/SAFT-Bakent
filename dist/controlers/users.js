@@ -4,7 +4,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateUser = exports.saveUser = exports.registerUser = exports.loginUser = exports.getUsers = exports.getUserRoleByEmail = exports.getUserCount = exports.getUser = exports.getRoles = exports.deleteUser = exports.assignRoleToUser = void 0;
+exports.updateUser = exports.saveUser = exports.registerUser = exports.loginUser = exports.getUsers = exports.getUserCount = exports.getUser = exports.deleteUser = exports.assignRoleToUser = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
@@ -561,175 +561,89 @@ var assignRoleToUser = exports.assignRoleToUser = /*#__PURE__*/function () {
     return _regenerator["default"].wrap(function _callee9$(_context9) {
       while (1) switch (_context9.prev = _context9.next) {
         case 0:
-          _context9.next = 2;
+          _context9.prev = 0;
+          _context9.next = 3;
           return (0, _database.connect)();
-        case 2:
+        case 3:
           pool = _context9.sent;
-          role_id = req.body.role_id;
-          userId = req.params.id;
-          _context9.prev = 5;
-          _context9.next = 8;
-          return pool.query('SELECT id FROM users WHERE id = ?', [userId]);
+          role_id = req.body.role_id; // El role_id viene en el cuerpo de la solicitud
+          userId = req.params.userId; // Asegúrate de que la ruta sea /users/:userId/roles
+          // Validar que los parámetros existan
+          if (!(!userId || !role_id)) {
+            _context9.next = 8;
+            break;
+          }
+          return _context9.abrupt("return", res.status(400).json({
+            message: 'Faltan parámetros: userId o role_id'
+          }));
         case 8:
+          _context9.next = 10;
+          return pool.query('SELECT id FROM users WHERE id = ?', [userId]);
+        case 10:
           _yield$pool$query27 = _context9.sent;
           _yield$pool$query28 = (0, _slicedToArray2["default"])(_yield$pool$query27, 1);
           userCheck = _yield$pool$query28[0];
           if (!(userCheck.length === 0)) {
-            _context9.next = 13;
+            _context9.next = 15;
             break;
           }
           return _context9.abrupt("return", res.status(404).json({
             message: 'Usuario no encontrado'
           }));
-        case 13:
-          _context9.next = 15;
-          return pool.query('SELECT id FROM roles WHERE id = ?', [role_id]);
         case 15:
+          _context9.next = 17;
+          return pool.query('SELECT id FROM roles WHERE id = ?', [role_id]);
+        case 17:
           _yield$pool$query29 = _context9.sent;
           _yield$pool$query30 = (0, _slicedToArray2["default"])(_yield$pool$query29, 1);
           roleCheck = _yield$pool$query30[0];
           if (!(roleCheck.length === 0)) {
-            _context9.next = 20;
+            _context9.next = 22;
             break;
           }
           return _context9.abrupt("return", res.status(404).json({
             message: 'Rol no encontrado'
           }));
-        case 20:
-          _context9.next = 22;
-          return pool.query('SELECT * FROM model_has_roles WHERE model_id = ? AND role_id = ?', [userId, role_id]);
         case 22:
+          _context9.next = 24;
+          return pool.query('SELECT * FROM model_has_roles WHERE model_id = ? AND role_id = ? AND model_type = ?', [userId, role_id, "App\\Models\\User"]);
+        case 24:
           _yield$pool$query31 = _context9.sent;
           _yield$pool$query32 = (0, _slicedToArray2["default"])(_yield$pool$query31, 1);
           existing = _yield$pool$query32[0];
           if (!(existing.length > 0)) {
-            _context9.next = 27;
+            _context9.next = 29;
             break;
           }
           return _context9.abrupt("return", res.status(400).json({
             message: 'El usuario ya tiene asignado este rol'
           }));
-        case 27:
-          _context9.next = 29;
-          return pool.query("INSERT INTO model_has_roles (model_id, role_id, model_type) VALUES (?, ?, \"App\\Models\\User\")", [userId, role_id]);
         case 29:
+          _context9.next = 31;
+          return pool.query('INSERT INTO model_has_roles (model_id, role_id, model_type) VALUES (?, ?, ?)', [userId, role_id, "App\\Models\\User"]);
+        case 31:
           res.json({
             message: 'Rol asignado correctamente',
             user_id: userId,
             role_id: role_id
           });
-          _context9.next = 36;
+          _context9.next = 38;
           break;
-        case 32:
-          _context9.prev = 32;
-          _context9.t0 = _context9["catch"](5);
+        case 34:
+          _context9.prev = 34;
+          _context9.t0 = _context9["catch"](0);
           console.error('Error al asignar rol:', _context9.t0);
           res.status(500).json({
             message: 'Error al asignar rol al usuario',
             error: _context9.t0.message
           });
-        case 36:
+        case 38:
         case "end":
           return _context9.stop();
       }
-    }, _callee9, null, [[5, 32]]);
+    }, _callee9, null, [[0, 34]]);
   }));
   return function assignRoleToUser(_x17, _x18) {
     return _ref9.apply(this, arguments);
-  };
-}();
-var getRoles = exports.getRoles = /*#__PURE__*/function () {
-  var _ref10 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee10(req, res) {
-    var pool, _yield$pool$query33, _yield$pool$query34, rows;
-    return _regenerator["default"].wrap(function _callee10$(_context10) {
-      while (1) switch (_context10.prev = _context10.next) {
-        case 0:
-          _context10.next = 2;
-          return (0, _database.connect)();
-        case 2:
-          pool = _context10.sent;
-          _context10.prev = 3;
-          _context10.next = 6;
-          return pool.query("SELECT * FROM roles ORDER BY id");
-        case 6:
-          _yield$pool$query33 = _context10.sent;
-          _yield$pool$query34 = (0, _slicedToArray2["default"])(_yield$pool$query33, 1);
-          rows = _yield$pool$query34[0];
-          res.json(rows);
-          _context10.next = 16;
-          break;
-        case 12:
-          _context10.prev = 12;
-          _context10.t0 = _context10["catch"](3);
-          console.error('Error fetching roles:', _context10.t0);
-          res.status(500).json({
-            message: 'Error al obtener roles'
-          });
-        case 16:
-        case "end":
-          return _context10.stop();
-      }
-    }, _callee10, null, [[3, 12]]);
-  }));
-  return function getRoles(_x19, _x20) {
-    return _ref10.apply(this, arguments);
-  };
-}();
-var getUserRoleByEmail = exports.getUserRoleByEmail = /*#__PURE__*/function () {
-  var _ref11 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee11(req, res) {
-    var pool, email, _yield$pool$query35, _yield$pool$query36, rows, user;
-    return _regenerator["default"].wrap(function _callee11$(_context11) {
-      while (1) switch (_context11.prev = _context11.next) {
-        case 0:
-          _context11.next = 2;
-          return (0, _database.connect)();
-        case 2:
-          pool = _context11.sent;
-          email = req.body.email;
-          _context11.prev = 4;
-          if (!(!email || typeof email !== 'string')) {
-            _context11.next = 7;
-            break;
-          }
-          return _context11.abrupt("return", res.status(400).json({
-            message: "Correo requerido y debe ser texto"
-          }));
-        case 7:
-          _context11.next = 9;
-          return pool.query("\n            SELECT \n                u.email,\n                r.name as role_name\n            FROM users u\n            LEFT JOIN roles r ON u.id_roles = r.id\n            WHERE u.email = ?\n        ", [email]);
-        case 9:
-          _yield$pool$query35 = _context11.sent;
-          _yield$pool$query36 = (0, _slicedToArray2["default"])(_yield$pool$query35, 1);
-          rows = _yield$pool$query36[0];
-          if (!(rows.length === 0)) {
-            _context11.next = 14;
-            break;
-          }
-          return _context11.abrupt("return", res.status(404).json({
-            message: "Usuario no encontrado"
-          }));
-        case 14:
-          user = rows[0];
-          res.json({
-            email: user.email,
-            role: user.role_name || "Sin rol asignado"
-          });
-          _context11.next = 22;
-          break;
-        case 18:
-          _context11.prev = 18;
-          _context11.t0 = _context11["catch"](4);
-          console.error('Error al obtener rol por correo:', _context11.t0);
-          res.status(500).json({
-            message: "Error al obtener el rol del usuario"
-          });
-        case 22:
-        case "end":
-          return _context11.stop();
-      }
-    }, _callee11, null, [[4, 18]]);
-  }));
-  return function getUserRoleByEmail(_x21, _x22) {
-    return _ref11.apply(this, arguments);
   };
 }();
