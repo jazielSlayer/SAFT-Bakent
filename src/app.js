@@ -27,6 +27,8 @@ import auteticacionRoutes from './routes/RutasAutenticacion'
 import rolesRoutes from './routes/roles';
 import permisosRoutes from './routes/permisos';
 
+import PdfsRoutes from './routes/Pdfs';
+
 const app = express();
 
 app.use(cors());
@@ -51,6 +53,8 @@ app.use(auteticacionRoutes)
 
 app.use(rolesRoutes);
 app.use(permisosRoutes);
+
+app.use(PdfsRoutes)
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs));
 

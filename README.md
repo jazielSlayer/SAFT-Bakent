@@ -64,7 +64,7 @@ Esta guía proporciona instrucciones paso a paso para configurar y ejecutar el b
      ```powershell
      Add-Content -Path .env -Value "CORREO_APP=example@gmail.com"
      ```
->[!NOTE]
+>[!IMPORTANT]
 >Nesesitas activar la verificacion de dos pasos de tu cuenta de google
    - Genera una contraseña específica para la aplicación desde [Contraseñas de Aplicaciones de Google](https://myaccount.google.com/apppasswords?pli=1&rapt=AEjHL4MBatzGXSV5f-OI9U1v8ujdutvXwSkByemPACclTJANJBc6yTPJhopYmYIYqE_NtoCxRqvJMY_kx_E6loH_xljv-dPt1oqRblPceA-A_a9meGtBeoU) y agrégala al archivo `.env` (reemplaza la contraseña de ejemplo):
      ```powershell
