@@ -9,5 +9,5 @@ export const pdfEstudiante = (req, res) => {
 
     buildPDF((data) => 
         stream.write(data), () => stream.end());
-  res.send("Aquí van los PDFs de estudiante");
+  
 }

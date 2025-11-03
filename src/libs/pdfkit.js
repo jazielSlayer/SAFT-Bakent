@@ -8,7 +8,7 @@ function buildPDF(dataCallback, endCallback) {
 
   // Generar contenido del PDF
   doc.text("Contenido del PDF");
-  doc.image('./img/logousb.png', { fit: [250, 300], align: 'center', valign: 'center' });
+  doc.image('./src/img/logousb.png', { fit: [250, 300], align: 'center', valign: 'center' });
   
   doc.end();
 
