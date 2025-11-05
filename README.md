@@ -96,3 +96,12 @@ Esta guía proporciona instrucciones paso a paso para configurar y ejecutar el b
    ```bash
    npm run build
    ```
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+<h2>9. Descargar atualizaciones</h2>
+
+>[!IMPORTANT]
+>Este comando es importante para poder descargar todas las actualizaciones que se suban a este repositorio.
+
+   ```bash
+   git pull
+   ```
