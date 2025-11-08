@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getProyectos, getProyecto, createProyecto, updateProyecto, deleteProyecto, getProyectoEstudiante, getProyectoDocente } from "../controlers/proyecto";
+import { getProyectos, getProyectoById, createProyecto, updateProyecto, deleteProyecto, getProyectoEstudiante, getProyectoDocente } from "../controlers/proyecto";
 
 const router = Router();
 
@@ -51,7 +51,7 @@ router.get("/proyectos", getProyectos);
  *         schema:
  *           type: integer
  */
-router.get("/proyectos/:id", getProyecto);
+router.get("/proyecto/:id", getProyectoById);
 
 /**
  * @swagger
@@ -82,7 +82,7 @@ router.get("/proyectos/:id", getProyecto);
  *               estado:
  *                 type: boolean
  */
-router.post("/proyectos", createProyecto);
+router.post("/proyecto/create", createProyecto);
 
 /**
  * @swagger
@@ -119,7 +119,7 @@ router.post("/proyectos", createProyecto);
  *               estado:
  *                 type: boolean
  */
-router.put("/proyectos/:id", updateProyecto);
+router.put("/proyecto/update/:id", updateProyecto);
 
 /**
  * @swagger
@@ -133,7 +133,7 @@ router.put("/proyectos/:id", updateProyecto);
  *         schema:
  *           type: integer
  */
-router.delete("/proyectos/:id", deleteProyecto);
+router.delete("/proyecto/delete/:id", deleteProyecto);
 
 /**
  * @swagger
@@ -167,7 +167,7 @@ router.delete("/proyectos/:id", deleteProyecto);
  *       500:
  *         description: Error del servidor
  */
-router.get('/proyectos/estudiante/:id_estudiante', getProyectoEstudiante);
+router.get('/proyecto/estudiante/:id_estudiante', getProyectoEstudiante);
 
 /**
  * @swagger
@@ -203,5 +203,5 @@ router.get('/proyectos/estudiante/:id_estudiante', getProyectoEstudiante);
  *       500:
  *         description: Error del servidor
  */
-router.get('/proyectos/docente/:id_docente', getProyectoDocente);
+router.get('/proyecto/docente/:id_docente', getProyectoDocente);
 export default router;

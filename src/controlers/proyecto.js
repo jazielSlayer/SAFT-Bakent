@@ -96,13 +96,16 @@ export const getProyectoDocente = async (req, res) => {
     }
 };
 
-
-export const getProyecto = async (req, res) => {
+export const getProyectoById = async (req, res) => {
     const pool = await connect();
-    const { titulo, area_conocimiento, estudiante, page = 1, limit = 10 } = req.query;
+    const { id } = req.params;
+
+    if (isNaN(id) || id <= 0) {
+        return res.status(400).json({ message: 'ID inválido' });
+    }
 
     try {
-        let query = `
+        const [rows] = await pool.query(`
             SELECT 
                 p.id,
                 p.titulo,
@@ -134,66 +137,17 @@ export const getProyecto = async (req, res) => {
             LEFT JOIN persona per_d ON d.per_id = per_d.id
             LEFT JOIN docente d_revisor ON p.id_docente_revisor = d_revisor.id
             LEFT JOIN persona per_d_revisor ON d_revisor.per_id = per_d_revisor.id
-        `;
-
-        const conditions = [];
-        const params = [];
-        
-        if (titulo) {
-            conditions.push('p.titulo LIKE ?');
-            params.push(`%${titulo}%`);
-        }
-        if (area_conocimiento) {
-            conditions.push('p.area_conocimiento LIKE ?');
-            params.push(`%${area_conocimiento}%`);
-        }
-        if (estudiante) {
-            conditions.push('(per_e.nombres LIKE ? OR per_e.apellidopat LIKE ? OR per_e.apellidomat LIKE ?)');
-            params.push(`%${estudiante}%`, `%${estudiante}%`, `%${estudiante}%`);
-        }
-
-        if (conditions.length > 0) {
-            query += ' WHERE ' + conditions.join(' AND ');
-        }
-
-        query += ' ORDER BY p.fecha_entrega DESC';
-
-        const offset = (page - 1) * limit;
-        query += ' LIMIT ? OFFSET ?';
-        params.push(parseInt(limit), parseInt(offset));
-
-        const [rows] = await pool.query(query, params);
-
-        const [countResult] = await pool.query(
-            `SELECT COUNT(*) as total 
-             FROM proyecto p
-             ${conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : ''}`,
-            params.slice(0, params.length - 2) 
-        );
-        const totalItems = countResult[0].total;
-        const totalPages = Math.ceil(totalItems / limit);
+            WHERE p.id = ?
+        `, [id]);
 
         if (rows.length === 0) {
-            return res.status(200).json({ 
-                message: 'No se encontraron proyectos', 
-                data: [], 
-                pagination: { page: parseInt(page), limit: parseInt(limit), totalItems, totalPages }
-            });
+            return res.status(404).json({ message: 'Proyecto no encontrado' });
         }
 
-        res.json({
-            data: rows,
-            pagination: { page: parseInt(page), limit: parseInt(limit), totalItems, totalPages }
-        });
+        res.json(rows[0]); // Solo 1 objeto
     } catch (error) {
-        console.error('Error fetching proyectos:', error);
-        if (error.code === 'ER_BAD_FIELD_ERROR') {
-            return res.status(500).json({ message: 'Error en la estructura de la consulta SQL: ' + error.message });
-        }
-        if (error.code === 'ER_NO_SUCH_TABLE') {
-            return res.status(500).json({ message: 'Una de las tablas no existe en la base de datos: ' + error.message });
-        }
-        res.status(500).json({ message: `Error al obtener proyectos: ${error.message}` });
+        console.error('Error fetching proyecto by ID:', error);
+        res.status(500).json({ message: 'Error al obtener el proyecto' });
     }
 };
 

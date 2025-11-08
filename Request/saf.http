@@ -134,54 +134,51 @@ GET {{baseUrl}}/proyectos
 
 ###
 # Obtener un proyecto por ID
-GET {{baseUrl}}/proyectos/1
+GET {{baseUrl}}/proyectos/3
 
 ###
 # Obtener un proyecto por ID
-GET {{baseUrl}}/proyectos/estudiante/5
+GET {{baseUrl}}/proyectos/estudiante/11
 ###
 # Obtener un proyecto por ID
 GET {{baseUrl}}/proyectos/docente/2
 ###
 # Crear un nuevo proyecto
-POST {{baseUrl}}/proyectos
+POST {{baseUrl}}/proyecto/create
 Content-Type: application/json
 
 {
- "id_estudiante": 7, 
- "id_docente_guia": 1, 
- "id_docente_revisor": 3, 
- "titulo": "Proyecto Ejemplo", 
- "linea_investigacion": "Tecnología", 
- "area_conocimiento": "Informática", 
- "fecha_entrega": "2025-06-01", 
- "fecha_defensa": "2025-07-01", 
- "resumen": "Descripción del proyecto ejemplo para gestionar sistemas académicos", 
- "observacion": "Pendiente de revisión final", 
- "calificacion": 85 
+  "id_estudiante": 11,
+  "id_docente_guia": 4,
+  "id_docente_revisor": 12,
+  "titulo": "Sistema de Gestión Académica SAF",
+  "linea_investigacion": "Desarrollo de software educativo",
+  "area_conocimiento": "Ingeniería de Software",
+  "fecha_entrega": "2025-06-01",
+  "fecha_defensa": "2025-07-01",
+  "resumen": "Desarrollo de un sistema web para la gestión de proyectos académicos, control de avances, pagos y roles de usuarios en una institución educativa.",
+  "observacion": "Pendiente de revisión final por el comité académico.",
+  "calificacion": 85
 }
 
 ###
 # Actualizar un proyecto
-PUT {{baseUrl}}/proyectos/1
+PUT {{baseUrl}}/proyecto/update/7
 Content-Type: application/json
 
-{ 
-  "id_estudiante": 5, 
-  "id_docente_guia": 1, 
-  "id_docente_revisor": 3, 
-  "titulo": "Proyecto Actualizado", 
-  "linea_investigacion": "Innovación Tecnológica", 
-  "area_conocimiento": "Informática", 
-  "fecha_entrega": "2025-06-15", 
-  "fecha_defensa": "2025-07-31", 
-  "resumen": "Descripción actualizada del proyecto para gestionar sistemas académicos", 
-  "observacion": "Actualización pendiente de revisión", 
-  "calificacion": 90 
+{
+  "titulo": "Sistema de Gestión Académica SAF v2",
+  "linea_investigacion": "Desarrollo de software educativo e integración de pagos",
+  "area_conocimiento": "Ingeniería de Software y Fintech",
+  "fecha_entrega": "2025-06-15",
+  "fecha_defensa": "2025-07-31",
+  "resumen": "Sistema web actualizado para gestión de proyectos académicos, control de avances, pagos con QR y roles de usuarios.",
+  "observacion": "Actualización aprobada por comité. Listo para defensa.",
+  "calificacion": 90
 }
 ###
 # Eliminar un proyecto
-DELETE {{baseUrl}}/proyectos/2
+DELETE {{baseUrl}}/proyecto/delete/7
 
 ###
 
