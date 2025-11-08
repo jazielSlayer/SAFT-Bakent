@@ -28,6 +28,7 @@ var _RutasAutenticacion = _interopRequireDefault(require("./routes/RutasAutentic
 var _roles = _interopRequireDefault(require("./routes/roles"));
 var _permisos = _interopRequireDefault(require("./routes/permisos"));
 var _Pdfs = _interopRequireDefault(require("./routes/Pdfs"));
+var _ArchivosRoutes = _interopRequireDefault(require("./routes/ArchivosRoutes"));
 var specs = (0, _swaggerJsdoc["default"])(_swaggerOptions.options);
 var app = (0, _express["default"])();
 app.use((0, _cors["default"])());
@@ -50,5 +51,6 @@ app.use(_RutasAutenticacion["default"]);
 app.use(_roles["default"]);
 app.use(_permisos["default"]);
 app.use(_Pdfs["default"]);
+app.use(_ArchivosRoutes["default"]);
 app.use('/docs', _swaggerUiExpress["default"].serve, _swaggerUiExpress["default"].setup(specs));
 var _default = exports["default"] = app;
