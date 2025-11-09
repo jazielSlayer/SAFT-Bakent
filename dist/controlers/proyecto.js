@@ -4,7 +4,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateProyecto = exports.getProyectos = exports.getProyectoEstudiante = exports.getProyectoDocente = exports.getProyecto = exports.deleteProyecto = exports.createProyecto = void 0;
+exports.updateProyecto = exports.getProyectos = exports.getProyectoEstudiante = exports.getProyectoDocente = exports.getProyectoById = exports.deleteProyecto = exports.createProyecto = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
@@ -130,9 +130,9 @@ var getProyectoDocente = exports.getProyectoDocente = /*#__PURE__*/function () {
     return _ref3.apply(this, arguments);
   };
 }();
-var getProyecto = exports.getProyecto = /*#__PURE__*/function () {
+var getProyectoById = exports.getProyectoById = /*#__PURE__*/function () {
   var _ref4 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee4(req, res) {
-    var pool, _req$query, titulo, area_conocimiento, estudiante, _req$query$page, page, _req$query$limit, limit, query, conditions, params, offset, _yield$pool$query7, _yield$pool$query8, rows, _yield$pool$query9, _yield$pool$query10, countResult, totalItems, totalPages;
+    var pool, id, _yield$pool$query7, _yield$pool$query8, rows;
     return _regenerator["default"].wrap(function _callee4$(_context4) {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
@@ -140,106 +140,53 @@ var getProyecto = exports.getProyecto = /*#__PURE__*/function () {
           return (0, _database.connect)();
         case 2:
           pool = _context4.sent;
-          _req$query = req.query, titulo = _req$query.titulo, area_conocimiento = _req$query.area_conocimiento, estudiante = _req$query.estudiante, _req$query$page = _req$query.page, page = _req$query$page === void 0 ? 1 : _req$query$page, _req$query$limit = _req$query.limit, limit = _req$query$limit === void 0 ? 10 : _req$query$limit;
-          _context4.prev = 4;
-          query = "\n            SELECT \n                p.id,\n                p.titulo,\n                p.linea_investigacion,\n                p.area_conocimiento,\n                p.calificacion,\n                p.fecha_entrega,\n                p.fecha_defensa,\n                p.resumen,\n                p.observacion,\n                p.created_at,\n                p.updated_at,\n                e.numero_matricula,\n                per_e.nombres AS estudiante_nombres,\n                per_e.apellidopat AS estudiante_apellidopat,\n                per_e.apellidomat AS estudiante_apellidomat,\n                d.numero_item AS guia_numero_item,\n                per_d.nombres AS guia_nombres,\n                per_d.apellidopat AS guia_apellidopat,\n                per_d.apellidomat AS guia_apellidomat,\n                d_revisor.numero_item AS revisor_numero_item,\n                per_d_revisor.nombres AS revisor_nombres,\n                per_d_revisor.apellidopat AS revisor_apellidopat,\n                per_d_revisor.apellidomat AS revisor_apellidomat\n            FROM proyecto p\n            LEFT JOIN estudiante e ON p.id_estudiante = e.id\n            LEFT JOIN persona per_e ON e.per_id = per_e.id\n            LEFT JOIN docente d ON p.id_docente_guia = d.id\n            LEFT JOIN persona per_d ON d.per_id = per_d.id\n            LEFT JOIN docente d_revisor ON p.id_docente_revisor = d_revisor.id\n            LEFT JOIN persona per_d_revisor ON d_revisor.per_id = per_d_revisor.id\n        ";
-          conditions = [];
-          params = [];
-          if (titulo) {
-            conditions.push('p.titulo LIKE ?');
-            params.push("%".concat(titulo, "%"));
+          id = req.params.id;
+          if (!(isNaN(id) || id <= 0)) {
+            _context4.next = 6;
+            break;
           }
-          if (area_conocimiento) {
-            conditions.push('p.area_conocimiento LIKE ?');
-            params.push("%".concat(area_conocimiento, "%"));
-          }
-          if (estudiante) {
-            conditions.push('(per_e.nombres LIKE ? OR per_e.apellidopat LIKE ? OR per_e.apellidomat LIKE ?)');
-            params.push("%".concat(estudiante, "%"), "%".concat(estudiante, "%"), "%".concat(estudiante, "%"));
-          }
-          if (conditions.length > 0) {
-            query += ' WHERE ' + conditions.join(' AND ');
-          }
-          query += ' ORDER BY p.fecha_entrega DESC';
-          offset = (page - 1) * limit;
-          query += ' LIMIT ? OFFSET ?';
-          params.push(parseInt(limit), parseInt(offset));
-          _context4.next = 18;
-          return pool.query(query, params);
-        case 18:
+          return _context4.abrupt("return", res.status(400).json({
+            message: 'ID inválido'
+          }));
+        case 6:
+          _context4.prev = 6;
+          _context4.next = 9;
+          return pool.query("\n            SELECT \n                p.id,\n                p.titulo,\n                p.linea_investigacion,\n                p.area_conocimiento,\n                p.calificacion,\n                p.fecha_entrega,\n                p.fecha_defensa,\n                p.resumen,\n                p.observacion,\n                p.created_at,\n                p.updated_at,\n                e.numero_matricula,\n                per_e.nombres AS estudiante_nombres,\n                per_e.apellidopat AS estudiante_apellidopat,\n                per_e.apellidomat AS estudiante_apellidomat,\n                d.numero_item AS guia_numero_item,\n                per_d.nombres AS guia_nombres,\n                per_d.apellidopat AS guia_apellidopat,\n                per_d.apellidomat AS guia_apellidomat,\n                d_revisor.numero_item AS revisor_numero_item,\n                per_d_revisor.nombres AS revisor_nombres,\n                per_d_revisor.apellidopat AS revisor_apellidopat,\n                per_d_revisor.apellidomat AS revisor_apellidomat\n            FROM proyecto p\n            LEFT JOIN estudiante e ON p.id_estudiante = e.id\n            LEFT JOIN persona per_e ON e.per_id = per_e.id\n            LEFT JOIN docente d ON p.id_docente_guia = d.id\n            LEFT JOIN persona per_d ON d.per_id = per_d.id\n            LEFT JOIN docente d_revisor ON p.id_docente_revisor = d_revisor.id\n            LEFT JOIN persona per_d_revisor ON d_revisor.per_id = per_d_revisor.id\n            WHERE p.id = ?\n        ", [id]);
+        case 9:
           _yield$pool$query7 = _context4.sent;
           _yield$pool$query8 = (0, _slicedToArray2["default"])(_yield$pool$query7, 1);
           rows = _yield$pool$query8[0];
-          _context4.next = 23;
-          return pool.query("SELECT COUNT(*) as total \n             FROM proyecto p\n             ".concat(conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : ''), params.slice(0, params.length - 2));
-        case 23:
-          _yield$pool$query9 = _context4.sent;
-          _yield$pool$query10 = (0, _slicedToArray2["default"])(_yield$pool$query9, 1);
-          countResult = _yield$pool$query10[0];
-          totalItems = countResult[0].total;
-          totalPages = Math.ceil(totalItems / limit);
           if (!(rows.length === 0)) {
-            _context4.next = 30;
+            _context4.next = 14;
             break;
           }
-          return _context4.abrupt("return", res.status(200).json({
-            message: 'No se encontraron proyectos',
-            data: [],
-            pagination: {
-              page: parseInt(page),
-              limit: parseInt(limit),
-              totalItems: totalItems,
-              totalPages: totalPages
-            }
+          return _context4.abrupt("return", res.status(404).json({
+            message: 'Proyecto no encontrado'
           }));
-        case 30:
-          res.json({
-            data: rows,
-            pagination: {
-              page: parseInt(page),
-              limit: parseInt(limit),
-              totalItems: totalItems,
-              totalPages: totalPages
-            }
-          });
-          _context4.next = 41;
+        case 14:
+          res.json(rows[0]); // Solo 1 objeto
+          _context4.next = 21;
           break;
-        case 33:
-          _context4.prev = 33;
-          _context4.t0 = _context4["catch"](4);
-          console.error('Error fetching proyectos:', _context4.t0);
-          if (!(_context4.t0.code === 'ER_BAD_FIELD_ERROR')) {
-            _context4.next = 38;
-            break;
-          }
-          return _context4.abrupt("return", res.status(500).json({
-            message: 'Error en la estructura de la consulta SQL: ' + _context4.t0.message
-          }));
-        case 38:
-          if (!(_context4.t0.code === 'ER_NO_SUCH_TABLE')) {
-            _context4.next = 40;
-            break;
-          }
-          return _context4.abrupt("return", res.status(500).json({
-            message: 'Una de las tablas no existe en la base de datos: ' + _context4.t0.message
-          }));
-        case 40:
+        case 17:
+          _context4.prev = 17;
+          _context4.t0 = _context4["catch"](6);
+          console.error('Error fetching proyecto by ID:', _context4.t0);
           res.status(500).json({
-            message: "Error al obtener proyectos: ".concat(_context4.t0.message)
+            message: 'Error al obtener el proyecto'
           });
-        case 41:
+        case 21:
         case "end":
           return _context4.stop();
       }
-    }, _callee4, null, [[4, 33]]);
+    }, _callee4, null, [[6, 17]]);
   }));
-  return function getProyecto(_x7, _x8) {
+  return function getProyectoById(_x7, _x8) {
     return _ref4.apply(this, arguments);
   };
 }();
 var createProyecto = exports.createProyecto = /*#__PURE__*/function () {
   var _ref5 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee5(req, res) {
-    var pool, _req$body, id_estudiante, id_docente_guia, id_docente_revisor, titulo, linea_investigacion, area_conocimiento, fecha_entrega, _req$body$fecha_defen, fecha_defensa, _req$body$resumen, resumen, _req$body$observacion, observacion, _req$body$calificacio, calificacion, _yield$pool$query11, _yield$pool$query12, estudianteCheck, _yield$pool$query13, _yield$pool$query14, docenteGuiaCheck, _yield$pool$query15, _yield$pool$query16, docenteRevisorCheck, _yield$pool$query17, _yield$pool$query18, results;
+    var pool, _req$body, id_estudiante, id_docente_guia, id_docente_revisor, titulo, linea_investigacion, area_conocimiento, fecha_entrega, _req$body$fecha_defen, fecha_defensa, _req$body$resumen, resumen, _req$body$observacion, observacion, _req$body$calificacio, calificacion, _yield$pool$query9, _yield$pool$query10, estudianteCheck, _yield$pool$query11, _yield$pool$query12, docenteGuiaCheck, _yield$pool$query13, _yield$pool$query14, docenteRevisorCheck, _yield$pool$query15, _yield$pool$query16, results;
     return _regenerator["default"].wrap(function _callee5$(_context5) {
       while (1) switch (_context5.prev = _context5.next) {
         case 0:
@@ -276,9 +223,9 @@ var createProyecto = exports.createProyecto = /*#__PURE__*/function () {
           _context5.next = 13;
           return pool.query('SELECT id FROM estudiante WHERE id = ?', [id_estudiante]);
         case 13:
-          _yield$pool$query11 = _context5.sent;
-          _yield$pool$query12 = (0, _slicedToArray2["default"])(_yield$pool$query11, 1);
-          estudianteCheck = _yield$pool$query12[0];
+          _yield$pool$query9 = _context5.sent;
+          _yield$pool$query10 = (0, _slicedToArray2["default"])(_yield$pool$query9, 1);
+          estudianteCheck = _yield$pool$query10[0];
           if (!(estudianteCheck.length === 0)) {
             _context5.next = 18;
             break;
@@ -290,9 +237,9 @@ var createProyecto = exports.createProyecto = /*#__PURE__*/function () {
           _context5.next = 20;
           return pool.query('SELECT id FROM docente WHERE id = ?', [id_docente_guia]);
         case 20:
-          _yield$pool$query13 = _context5.sent;
-          _yield$pool$query14 = (0, _slicedToArray2["default"])(_yield$pool$query13, 1);
-          docenteGuiaCheck = _yield$pool$query14[0];
+          _yield$pool$query11 = _context5.sent;
+          _yield$pool$query12 = (0, _slicedToArray2["default"])(_yield$pool$query11, 1);
+          docenteGuiaCheck = _yield$pool$query12[0];
           if (!(docenteGuiaCheck.length === 0)) {
             _context5.next = 25;
             break;
@@ -304,9 +251,9 @@ var createProyecto = exports.createProyecto = /*#__PURE__*/function () {
           _context5.next = 27;
           return pool.query('SELECT id FROM docente WHERE id = ?', [id_docente_revisor]);
         case 27:
-          _yield$pool$query15 = _context5.sent;
-          _yield$pool$query16 = (0, _slicedToArray2["default"])(_yield$pool$query15, 1);
-          docenteRevisorCheck = _yield$pool$query16[0];
+          _yield$pool$query13 = _context5.sent;
+          _yield$pool$query14 = (0, _slicedToArray2["default"])(_yield$pool$query13, 1);
+          docenteRevisorCheck = _yield$pool$query14[0];
           if (!(docenteRevisorCheck.length === 0)) {
             _context5.next = 32;
             break;
@@ -326,9 +273,9 @@ var createProyecto = exports.createProyecto = /*#__PURE__*/function () {
           _context5.next = 36;
           return pool.query("INSERT INTO proyecto (\n                id_estudiante, \n                id_docente_guia, \n                id_docente_revisor, \n                titulo, \n                linea_investigacion, \n                area_conocimiento, \n                calificacion, \n                fecha_entrega, \n                fecha_defensa, \n                resumen, \n                observacion\n            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [id_estudiante, id_docente_guia, id_docente_revisor, titulo, linea_investigacion, area_conocimiento, calificacion, fecha_entrega, fecha_defensa, resumen, observacion]);
         case 36:
-          _yield$pool$query17 = _context5.sent;
-          _yield$pool$query18 = (0, _slicedToArray2["default"])(_yield$pool$query17, 1);
-          results = _yield$pool$query18[0];
+          _yield$pool$query15 = _context5.sent;
+          _yield$pool$query16 = (0, _slicedToArray2["default"])(_yield$pool$query15, 1);
+          results = _yield$pool$query16[0];
           res.json({
             id: results.insertId,
             id_estudiante: id_estudiante,
@@ -380,7 +327,7 @@ var createProyecto = exports.createProyecto = /*#__PURE__*/function () {
 }();
 var updateProyecto = exports.updateProyecto = /*#__PURE__*/function () {
   var _ref6 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee6(req, res) {
-    var pool, _req$body2, id_estudiante, id_docente_guia, id_docente_revisor, titulo, linea_investigacion, area_conocimiento, calificacion, fecha_entrega, fecha_defensa, resumen, observacion, id, _yield$pool$query19, _yield$pool$query20, proyectoCheck, _yield$pool$query21, _yield$pool$query22, estudianteCheck, _yield$pool$query23, _yield$pool$query24, docenteGuiaCheck, _yield$pool$query25, _yield$pool$query26, docenteRevisorCheck, fields, values, _yield$pool$query27, _yield$pool$query28, results, _yield$pool$query29, _yield$pool$query30, updatedProyecto;
+    var pool, _req$body2, id_estudiante, id_docente_guia, id_docente_revisor, titulo, linea_investigacion, area_conocimiento, calificacion, fecha_entrega, fecha_defensa, resumen, observacion, id, _yield$pool$query17, _yield$pool$query18, proyectoCheck, _yield$pool$query19, _yield$pool$query20, estudianteCheck, _yield$pool$query21, _yield$pool$query22, docenteGuiaCheck, _yield$pool$query23, _yield$pool$query24, docenteRevisorCheck, fields, values, _yield$pool$query25, _yield$pool$query26, results, _yield$pool$query27, _yield$pool$query28, updatedProyecto;
     return _regenerator["default"].wrap(function _callee6$(_context6) {
       while (1) switch (_context6.prev = _context6.next) {
         case 0:
@@ -402,9 +349,9 @@ var updateProyecto = exports.updateProyecto = /*#__PURE__*/function () {
           _context6.next = 10;
           return pool.query('SELECT id FROM proyecto WHERE id = ?', [id]);
         case 10:
-          _yield$pool$query19 = _context6.sent;
-          _yield$pool$query20 = (0, _slicedToArray2["default"])(_yield$pool$query19, 1);
-          proyectoCheck = _yield$pool$query20[0];
+          _yield$pool$query17 = _context6.sent;
+          _yield$pool$query18 = (0, _slicedToArray2["default"])(_yield$pool$query17, 1);
+          proyectoCheck = _yield$pool$query18[0];
           if (!(proyectoCheck.length === 0)) {
             _context6.next = 15;
             break;
@@ -428,9 +375,9 @@ var updateProyecto = exports.updateProyecto = /*#__PURE__*/function () {
           _context6.next = 20;
           return pool.query('SELECT id FROM estudiante WHERE id = ?', [id_estudiante]);
         case 20:
-          _yield$pool$query21 = _context6.sent;
-          _yield$pool$query22 = (0, _slicedToArray2["default"])(_yield$pool$query21, 1);
-          estudianteCheck = _yield$pool$query22[0];
+          _yield$pool$query19 = _context6.sent;
+          _yield$pool$query20 = (0, _slicedToArray2["default"])(_yield$pool$query19, 1);
+          estudianteCheck = _yield$pool$query20[0];
           if (!(estudianteCheck.length === 0)) {
             _context6.next = 25;
             break;
@@ -446,9 +393,9 @@ var updateProyecto = exports.updateProyecto = /*#__PURE__*/function () {
           _context6.next = 28;
           return pool.query('SELECT id FROM docente WHERE id = ?', [id_docente_guia]);
         case 28:
-          _yield$pool$query23 = _context6.sent;
-          _yield$pool$query24 = (0, _slicedToArray2["default"])(_yield$pool$query23, 1);
-          docenteGuiaCheck = _yield$pool$query24[0];
+          _yield$pool$query21 = _context6.sent;
+          _yield$pool$query22 = (0, _slicedToArray2["default"])(_yield$pool$query21, 1);
+          docenteGuiaCheck = _yield$pool$query22[0];
           if (!(docenteGuiaCheck.length === 0)) {
             _context6.next = 33;
             break;
@@ -464,9 +411,9 @@ var updateProyecto = exports.updateProyecto = /*#__PURE__*/function () {
           _context6.next = 36;
           return pool.query('SELECT id FROM docente WHERE id = ?', [id_docente_revisor]);
         case 36:
-          _yield$pool$query25 = _context6.sent;
-          _yield$pool$query26 = (0, _slicedToArray2["default"])(_yield$pool$query25, 1);
-          docenteRevisorCheck = _yield$pool$query26[0];
+          _yield$pool$query23 = _context6.sent;
+          _yield$pool$query24 = (0, _slicedToArray2["default"])(_yield$pool$query23, 1);
+          docenteRevisorCheck = _yield$pool$query24[0];
           if (!(docenteRevisorCheck.length === 0)) {
             _context6.next = 41;
             break;
@@ -549,9 +496,9 @@ var updateProyecto = exports.updateProyecto = /*#__PURE__*/function () {
           _context6.next = 63;
           return pool.query("UPDATE proyecto SET ".concat(fields.join(', '), " WHERE id = ?"), [].concat(values, [id]));
         case 63:
-          _yield$pool$query27 = _context6.sent;
-          _yield$pool$query28 = (0, _slicedToArray2["default"])(_yield$pool$query27, 1);
-          results = _yield$pool$query28[0];
+          _yield$pool$query25 = _context6.sent;
+          _yield$pool$query26 = (0, _slicedToArray2["default"])(_yield$pool$query25, 1);
+          results = _yield$pool$query26[0];
           if (!(results.affectedRows === 0)) {
             _context6.next = 68;
             break;
@@ -563,9 +510,9 @@ var updateProyecto = exports.updateProyecto = /*#__PURE__*/function () {
           _context6.next = 70;
           return pool.query("SELECT \n                p.id,\n                p.titulo,\n                p.linea_investigacion,\n                p.area_conocimiento,\n                p.calificacion,\n                p.fecha_entrega,\n                p.fecha_defensa,\n                p.resumen,\n                p.observacion,\n                p.created_at,\n                p.updated_at,\n                e.numero_matricula,\n                per_e.nombres AS estudiante_nombres,\n                per_e.apellidopat AS estudiante_apellidopat,\n                per_e.apellidomat AS estudiante_apellidomat,\n                d.numero_item AS guia_numero_item,\n                per_d.nombres AS guia_nombres,\n                per_d.apellidopat AS guia_apellidopat,\n                per_d.apellidomat AS guia_apellidomat,\n                d_revisor.numero_item AS revisor_numero_item,\n                per_d_revisor.nombres AS revisor_nombres,\n                per_d_revisor.apellidopat AS revisor_apellidopat,\n                per_d_revisor.apellidomat AS revisor_apellidomat\n             FROM proyecto p\n             LEFT JOIN estudiante e ON p.id_estudiante = e.id\n             LEFT JOIN persona per_e ON e.per_id = per_e.id\n             LEFT JOIN docente d ON p.id_docente_guia = d.id\n             LEFT JOIN persona per_d ON d.per_id = per_d.id\n             LEFT JOIN docente d_revisor ON p.id_docente_revisor = d_revisor.id\n             LEFT JOIN persona per_d_revisor ON d_revisor.per_id = per_d_revisor.id\n             WHERE p.id = ?", [id]);
         case 70:
-          _yield$pool$query29 = _context6.sent;
-          _yield$pool$query30 = (0, _slicedToArray2["default"])(_yield$pool$query29, 1);
-          updatedProyecto = _yield$pool$query30[0];
+          _yield$pool$query27 = _context6.sent;
+          _yield$pool$query28 = (0, _slicedToArray2["default"])(_yield$pool$query27, 1);
+          updatedProyecto = _yield$pool$query28[0];
           res.json({
             message: 'Proyecto actualizado',
             data: updatedProyecto[0]
@@ -607,7 +554,7 @@ var updateProyecto = exports.updateProyecto = /*#__PURE__*/function () {
 }();
 var deleteProyecto = exports.deleteProyecto = /*#__PURE__*/function () {
   var _ref7 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee7(req, res) {
-    var pool, _yield$pool$query31, _yield$pool$query32, results;
+    var pool, _yield$pool$query29, _yield$pool$query30, results;
     return _regenerator["default"].wrap(function _callee7$(_context7) {
       while (1) switch (_context7.prev = _context7.next) {
         case 0:
@@ -619,9 +566,9 @@ var deleteProyecto = exports.deleteProyecto = /*#__PURE__*/function () {
           _context7.next = 6;
           return pool.query("DELETE FROM proyecto WHERE id = ?", [req.params.id]);
         case 6:
-          _yield$pool$query31 = _context7.sent;
-          _yield$pool$query32 = (0, _slicedToArray2["default"])(_yield$pool$query31, 1);
-          results = _yield$pool$query32[0];
+          _yield$pool$query29 = _context7.sent;
+          _yield$pool$query30 = (0, _slicedToArray2["default"])(_yield$pool$query29, 1);
+          results = _yield$pool$query30[0];
           if (!(results.affectedRows === 0)) {
             _context7.next = 11;
             break;

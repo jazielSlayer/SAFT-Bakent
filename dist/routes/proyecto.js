@@ -56,7 +56,7 @@ router.get("/proyectos", _proyecto.getProyectos);
  *         schema:
  *           type: integer
  */
-router.get("/proyectos/:id", _proyecto.getProyecto);
+router.get("/proyecto/:id", _proyecto.getProyectoById);
 
 /**
  * @swagger
@@ -87,7 +87,7 @@ router.get("/proyectos/:id", _proyecto.getProyecto);
  *               estado:
  *                 type: boolean
  */
-router.post("/proyectos", _proyecto.createProyecto);
+router.post("/proyecto/create", _proyecto.createProyecto);
 
 /**
  * @swagger
@@ -124,7 +124,7 @@ router.post("/proyectos", _proyecto.createProyecto);
  *               estado:
  *                 type: boolean
  */
-router.put("/proyectos/:id", _proyecto.updateProyecto);
+router.put("/proyecto/update/:id", _proyecto.updateProyecto);
 
 /**
  * @swagger
@@ -138,7 +138,7 @@ router.put("/proyectos/:id", _proyecto.updateProyecto);
  *         schema:
  *           type: integer
  */
-router["delete"]("/proyectos/:id", _proyecto.deleteProyecto);
+router["delete"]("/proyecto/delete/:id", _proyecto.deleteProyecto);
 
 /**
  * @swagger
@@ -172,7 +172,7 @@ router["delete"]("/proyectos/:id", _proyecto.deleteProyecto);
  *       500:
  *         description: Error del servidor
  */
-router.get('/proyectos/estudiante/:id_estudiante', _proyecto.getProyectoEstudiante);
+router.get('/proyecto/estudiante/:id_estudiante', _proyecto.getProyectoEstudiante);
 
 /**
  * @swagger
@@ -208,5 +208,5 @@ router.get('/proyectos/estudiante/:id_estudiante', _proyecto.getProyectoEstudian
  *       500:
  *         description: Error del servidor
  */
-router.get('/proyectos/docente/:id_docente', _proyecto.getProyectoDocente);
+router.get('/proyecto/docente/:id_docente', _proyecto.getProyectoDocente);
 var _default = exports["default"] = router;

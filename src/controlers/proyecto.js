@@ -108,6 +108,9 @@ export const getProyectoById = async (req, res) => {
         const [rows] = await pool.query(`
             SELECT 
                 p.id,
+                p.id_estudiante,
+                p.id_docente_guia,
+                p.id_docente_revisor,
                 p.titulo,
                 p.linea_investigacion,
                 p.area_conocimiento,
