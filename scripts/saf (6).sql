@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-10-2025 a las 18:50:52
+-- Tiempo de generación: 18-11-2025 a las 16:45:45
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,6 +20,191 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `saf`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `autenticacion`
+--
+
+CREATE TABLE `autenticacion` (
+  `id` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `code` varchar(6) NOT NULL,
+  `expires_at` datetime NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `autenticacion`
+--
+
+INSERT INTO `autenticacion` (`id`, `email`, `code`, `expires_at`, `created_at`) VALUES
+('003e801b-bf5c-42b5-a2be-40ffbe28ec59', 'jazielarmandovargaschoque@gmail.com', '524960', '2025-11-06 16:15:31', '2025-11-06 20:05:31'),
+('02a5b081-730f-46ad-91f8-cd32501a3530', 'jazielarmandovargaschoque@gmail.com', '685422', '2025-11-09 11:02:00', '2025-11-09 14:52:00'),
+('0788a3fb-9cea-4e3d-a078-44d1b9d1d8e3', 'jazielarmandovargaschoque@gmail.com', '235976', '2025-11-06 01:05:47', '2025-11-06 04:55:47'),
+('0b5cf9f5-bb82-4f52-8ff6-a7720d417cb6', 'jazielarmandovargaschoque@gmail.com', '282516', '2025-11-05 21:28:27', '2025-11-06 01:18:27'),
+('0c975441-4487-4e82-b16b-59a7013781d3', 'jazielarmandovargaschoque@gmail.com', '686839', '2025-11-06 16:21:32', '2025-11-06 20:11:33'),
+('0d098177-9e89-408c-a6ee-62506f613c28', 'jazielarmandovargaschoque@gmail.com', '254375', '2025-11-01 18:53:51', '2025-11-01 22:43:51'),
+('0d878208-ebcf-40f6-b509-bc08c679497e', 'jazielarmandovargaschoque@gmail.com', '730567', '2025-11-02 14:23:43', '2025-11-02 18:13:43'),
+('0e8c4751-c991-4b3a-b042-8c20467d591f', 'j.v.36977714@gmail.com', '442325', '2025-11-06 21:20:50', '2025-11-07 01:10:50'),
+('0f92975d-c10a-4964-bfff-cdad7b2b8996', 'jazielarmandovargaschoque@gmail.com', '273578', '2025-11-03 08:07:55', '2025-11-03 11:57:55'),
+('105d88f2-18ce-4b6e-a7a1-bd485598607f', 'jazielarmandovargaschoque@gmail.com', '448544', '2025-11-06 01:05:32', '2025-11-06 04:55:32'),
+('1193ad16-7b9d-4c37-8137-c0148cf31352', 'jazielarmandovargaschoque@gmail.com', '943873', '2025-11-06 01:05:44', '2025-11-06 04:55:44'),
+('138c4ec9-b360-4ddc-aa41-504edf93ff46', 'jazielarmandovargaschoque@gmail.com', '328868', '2025-11-06 16:54:04', '2025-11-06 20:44:04'),
+('13c1fdf7-a321-43cb-8f1e-245a04be6585', 'sfqewfqe@gmail.com', '211596', '2025-11-02 15:15:21', '2025-11-02 19:05:21'),
+('13ea6807-d04b-4606-ac5b-c26a12837bd1', 'jazielarmandovargaschoque@gmail.com', '636237', '2025-11-06 16:56:16', '2025-11-06 20:46:16'),
+('14d88dee-821b-4c8f-a0c5-c441476a72fd', 'jazielarmandovargaschoque@gmail.com', '750142', '2025-11-02 14:23:37', '2025-11-02 18:13:37'),
+('14db3ec4-ac8c-4564-9f9a-1740176bfa75', 'jazielarmandovargaschoque@gmail.com', '758469', '2025-11-06 00:45:42', '2025-11-06 04:35:42'),
+('171fe883-d9b5-4f3f-a981-f23236027703', 'jazielarmandovargaschoque@gmail.com', '629305', '2025-11-06 16:12:43', '2025-11-06 20:02:43'),
+('17416804-4fb7-4c83-9d0c-6162be1b6776', 'jazielarmandovargaschoque@gmail.com', '420373', '2025-11-05 18:09:00', '2025-11-05 21:59:00'),
+('1801bd96-fd60-4959-bf90-204c7ff1a015', 'jazielarmandovargaschoque@gmail.com', '737615', '2025-11-06 21:23:34', '2025-11-07 01:13:34'),
+('18a2c779-c30e-49a0-8f6c-53aa54fbddec', 'jazielarmandovargaschoque@gmail.com', '166347', '2025-11-02 15:15:31', '2025-11-02 19:05:31'),
+('1ba84c38-7df5-42f6-a9ec-512e725d1fa5', 'jazielarmandovargaschoque@gmail.com', '392301', '2025-11-05 21:36:20', '2025-11-06 01:26:20'),
+('1e316169-4a12-4935-9b0e-5c09f25410ab', 'jazielarmandovargaschoque@gmail.com', '906663', '2025-11-06 00:45:42', '2025-11-06 04:35:42'),
+('2019fbd4-db34-487b-8bd1-f07794b2626e', 'jazielarmandovargaschoque@gmail.com', '827961', '2025-11-05 10:13:38', '2025-11-05 14:03:38'),
+('21093526-990b-42fb-8e08-bb3c8ac52bb5', 'jazielarmandovargaschoque@gmail.com', '661306', '2025-11-02 15:19:45', '2025-11-02 19:09:45'),
+('25efde7d-bd30-49ac-b8ce-b9c7f792643b', 'jazielarmandovargaschoque@gmail.com', '957275', '2025-11-14 15:15:22', '2025-11-14 19:05:22'),
+('26178dd2-703f-465d-bff9-0f77031edf94', 'jazielarmandovargaschoque@gmail.com', '272326', '2025-11-05 10:13:35', '2025-11-05 14:03:35'),
+('2d13a2ed-a3a5-42d1-910c-f6b0bc468942', 'jazielarmandovargaschoque@gmail.com', '288920', '2025-11-06 16:54:04', '2025-11-06 20:44:04'),
+('2e800579-a2e5-4faa-92d3-0ac7d4d946c3', 'jazielarmandovargaschoque@gmail.com', '169499', '2025-11-06 16:10:22', '2025-11-06 20:00:22'),
+('2fee6595-8b43-48fa-9f40-046bafb94cdf', 'jazielarmandovargaschoque@gmail.com', '387235', '2025-11-04 22:24:03', '2025-11-05 02:14:03'),
+('2ffd4732-cc92-4ab7-9d26-f4e0054d8fc0', 'jazielarmandovargaschoque@gmail.com', '113267', '2025-11-06 16:56:18', '2025-11-06 20:46:18'),
+('309c4a6a-105d-4719-9c75-b37704781d94', 'sfqewfqe@gmail.com', '659031', '2025-11-02 14:36:57', '2025-11-02 18:26:57'),
+('3301d3c3-1919-4a1d-9d59-c5c1c60b9480', 'sfqewfqe@gmail.com', '569754', '2025-11-02 14:37:00', '2025-11-02 18:27:00'),
+('34d4783e-4c8c-462d-8e6b-66f76d0878fc', 'jazielarmandovargaschoque@gmail.com', '734208', '2025-11-03 16:58:01', '2025-11-03 20:48:01'),
+('34d4a41b-c1d0-47d7-a803-ee2647d97926', 'jazielarmandovargaschoque@gmail.com', '409962', '2025-11-06 12:45:50', '2025-11-06 16:35:50'),
+('372ecea2-72a9-4f07-bd83-db87b40aec39', 'jazielarmandovargaschoque@gmail.com', '943734', '2025-11-02 15:07:38', '2025-11-02 18:57:38'),
+('3aa73ab9-ea6e-484b-836b-6a5ef7ee19b9', 'jazielarmandovargaschoque@gmail.com', '767279', '2025-11-06 16:20:44', '2025-11-06 20:10:44'),
+('3b2b0c4a-26da-46a8-9c4a-24163e2bdf26', 'asdfgh@gmail.com', '425212', '2025-11-05 14:15:09', '2025-11-05 18:05:09'),
+('3b8b3ae3-0ed1-4d9d-8932-1695f3bc3fa5', 'jazielarmandovargaschoque@gmail.com', '268176', '2025-11-04 21:07:55', '2025-11-05 00:57:55'),
+('3f5550c8-65f9-4b24-b334-e65dfaf728e1', 'jazielarmandovargaschoque@gmail.com', '732151', '2025-11-06 16:44:56', '2025-11-06 20:34:56'),
+('3f674a44-2f8f-40f4-89c8-ea5f036ac37d', 'jazielarmandovargaschoque@gmail.com', '549953', '2025-11-05 21:49:04', '2025-11-06 01:39:04'),
+('426f6725-c626-4213-a5af-334d60383493', 'jazielarmandovargaschoque@gmail.com', '285655', '2025-11-06 16:44:56', '2025-11-06 20:34:56'),
+('428df74c-4e62-4196-b904-3b1c480605e3', 'jazielarmandovargaschoque@gmail.com', '998384', '2025-11-06 01:09:58', '2025-11-06 04:59:58'),
+('4397f48a-2441-4103-9c64-fbb77106bb62', 'jazielarmandovargaschoque@gmail.com', '745569', '2025-11-06 20:55:17', '2025-11-07 00:45:17'),
+('43d83c90-e512-4b0b-a35e-70bb820540ac', 'jazielarmandovargaschoque@gmail.com', '126331', '2025-11-08 12:29:08', '2025-11-08 16:19:08'),
+('464aee07-75e4-41ea-85a6-16d8a8be0bae', 'jazielarmandovargaschoque@gmail.com', '318247', '2025-11-09 11:02:05', '2025-11-09 14:52:05'),
+('4817afe9-5b46-4909-b7c6-911cc4a1a1b4', 'j.v.36977714@gmail.com', '529074', '2025-11-06 21:20:50', '2025-11-07 01:10:50'),
+('48da01f7-e382-4222-99cf-cdc399731c81', 'jazielarmandovargaschoque@gmail.com', '897643', '2025-11-06 01:03:35', '2025-11-06 04:53:35'),
+('4973ca93-fe6c-46c0-9011-b21d2391bc03', 'jazielarmandovargaschoque@gmail.com', '170209', '2025-11-05 21:36:20', '2025-11-06 01:26:20'),
+('4d10bcb5-6a7e-44a1-a88f-7d5ac23bc240', 'jazielarmandovargaschoque@gmail.com', '494959', '2025-11-06 16:44:53', '2025-11-06 20:34:53'),
+('509fe743-b12e-4bba-9c5d-5d2c55bd232a', 'jazielarmandovargaschoque@gmail.com', '445108', '2025-11-06 12:45:50', '2025-11-06 16:35:50'),
+('5120c224-2553-47eb-99d6-05e57ea35086', 'jazielarmandovargaschoque@gmail.com', '890773', '2025-11-06 12:46:27', '2025-11-06 16:36:27'),
+('54d1f38c-1f1a-46f2-a980-9fc50c2018d1', 'jazielarmandovargaschoque@gmail.com', '955943', '2025-11-06 09:48:20', '2025-11-06 13:38:20'),
+('56203f05-6312-43e8-9218-b4762a66114f', 'jazielarmandovargaschoque@gmail.com', '430081', '2025-11-03 17:37:22', '2025-11-03 21:27:22'),
+('5843c0ea-d8f8-4de5-bd22-810fd09da5f5', 'jazielarmandovargaschoque@gmail.com', '410127', '2025-11-05 20:54:42', '2025-11-06 00:44:42'),
+('58548c93-55f1-4c2c-b4e4-57d8ac9c8aec', 'asdfgh@gmail.com', '263087', '2025-11-05 14:15:12', '2025-11-05 18:05:12'),
+('590fc666-c794-4e8f-aa4a-4c5098b24ca0', 'jazielarmandovargaschoque@gmail.com', '964657', '2025-11-03 16:58:04', '2025-11-03 20:48:04'),
+('5a5af9c9-e07e-4b5a-8466-a22de0232c42', 'jazielarmandovargaschoque@gmail.com', '266995', '2025-11-05 21:35:41', '2025-11-06 01:25:41'),
+('5b132ea3-f6ae-4dd2-858b-9bab4cf36c06', 'jazielarmandovargaschoque@gmail.com', '234940', '2025-11-04 22:22:50', '2025-11-05 02:12:50'),
+('5e415132-d4f8-411f-bb98-ca07b30a1f3f', 'jazielarmandovargaschoque@gmail.com', '217592', '2025-11-03 07:53:28', '2025-11-03 11:43:28'),
+('6008246a-c3b4-4f70-a88e-604159ccc717', 'jazielarmandovargaschoque@gmail.com', '234764', '2025-11-02 15:18:58', '2025-11-02 19:08:58'),
+('664cc924-1dae-40d4-b65a-1b8def768576', 'jazielarmandovargaschoque@gmail.com', '398837', '2025-11-06 01:03:39', '2025-11-06 04:53:39'),
+('6770724c-2b9a-47f7-a726-45f645eff35a', 'jazielarmandovargaschoque@gmail.com', '963642', '2025-11-06 09:48:14', '2025-11-06 13:38:14'),
+('67ab1527-3c1f-4921-a7a2-3568223d0a12', 'jazielarmandovargaschoque@gmail.com', '676234', '2025-11-06 12:45:46', '2025-11-06 16:35:46'),
+('6816fd2c-5908-4ebe-b045-8fcf8d3220af', 'jazielarmandovargaschoque@gmail.com', '617111', '2025-11-05 21:32:08', '2025-11-06 01:22:08'),
+('68a4ca3f-c855-4c1e-ad10-6dd982b4d1a2', 'jazielarmandovargaschoque@gmail.com', '475621', '2025-11-06 16:18:53', '2025-11-06 20:08:53'),
+('6a45f1b6-ae9d-46c6-b4ee-16ba1969fba7', 'jazielarmandovargaschoque@gmail.com', '989646', '2025-11-06 21:23:37', '2025-11-07 01:13:37'),
+('6f0d77dc-e253-4fd0-b0c2-cf2d36ec2b7b', 'j.v.36977714@gmail.com', '617555', '2025-11-06 21:18:33', '2025-11-07 01:08:33'),
+('6f4fefad-77d0-43ac-929b-b90572bba176', 'jazielarmandovargaschoque@gmail.com', '310622', '2025-11-03 07:56:48', '2025-11-03 11:46:48'),
+('7106f04c-d968-4ed7-a63c-b95870373941', 'jazielarmandovargaschoque@gmail.com', '362458', '2025-11-05 18:08:57', '2025-11-05 21:58:57'),
+('7155c3c9-afcf-4721-aa3d-5692bbab4086', 'jazielarmandovargaschoque@gmail.com', '809105', '2025-11-06 01:10:01', '2025-11-06 05:00:01'),
+('72dfdde3-fdcd-4663-b063-2e89d7acf26c', 'j.v.36977714@gmail.com', '351760', '2025-11-06 21:18:29', '2025-11-07 01:08:29'),
+('743fcaef-5342-4835-a975-7440defecc05', 'jazielarmandovargaschoque@gmail.com', '709673', '2025-11-05 21:35:41', '2025-11-06 01:25:41'),
+('74c25fe3-6eea-495c-99ba-ecd78e165f0f', 'jazielarmandovargaschoque@gmail.com', '287240', '2025-11-06 20:55:13', '2025-11-07 00:45:13'),
+('756e920c-4ec8-4048-b745-474d114f1907', 'jazielarmandovargaschoque@gmail.com', '955441', '2025-11-18 11:15:05', '2025-11-18 15:05:05'),
+('770cf591-776b-406d-97d5-eb5f82799660', 'jazielarmandovargaschoque@gmail.com', '830811', '2025-11-02 15:23:18', '2025-11-02 19:13:18'),
+('778848db-2139-4de4-bcbf-98ac4fc22baa', 'jazielarmandovargaschoque@gmail.com', '796257', '2025-11-05 21:35:37', '2025-11-06 01:25:37'),
+('794d686a-56c6-4308-aad0-de59dd5f7ac2', 'jazielarmandovargaschoque@gmail.com', '594320', '2025-11-04 20:52:17', '2025-11-05 00:42:17'),
+('7b130a7c-d0f8-4f27-a875-257d05781a3e', 'jazielarmandovargaschoque@gmail.com', '558902', '2025-11-05 11:05:37', '2025-11-05 14:55:37'),
+('7b57df43-d107-4338-a327-d80bd8bc7f03', 'jazielarmandovargaschoque@gmail.com', '292539', '2025-11-05 17:00:32', '2025-11-05 20:50:32'),
+('7b711871-7be4-43b9-aa23-704cfbb9bc04', 'jazielarmandovargaschoque@gmail.com', '420802', '2025-11-06 00:56:45', '2025-11-06 04:46:45'),
+('7f7c7ea4-a1ba-43fc-842b-7f05a4e1c8dd', 'jazielarmandovargaschoque@gmail.com', '172735', '2025-11-14 15:15:20', '2025-11-14 19:05:20'),
+('7fc0dc80-d3df-4557-affb-14e344427fd2', 'jazielarmandovargaschoque@gmail.com', '960171', '2025-11-02 15:23:18', '2025-11-02 19:13:18'),
+('80aea7f7-4745-47ce-a824-a638b0540129', 'jazielarmandovargaschoque@gmail.com', '225380', '2025-11-04 21:07:55', '2025-11-05 00:57:55'),
+('84d2a01a-41de-47f8-a465-c3cab2cf22e6', 'jazielarmandovargaschoque@gmail.com', '554314', '2025-11-05 14:18:06', '2025-11-05 18:08:06'),
+('85b0e611-9564-4e03-b297-0777ba3285f0', 'jazielarmandovargaschoque@gmail.com', '898394', '2025-11-03 07:56:48', '2025-11-03 11:46:48'),
+('885ca4e7-9242-4874-95b5-68de2432a47d', 'jazielarmandovargaschoque@gmail.com', '750795', '2025-11-06 16:45:07', '2025-11-06 20:35:07'),
+('89d0ddf6-2210-4b35-b3b8-17ba35d04791', 'jazielarmandovargaschoque@gmail.com', '997287', '2025-11-02 14:34:38', '2025-11-02 18:24:38'),
+('8cc2691a-eb67-437e-a052-2a05c3ba6e37', 'fsffews@gmail.com', '943927', '2025-11-03 07:57:45', '2025-11-03 11:47:45'),
+('8e4f4ae0-cd6d-456d-92d2-ff603c5c896e', 'jazielarmandovargaschoque@gmail.com', '585377', '2025-11-05 12:37:35', '2025-11-05 16:27:35'),
+('8f12dd1c-272b-4214-8c03-bc0c673b24cf', 'jazielarmandovargaschoque@gmail.com', '482695', '2025-11-01 18:49:46', '2025-11-01 22:39:46'),
+('90333e1f-b0ed-4a39-9f25-92f706bb9c3d', 'jazielarmandovargaschoque@gmail.com', '652201', '2025-11-06 16:13:49', '2025-11-06 20:03:49'),
+('919466f0-89fe-4fd3-8ff0-c33625ddd5a6', 'jazielarmandovargaschoque@gmail.com', '621003', '2025-11-02 15:19:00', '2025-11-02 19:09:00'),
+('91c2b473-3e90-47a8-8593-49db82209e8c', 'jazielarmandovargaschoque@gmail.com', '806962', '2025-11-06 12:46:27', '2025-11-06 16:36:27'),
+('93f666ab-0912-479d-9acf-9acabecb00b3', 'sfqewfqe@gmail.com', '492261', '2025-11-02 15:15:21', '2025-11-02 19:05:21'),
+('9466c257-1153-440c-8baf-052ac20b82a7', 'jazielarmandovargaschoque@gmail.com', '187204', '2025-11-01 18:53:51', '2025-11-01 22:43:51'),
+('958d90d6-8de6-469f-8ec0-c1d01e27f002', 'jazielarmandovargaschoque@gmail.com', '489484', '2025-11-03 17:37:22', '2025-11-03 21:27:22'),
+('96327658-c86c-427f-80d9-a7b1fe20b123', 'sfqewfqe@gmail.com', '993937', '2025-11-02 14:37:00', '2025-11-02 18:27:00'),
+('97d88159-231e-4c08-bbf5-014da5256128', 'jazielarmandovargaschoque@gmail.com', '704590', '2025-11-02 14:23:26', '2025-11-02 18:13:26'),
+('98963d97-878f-402d-8e47-bfe3cb261b19', 'jazielarmandovargaschoque@gmail.com', '639832', '2025-11-06 16:09:28', '2025-11-06 19:59:28'),
+('9909a64d-5acc-4d3e-bd65-5f28f3f086b6', 'jazielarmandovargaschoque@gmail.com', '250566', '2025-11-02 14:28:02', '2025-11-02 18:18:02'),
+('9a6f4331-33f7-41d0-8d72-c5f1061f81df', 'jazielarmandovargaschoque@gmail.com', '782539', '2025-11-05 14:18:08', '2025-11-05 18:08:08'),
+('9c12be5d-7514-4039-8ab7-15dd5e358123', 'jazielarmandovargaschoque@gmail.com', '268292', '2025-11-02 15:18:49', '2025-11-02 19:08:49'),
+('9cfafdc6-d566-49db-abfd-f23d7fc9a956', 'jazielarmandovargaschoque@gmail.com', '860567', '2025-11-06 16:20:44', '2025-11-06 20:10:44'),
+('9e1af345-f8aa-444a-baac-5da50a196c20', 'jazielarmandovargaschoque@gmail.com', '618808', '2025-11-08 12:29:04', '2025-11-08 16:19:04'),
+('9ec2cae3-4a57-429a-831d-e3c0d91455b8', 'jazielarmandovargaschoque@gmail.com', '926396', '2025-11-02 15:14:59', '2025-11-02 19:04:59'),
+('a03c43c4-e157-4454-978c-c2c2a9a18128', 'jazielarmandovargaschoque@gmail.com', '375389', '2025-11-06 00:56:45', '2025-11-06 04:46:45'),
+('a3ae8df5-24d1-420d-a535-5e4b1a65d3da', 'jazielarmandovargaschoque@gmail.com', '281480', '2025-11-06 16:15:33', '2025-11-06 20:05:33'),
+('a403cd84-f4e4-4e27-891a-497255d3e76e', 'jazielarmandovargaschoque@gmail.com', '229095', '2025-11-08 20:57:28', '2025-11-09 00:47:28'),
+('a5e203b8-7cf6-4060-b3d2-97b7baf6c4e0', 'jazielarmandovargaschoque@gmail.com', '204037', '2025-11-06 00:35:26', '2025-11-06 04:25:26'),
+('a690094f-91cc-4e35-a1e9-87b289e151f9', 'dvsdvdd@gmail.com', '270367', '2025-11-04 22:26:48', '2025-11-05 02:16:48'),
+('a7d27f1f-20b3-4f1c-8ba0-85339eebd257', 'jazielarmandovargaschoque@gmail.com', '639721', '2025-11-05 21:32:08', '2025-11-06 01:22:08'),
+('a85b8611-204a-4a84-b893-571145d096fa', 'jazielarmandovargaschoque@gmail.com', '241871', '2025-11-18 11:15:11', '2025-11-18 15:05:11'),
+('abb6d3c3-4cc4-4e7a-9ea6-3b8ec5ae2c46', 'jazielarmandovargaschoque@gmail.com', '316715', '2025-11-06 16:06:47', '2025-11-06 19:56:47'),
+('abdd6ad0-67f5-4683-834a-b865d3051868', 'jazielarmandovargaschoque@gmail.com', '725430', '2025-11-05 21:28:30', '2025-11-06 01:18:30'),
+('ac92ea4a-dab0-4726-b707-06ae5298ddd2', 'jazielarmandovargaschoque@gmail.com', '982552', '2025-11-14 14:46:20', '2025-11-14 18:36:20'),
+('acdedd69-6d28-4782-ba7d-f22cbb1eeb60', 'jazielarmandovargaschoque@gmail.com', '178110', '2025-11-14 14:46:17', '2025-11-14 18:36:17'),
+('ad2ebf98-d2ee-4222-8c8e-c13848ec4c82', 'jazielarmandovargaschoque@gmail.com', '196438', '2025-11-06 00:35:30', '2025-11-06 04:25:30'),
+('afe085ee-21df-4443-ad75-7ce2bacf2f74', 'jazielarmandovargaschoque@gmail.com', '749261', '2025-11-06 00:48:29', '2025-11-06 04:38:29'),
+('b4527f81-53fa-4656-abe5-0bb794870ba8', 'jazielarmandovargaschoque@gmail.com', '707623', '2025-11-05 21:48:54', '2025-11-06 01:38:54'),
+('b547f4e6-737e-4068-bf8d-3cb3710efae7', 'jazielarmandovargaschoque@gmail.com', '763096', '2025-11-06 16:15:33', '2025-11-06 20:05:33'),
+('b5882ad8-8af8-4f7d-982f-b564d45498df', 'jazielarmandovargaschoque@gmail.com', '124148', '2025-11-06 16:09:31', '2025-11-06 19:59:31'),
+('b7c981f6-9a9e-47ac-8b37-51e06ec7599d', 'jazielarmandovargaschoque@gmail.com', '540333', '2025-11-02 15:18:52', '2025-11-02 19:08:52'),
+('bbbaa213-a19f-4e34-92eb-1c8bfb52d5b4', 'jazielarmandovargaschoque@gmail.com', '846617', '2025-11-06 16:18:53', '2025-11-06 20:08:53'),
+('bccfdea4-ab45-43c1-8c51-c027b1574ac5', 'jazielarmandovargaschoque@gmail.com', '913221', '2025-11-06 16:12:43', '2025-11-06 20:02:43'),
+('bd22053d-932d-4bf4-a6d9-f242bc17f79f', 'jazielarmandovargaschoque@gmail.com', '852808', '2025-11-02 15:11:52', '2025-11-02 19:01:52'),
+('bf145a93-3828-4d7b-99f2-2cec33651a54', 'jazielarmandovargaschoque@gmail.com', '671850', '2025-11-06 16:45:07', '2025-11-06 20:35:07'),
+('c00107d1-163c-438e-af08-006479081c4f', 'jazielarmandovargaschoque@gmail.com', '907682', '2025-11-02 15:19:48', '2025-11-02 19:09:48'),
+('c020d25e-8d88-4d20-86d1-0938c3ac102d', 'jazielarmandovargaschoque@gmail.com', '380303', '2025-11-05 21:49:07', '2025-11-06 01:39:07'),
+('c1742f8c-7b91-4f21-b848-37443becee76', 'jazielarmandovargaschoque@gmail.com', '108262', '2025-11-05 12:37:35', '2025-11-05 16:27:35'),
+('c7114292-db3f-4e24-a023-d3b740a58a4d', 'jazielarmandovargaschoque@gmail.com', '246183', '2025-11-03 13:45:13', '2025-11-03 17:35:13'),
+('ca4ca6f9-5530-4713-b747-4ba52fd9c488', 'fsffews@gmail.com', '661337', '2025-11-03 07:57:48', '2025-11-03 11:47:48'),
+('cc182532-12bf-421b-a179-66d0de9faca1', 'jazielarmandovargaschoque@gmail.com', '455160', '2025-11-06 00:48:33', '2025-11-06 04:38:33'),
+('cd3fe821-006d-4946-96a7-e5d4fbe514c2', 'j.v.36977714@gmail.com', '257049', '2025-11-06 16:51:57', '2025-11-06 20:41:57'),
+('cd813650-558b-42f7-b8ac-27ac0b7aa86a', 'jazielarmandovargaschoque@gmail.com', '455646', '2025-11-05 17:00:29', '2025-11-05 20:50:29'),
+('ce37cc98-282a-42f1-a2af-843cd3ba6bd1', 'jazielarmandovargaschoque@gmail.com', '605458', '2025-11-06 16:56:18', '2025-11-06 20:46:18'),
+('d0ab579c-2037-4b69-a8c7-f486aa7cc16e', 'jazielarmandovargaschoque@gmail.com', '883506', '2025-11-06 15:57:40', '2025-11-06 19:47:40'),
+('d14d5293-70ae-41ad-a906-a358accf75a9', 'dvsdvdd@gmail.com', '106219', '2025-11-04 22:26:48', '2025-11-05 02:16:48'),
+('d3b97cc7-2130-4356-a7c8-7685c821f44c', 'jazielarmandovargaschoque@gmail.com', '424337', '2025-11-05 12:37:31', '2025-11-05 16:27:31'),
+('d8317e5e-565e-4abb-a1d4-1d076d94c657', 'j.v.36977714@gmail.com', '333252', '2025-11-06 16:51:57', '2025-11-06 20:41:57'),
+('d8ef252e-ef94-4d92-a92f-d20eedc24eff', 'asdfgh@gmail.com', '173700', '2025-11-05 14:15:12', '2025-11-05 18:05:12'),
+('d96137ef-8994-4cf8-b74d-5bcd09c07952', 'jazielarmandovargaschoque@gmail.com', '817576', '2025-11-02 15:19:40', '2025-11-02 19:09:40'),
+('d9fc7686-2b8e-4197-9929-4c5ab1fdc23d', 'jazielarmandovargaschoque@gmail.com', '292472', '2025-11-06 15:57:40', '2025-11-06 19:47:40'),
+('db7ee82c-5d6b-438e-8278-b1ca9509aaf1', 'jazielarmandovargaschoque@gmail.com', '903483', '2025-11-05 21:48:54', '2025-11-06 01:38:54'),
+('dd48e8bb-096c-4d6b-b0ba-a10bdf13dd9c', 'fsffews@gmail.com', '370875', '2025-11-03 07:57:48', '2025-11-03 11:47:48'),
+('e011bb67-3c9b-4b6b-896c-8a7bbf1e5a73', 'jazielarmandovargaschoque@gmail.com', '469633', '2025-11-06 01:05:32', '2025-11-06 04:55:32'),
+('e18626fb-4047-4776-ac35-577b183eb358', 'jazielarmandovargaschoque@gmail.com', '568310', '2025-11-05 11:05:34', '2025-11-05 14:55:34'),
+('e25caca9-4712-41e1-9540-65bc1d0d0b26', 'jazielarmandovargaschoque@gmail.com', '641324', '2025-11-06 16:09:31', '2025-11-06 19:59:31'),
+('e3104071-67dd-4b92-a7d4-e6e3f9f6ef0f', 'jazielarmandovargaschoque@gmail.com', '553230', '2025-11-04 22:24:03', '2025-11-05 02:14:03'),
+('e3e1d672-877d-4aae-8503-e09e06b91c03', 'jazielarmandovargaschoque@gmail.com', '467579', '2025-11-06 16:10:22', '2025-11-06 20:00:22'),
+('e589d45e-2472-40b5-9104-ad025d9f5510', 'dvsdvdd@gmail.com', '426125', '2025-11-04 22:26:45', '2025-11-05 02:16:45'),
+('e5c0a392-c7ad-4e9f-bf28-b1902df68d23', 'jazielarmandovargaschoque@gmail.com', '639489', '2025-11-11 17:17:53', '2025-11-11 21:07:53'),
+('e60bb371-466d-4ca2-b505-cae8f1faa603', 'jazielarmandovargaschoque@gmail.com', '811888', '2025-11-06 16:21:32', '2025-11-06 20:11:32'),
+('e7f4497d-631d-47e6-a59b-89bb14fd735d', 'jazielarmandovargaschoque@gmail.com', '957544', '2025-11-08 20:57:24', '2025-11-09 00:47:24'),
+('ea75b9d7-783b-4267-a205-fde547ac9c08', 'jazielarmandovargaschoque@gmail.com', '400608', '2025-11-02 15:19:40', '2025-11-02 19:09:40'),
+('eeb990f7-b202-43d4-95bc-171e93690929', 'jazielarmandovargaschoque@gmail.com', '879231', '2025-11-11 17:18:04', '2025-11-11 21:08:04'),
+('f3600406-1f01-4451-a489-f5042b8df1a3', 'jazielarmandovargaschoque@gmail.com', '432576', '2025-11-03 08:07:55', '2025-11-03 11:57:55'),
+('f5cd1941-044c-4f28-8048-8b014f317b95', 'jazielarmandovargaschoque@gmail.com', '878498', '2025-11-06 00:53:43', '2025-11-06 04:43:43'),
+('f6081825-c0b4-4e40-bc63-3354dff6d3c7', 'jazielarmandovargaschoque@gmail.com', '655755', '2025-11-06 00:53:43', '2025-11-06 04:43:43'),
+('f6cc507b-9971-4fcd-a9d7-4b4a140f12ab', 'jazielarmandovargaschoque@gmail.com', '413062', '2025-11-02 15:18:52', '2025-11-02 19:08:52'),
+('f7b041d6-8ea0-44b8-9b40-aaab360fa813', 'jazielarmandovargaschoque@gmail.com', '502194', '2025-11-03 13:45:10', '2025-11-03 17:35:10'),
+('f7ce1486-fc7b-4d45-bb00-431687f0a1e8', 'jazielarmandovargaschoque@gmail.com', '560378', '2025-11-03 07:53:28', '2025-11-03 11:43:28'),
+('fa88f908-95a9-4b79-a1dd-89688ef8d384', 'jazielarmandovargaschoque@gmail.com', '221328', '2025-11-04 22:22:53', '2025-11-05 02:12:53'),
+('fc282368-70ea-40e6-8453-56244dfd98ee', 'jazielarmandovargaschoque@gmail.com', '871438', '2025-11-02 14:34:20', '2025-11-02 18:24:20'),
+('fd632a87-13b6-4485-8d21-0e52b3e46b6f', 'jazielarmandovargaschoque@gmail.com', '666301', '2025-11-04 20:52:17', '2025-11-05 00:42:17'),
+('ff2674ea-9319-4916-8383-dd72ca9c8550', 'jazielarmandovargaschoque@gmail.com', '539920', '2025-11-05 20:54:45', '2025-11-06 00:44:45');
 
 -- --------------------------------------------------------
 
@@ -84,9 +269,9 @@ CREATE TABLE `docente` (
 --
 
 INSERT INTO `docente` (`id`, `per_id`, `numero_item`, `especialidad`, `tipo_contrato`, `estado`, `created_at`, `updated_at`) VALUES
-(4, 5, 'DOC124', 'Matemáticas', 'permanente', 0, NULL, NULL),
-(11, 34, 'DOC124', 'Física', 'permanente', 1, NULL, NULL),
-(12, 39, 'DOC124', 'Física', 'permanente', 1, NULL, NULL);
+(4, 5, 'DOC124', 'Matemáticas', 'temporal', 1, NULL, NULL),
+(12, 39, 'DOC124', 'Física', 'permanente', 1, NULL, NULL),
+(16, 79, 'DOC124', 'Matemáticas', 'permanente', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -110,12 +295,9 @@ CREATE TABLE `estudiante` (
 --
 
 INSERT INTO `estudiante` (`id`, `per_id`, `id_programa_academico`, `numero_matricula`, `fecha_inscripcion`, `estado`, `created_at`, `updated_at`) VALUES
-(8, 11, 1, '6263894', '2025-09-24', 1, NULL, NULL),
-(9, 16, 1, '6263894', '2025-09-25', 1, NULL, NULL),
 (11, 26, 1, '23321314', '2025-09-27', 1, NULL, NULL),
-(12, 36, 1, 'gwrwgew', '2025-10-10', 1, NULL, NULL),
-(13, 37, 1, '423255243', '2025-10-11', 1, NULL, NULL),
-(14, 38, 1, '2434535634', '2025-10-11', 1, NULL, NULL);
+(12, 36, 1, 'gwrwgew', '2025-10-10', 0, NULL, NULL),
+(25, 76, 1, '1121313', '2025-11-05', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -207,9 +389,7 @@ CREATE TABLE `metodologia` (
 --
 
 INSERT INTO `metodologia` (`id`, `nombre`, `descripcion`, `objetivos`, `numero_modulos`, `fecha_inicio`, `fecha_finalizacion`, `created_at`, `updated_at`) VALUES
-(3, 'Metodología Scrum', 'Metodología para desarrollo ágil', 'Mejorar eficiencia en proyectos', '5', '2025-01-01', '2025-06-30', NULL, NULL),
-(4, 'Metodología Ágil Actualizada', 'Metodología mejorada', 'Optimizar procesos', '6', '2025-02-01', '2025-07-31', NULL, NULL),
-(5, 'Metodología Scrum', 'Metodología para desarrollo ágil', 'Mejorar eficiencia en proyectos', '5', '2025-01-01', '2025-06-30', NULL, NULL),
+(5, 'Metodología Scrum', 'Metodología para desarrollo ágil', 'Mejorar eficiencia en proyectos', '25', '2025-01-01', '2025-06-30', NULL, NULL),
 (6, 'Metodología Scrull', 'Metodología para gestión de proyectos', 'Mejorar eficiencia en proyectos', '14', '2025-01-01', '2025-06-30', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -492,16 +672,17 @@ INSERT INTO `persona` (`id`, `nombres`, `apellidopat`, `apellidomat`, `carnet`, 
 (6, 'Estudiante', 'Picazo', 'Gónzales', '029393020', 'Calle Falsa 123', '123456789', 'juan.perez@example.com', '1990-01-01', 1, NULL, NULL),
 (7, 'Estudiante2', 'Katy', 'Tony', '02830328398', 'Calle Falsa 1234', '123456789', 'juan.perez@example.com', '1990-01-01', 1, NULL, NULL),
 (8, 'Estudiante3', 'Deyvid', 'Tony', '02830328398', 'Calle Falsa 1234', '123456789', 'juan.perez@example.com', '1990-01-01', 1, NULL, NULL),
-(11, 'Jaziel', 'Vargas', 'Choque', '98293738', 'calle N5', '293887383', 'jazi@gmail.com', '2005-02-18', 1, NULL, NULL),
-(16, 'Jaziel', 'Choque', 'Choque', '3243225', '14er23r13r23r', '123141414', 'jaielpro@gmail.com', '2005-02-02', 1, NULL, NULL),
-(25, 'Jaziel', 'Vargas', 'Choque', '98293738', 'rgrehergwghrwh', '79532646', 'jazi@gmail.com', '2005-02-18', 1, NULL, NULL),
 (26, 'Lucke', 'Skiwallker', 'Dark', '297237293', 'fmkfkwmdkwm', '927972947', 'Luke@gmail.com', '2005-03-23', 1, NULL, NULL),
-(34, 'Charles', 'Francis', 'Xavier', '24133513515', '1esfwfwfwrwf', '131412414', 'XavierX@gmail.com', '2005-02-02', 1, NULL, NULL),
-(35, 'Charles', '', '', '', NULL, NULL, 'XavierX@gmail.com', NULL, 1, NULL, NULL),
-(36, 'Roke', 'Kino', 'Miley', '333131131313', 'dsewgfrghgf', '244255366754', 'roke@gmail.com', '2002-06-11', 1, NULL, NULL),
-(37, 'Jaziel', 'Francis', 'Vargas', '463552', 'sadqedqdqd', '3242525252', 'jazi777@gmail.com', '2005-02-10', 1, NULL, NULL),
-(38, 'Jaziel', 'alan', 'Xavier', 'w5252543535', 'fgergehthethh', '143424245522', 'jalan@gmail.com', '2025-10-17', 1, NULL, NULL),
-(39, 'juan', 'Vargas', 'Dark', '241455525624', 'wfrsgrgrwgrf', '13222354255652', 'jugas@gmail.com', '2005-06-24', 1, NULL, NULL);
+(36, 'RokeChan', 'Kino', 'Miley', '333131131313', 'dsewgfrghgf', '244255366754', 'roke@gmail.com', '2002-06-11', 1, NULL, NULL),
+(39, 'juan', 'Vargas', 'Dark', '241455525624', 'wfrsgrgrwgrf', '13222354255652', 'jugas@gmail.com', '2005-06-24', 1, NULL, NULL),
+(68, 'Joaquin ', 'Roque ', 'Quino', '14415972', 'los pinos', '73037314', 'roquequinoj@gmail.com', '2003-06-02', 1, NULL, NULL),
+(69, 'jaziel', 'choque', 'Xavier', '82973928', 'dmlmkerwnf', '38932289328', 'chavezfloresdeybyd@gmail.com', '2025-10-08', 1, NULL, NULL),
+(74, 'vgwfwe', 'egwegew', 'gwegewge', 'gweegewwg', 'sgrgrwg', '3423234', 'sfqewfqe@gmail.com', '4234-03-31', 1, NULL, NULL),
+(75, 'Jazielegs', 'fsfsf', 'sfsfs', 'ffsfsf', 'sffxvsz', '41231232', 'fsffews@gmail.com', '0023-03-31', 1, NULL, NULL),
+(76, 'fedfsfesf', 'sfeafwsfw', 'ferewe', 'f3efwfw', 'dadadsa', '41123', 'jazielarmandovargaschoque@gmail.com', '0231-03-31', 1, NULL, NULL),
+(77, 'cascsc', 'sdsca', '2afaefas', '41223', 'vacac', 'vsv', 'dvsdvdd@gmail.com', '0001-12-12', 1, NULL, NULL),
+(78, 'qwertyu', 'asdfg', 'asdfg', '23456', '12345', '12345', 'asdfgh@gmail.com', '4567-03-12', 1, NULL, NULL),
+(79, 'jazi', 'vajs', 'qalmjaqs', '133121', '132ewgfavsvx', '2313131', 'j.v.36977714@gmail.com', '1331-12-13', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -568,6 +749,15 @@ CREATE TABLE `proyecto` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `proyecto`
+--
+
+INSERT INTO `proyecto` (`id`, `id_docente_guia`, `id_docente_revisor`, `id_estudiante`, `titulo`, `linea_investigacion`, `area_conocimiento`, `calificacion`, `fecha_entrega`, `fecha_defensa`, `resumen`, `observacion`, `created_at`, `updated_at`) VALUES
+(3, 4, 12, 11, 'Sistema de gestion de fenboys', 'Desarrollo de Femboys', 'Ingeniería de Femboys', '100', '2025-11-15', '2025-11-28', 'Sistema web para la gesti?n de estudiantes, docentes y proyectos de grado en una instituci?n educativa.', 'Pendiente de revisi?n inicial.', '2025-11-08 16:08:00', '2025-11-09 15:50:39'),
+(4, 4, 16, 25, 'Análisis de Algoritmos de Machine Learning para Predicción de Notas', 'Inteligencia Artificial', 'Ciencia de Datos', '39', '2025-10-20', '1899-11-30', 'Aplicación de modelos de regresión y clasificación para predecir el rendimiento académico.', 'Aprobado con observaciones menores.', '2025-11-08 16:08:00', '2025-11-09 16:41:44'),
+(5, 16, 4, 11, 'Aplicación Móvil para Seguimiento de Avance Estudiantil', 'Desarrollo Móvil', 'Ingenieria de Software', '97', '2025-10-31', '2025-11-14', 'App hibrida para registrar avances, pagos y observaciones en tiempo real.', 'En desarrollo. Fase de diseño UI/UX.', '2025-11-08 16:08:00', '2025-11-09 15:54:46');
+
 -- --------------------------------------------------------
 
 --
@@ -591,9 +781,11 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`id`, `name`, `descripcion`, `start_path`, `is_default`, `guard_name`, `created_at`, `updated_at`) VALUES
 (1, 'Admin', 'Administrador del sistema con acceso completo', 'inicio', 0, 'web', '2025-06-02 13:34:25', '2025-06-02 13:34:25'),
-(2, 'Docente', 'Docente del sistema acad?mico', '/docente', 0, 'web', '2025-06-02 13:39:58', '2025-06-02 13:39:58'),
-(3, 'Super Admin', NULL, '/dashboard', 1, 'api', NULL, NULL),
-(4, 'Estudiante', 'Estudiante del sistema acad?mico', '/estudiante', 1, 'web', NULL, NULL);
+(2, 'Docente Guia', 'Docente del sistema academico', '/docenteguia', 1, 'web', '2025-06-02 13:39:58', '2025-06-02 13:39:58'),
+(3, 'Super Admin', NULL, '/dashboard', 0, 'api', NULL, NULL),
+(4, 'Estudiante', 'Estudiante del sistema acad?mico', '/estudiante', 0, 'web', NULL, NULL),
+(11, 'Docente Revisor', 'Revisor de proyecto', '/docenteRevisor', 1, 'web', NULL, NULL),
+(12, 'Docente', 'docente', '/docente', 1, 'web', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -606,27 +798,12 @@ CREATE TABLE `role_has_permissions` (
   `role_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
 --
--- Estructura de tabla para la tabla `sessions`
+-- Volcado de datos para la tabla `role_has_permissions`
 --
 
-CREATE TABLE `sessions` (
-  `id` varchar(255) NOT NULL,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `ip_address` varchar(45) DEFAULT NULL,
-  `user_agent` text DEFAULT NULL,
-  `payload` longtext NOT NULL,
-  `last_activity` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `sessions`
---
-
-INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('WJp49qhnZezAppIZdNRjlmyAteUjXnbTniJGFmpE', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 OPR/118.0.0.0', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoidmpRSm9yVzhYS0E3SlBySk9UYnVzYWhmTnc4MDd4eTVCMkFNVHpQSiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbmlzdHJhY2lvbi9wZXJzb25hcyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czo0OiJhdXRoIjthOjE6e3M6MjE6InBhc3N3b3JkX2NvbmZpcm1lZF9hdCI7aToxNzQ4ODcxMzU4O31zOjQ6InVzZXIiO2E6Mzp7czo3OiJ1c2VyX2lkIjtpOjE7czo5OiJ1c2VyX25hbWUiO3M6NToiQWRtaW4iO3M6MTA6InVzZXJfbmFtZXMiO047fX0=', 1748871608);
+INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
+(10, 2);
 
 -- --------------------------------------------------------
 
@@ -652,7 +829,10 @@ CREATE TABLE `taller` (
 --
 
 INSERT INTO `taller` (`id`, `titulo`, `id_metodologia`, `tipo_taller`, `evaluacion_final`, `duracion`, `resultado`, `fecha_realizacion`, `created_at`, `updated_at`) VALUES
-(3, 'Taller de Capacitacion', 5, 'Práctico', 'Proyecto', '20 horas', NULL, '2025-03-01', NULL, NULL);
+(3, 'Taller de Capacitacion', 5, 'Mixto', 'Proyecto', '20 horas', '100', '2025-10-17', NULL, NULL),
+(5, 'Taller de Capacitacion progra', 6, 'Teórico', 'Proyecto', '20 horas', '30', '2025-10-11', NULL, NULL),
+(6, 'Taller de programacion', 6, 'Práctico', 'examen', '20 horas', '50', '2025-10-16', NULL, NULL),
+(7, 'Taller de Capacitacion', 5, 'Mixto', '123', '12', '123', '2025-11-20', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -679,16 +859,22 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_name`, `per_id`, `id_roles`, `status`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, '', 1, 1, 1, 'john.Picazo.update33@example.com', '2025-06-02 13:34:24', '$2y$12$ZfFIdgvk1hWFlOhqt.8fYONfqw6JEjp84jOz1tdLwQy2UnHxS/f8m', 'TmVgnAFCBr', '2025-06-02 13:34:25', '2025-06-02 13:34:25'),
-(16, 'ProfesorX', 35, 1, 1, 'XavierX@gmail.com', NULL, '$2a$10$WgHEb06XZr5sUXOOOSf.z.RcF/5WwSwkhHH6dO1xmUHuwyteCKCH2', NULL, NULL, NULL),
-(17, 'roke', 36, 3, 1, 'roke@gmail.com', NULL, '$2a$10$yGPGGlQkgJXi1pTlHnK8w.WHMci5gfLlpgDX2AGpInbc7Wmff5/6.', NULL, NULL, NULL),
-(18, 'jaziel', 37, 4, 1, 'jazi777@gmail.com', NULL, '$2a$10$g2OQB2VSnEmj8qQz4VTEJ.fto9ddfs6Vg6MFto84U6neMCEGHJ2j2', NULL, NULL, NULL),
-(19, 'jalan', 38, 4, 1, 'jalan@gmail.com', NULL, '$2a$10$AsygXiFC25RaBqjqBA0Ewe19fxmxDuqtfowL5GhWq2KrJ/hrjgnK.', NULL, NULL, NULL),
-(20, 'juan', 39, 2, 1, 'jugas@gmail.com', NULL, '$2a$10$BhlD7e.HzfCyMBRtM.JqX.gCmtZ9OuupFQ4hfYamvhFtp88029.5a', NULL, NULL, NULL);
+(1, 'Leon', 1, 3, 1, 'john.Picazo.update33@example.com', '2025-06-02 13:34:24', '$2y$12$ZfFIdgvk1hWFlOhqt.8fYONfqw6JEjp84jOz1tdLwQy2UnHxS/f8m', 'TmVgnAFCBr', '2025-06-02 13:34:25', '2025-06-02 13:34:25'),
+(17, 'roky', 36, 1, 1, 'roke@gmail.com', NULL, '$2a$10$yGPGGlQkgJXi1pTlHnK8w.WHMci5gfLlpgDX2AGpInbc7Wmff5/6.', NULL, NULL, NULL),
+(20, 'juan', 39, 2, 1, 'jugas@gmail.com', NULL, '$2a$10$BhlD7e.HzfCyMBRtM.JqX.gCmtZ9OuupFQ4hfYamvhFtp88029.5a', NULL, NULL, NULL),
+(49, 'ProfesorX', 76, 1, 1, 'jazielarmandovargaschoque@gmail.com', NULL, '$2a$10$fHZvhH5KlOSRrQf52BHg6.zHhzoXIzThrJwecJX1uAZcRenA/9JPG', NULL, NULL, NULL),
+(50, 'Magneto', 79, 12, 1, 'j.v.36977714@gmail.com', NULL, '$2a$10$.FLJsPlCcGiiClAWMvAHt.eAsgPF.7wXTMuRKRf0j9wIW1/6rgoVO', NULL, NULL, NULL);
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `autenticacion`
+--
+ALTER TABLE `autenticacion`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_autenticacion_email` (`email`);
 
 --
 -- Indices de la tabla `avance_estudiante`
@@ -862,14 +1048,6 @@ ALTER TABLE `role_has_permissions`
   ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
 --
--- Indices de la tabla `sessions`
---
-ALTER TABLE `sessions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `sessions_user_id_index` (`user_id`),
-  ADD KEY `sessions_last_activity_index` (`last_activity`);
-
---
 -- Indices de la tabla `taller`
 --
 ALTER TABLE `taller`
@@ -900,13 +1078,13 @@ ALTER TABLE `avance_estudiante`
 -- AUTO_INCREMENT de la tabla `docente`
 --
 ALTER TABLE `docente`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `estudiante`
 --
 ALTER TABLE `estudiante`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `failed_jobs`
@@ -942,7 +1120,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de la tabla `modulo`
 --
 ALTER TABLE `modulo`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `observacion`
@@ -972,7 +1150,7 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT de la tabla `persona`
 --
 ALTER TABLE `persona`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT de la tabla `plantel_administrativo`
@@ -990,25 +1168,25 @@ ALTER TABLE `programa_academico`
 -- AUTO_INCREMENT de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `taller`
 --
 ALTER TABLE `taller`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- Restricciones para tablas volcadas
