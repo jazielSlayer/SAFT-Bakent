@@ -4,7 +4,7 @@ export const getObservaciones = async (req, res) => {
     const pool = await connect();
     try {
         const [rows] = await pool.query(`
-            SELECT o.*, e.numero_matricula, p.nombres, p.apellidopat, p.apellidomat
+            SELECT o.*, e.ru, p.nombres, p.apellidopat, p.apellidomat
             FROM observacion o
             JOIN estudiante e ON o.id_estudiante = e.id
             JOIN persona p ON e.per_id = p.id
@@ -20,7 +20,7 @@ export const getObservacion = async (req, res) => {
     const pool = await connect();
     try {
         const [rows] = await pool.query(`
-            SELECT o.*, e.numero_matricula, p.nombres, p.apellidopat, p.apellidomat
+            SELECT o.*, e.ru, p.nombres, p.apellidopat, p.apellidomat
             FROM observacion o
             JOIN estudiante e ON o.id_estudiante = e.id
             JOIN persona p ON e.per_id = p.id
@@ -165,7 +165,7 @@ export const updateObservacion = async (req, res) => {
                 o.fecha,
                 o.created_at,
                 o.updated_at,
-                e.numero_matricula,
+                e.ru,
                 p.nombres AS estudiante_nombres,
                 p.apellidopat AS estudiante_apellidopat,
                 p.apellidomat AS estudiante_apellidomat

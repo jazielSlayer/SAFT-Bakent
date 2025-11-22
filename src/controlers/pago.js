@@ -4,7 +4,7 @@ export const getPagos = async (req, res) => {
     const pool = await connect();
     try {
         const [rows] = await pool.query(`
-            SELECT p.*, e.numero_matricula, per.nombres, per.apellidopat, per.apellidomat
+            SELECT p.*, e.ru, per.nombres, per.apellidopat, per.apellidomat
             FROM pago p
             JOIN estudiante e ON p.id_estudiante = e.id
             JOIN persona per ON e.per_id = per.id
@@ -20,7 +20,7 @@ export const getPago = async (req, res) => {
     const pool = await connect();
     try {
         const [rows] = await pool.query(`
-            SELECT p.*, e.numero_matricula, per.nombres, per.apellidopat, per.apellidomat
+            SELECT p.*, e.ru, per.nombres, per.apellidopat, per.apellidomat
             FROM pago p
             JOIN estudiante e ON p.id_estudiante = e.id
             JOIN persona per ON e.per_id = per.id
@@ -39,7 +39,7 @@ export const getPagoEstudiante = async (req, res) => {
     const { id_estudiante } = req.params;
     try {
         const [rows] = await pool.query(`
-            SELECT p.*, e.numero_matricula, per.nombres, per.apellidopat, per.apellidomat
+            SELECT p.*, e.ru, per.nombres, per.apellidopat, per.apellidomat
             FROM pago p
             JOIN estudiante e ON p.id_estudiante = e.id
             JOIN persona per ON e.per_id = per.id
@@ -207,7 +207,7 @@ export const updatePago = async (req, res) => {
                 p.fecha,
                 p.created_at,
                 p.updated_at,
-                e.numero_matricula,
+                e.ru,
                 e_2.nombres AS estudiante_nombres,
                 e_2.apellidopat AS estudiante_apellidopat,
                 e_2.apellidomat AS estudiante_apellidomat

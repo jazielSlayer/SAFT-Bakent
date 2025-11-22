@@ -7,7 +7,7 @@ async function obtenerDatosProyecto(proyectoId) {
     const [rows] = await pool.query(`
         SELECT 
             p.*,
-            e.numero_matricula,
+            e.ru,
             e.id as estudiante_id,
             per_e.nombres as est_nombres,
             per_e.apellidopat as est_apellidopat,
@@ -44,7 +44,7 @@ async function obtenerDatosProyecto(proyectoId) {
         ...row,
         estudiante: {
             id: row.estudiante_id,
-            numero_matricula: row.numero_matricula,
+            ru: row.ru,
             persona: {
                 nombres: row.est_nombres,
                 apellidopat: row.est_apellidopat,
