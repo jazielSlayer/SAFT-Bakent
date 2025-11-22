@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getEstudiantes, getEstudiante, createEstudiante, updateEstudiante, deleteEstudiante } from "../controlers/estudiante";
+import { getEstudiantes, getEstudiante, createEstudiante, updateEstudiante, deleteEstudiante, getEvaluacionEstudiante, getAprobacionEstudianteTaller } from "../controlers/estudiante";
 
 const router = Router();
 
@@ -234,5 +234,9 @@ router.put("/estudiantes/:id", updateEstudiante);
  *         description: Error del servidor
  */
 router.delete("/estudiantes/:id", deleteEstudiante);
+
+router.get("/estudiante/evaluacion/:id", getEvaluacionEstudiante);
+
+router.get('/aprobacion-taller/:id', getAprobacionEstudianteTaller);
 
 export default router;

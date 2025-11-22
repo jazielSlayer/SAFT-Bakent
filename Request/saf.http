@@ -134,7 +134,7 @@ GET {{baseUrl}}/proyectos
 
 ###
 # Obtener un proyecto por ID
-GET {{baseUrl}}/proyecto/4
+GET {{baseUrl}}/proyecto/12
 
 ###
 # Obtener un proyecto por ID
@@ -163,7 +163,7 @@ Content-Type: application/json
 
 ###
 # Actualizar un proyecto
-PUT {{baseUrl}}/proyecto/update/7
+PUT {{baseUrl}}/proyecto/update/12
 Content-Type: application/json
 
 {
@@ -174,7 +174,9 @@ Content-Type: application/json
   "fecha_defensa": "2025-07-31",
   "resumen": "Sistema web actualizado para gestión de proyectos académicos, control de avances, pagos con QR y roles de usuarios.",
   "observacion": "Actualización aprobada por comité. Listo para defensa.",
-  "calificacion": 90
+  "calificacion": 90,
+  "calificacion2": 90,
+  "calificacion_final": 90
 }
 ###
 # Eliminar un proyecto

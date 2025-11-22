@@ -138,7 +138,7 @@ GET {{baseUrl}}/estudiantes
 
 ###
 # Obtener un estudiante por ID
-GET {{baseUrl}}/estudiantes/1
+GET {{baseUrl}}/estudiante/evaluacion/25
 
 ###
 # Crear un nuevo estudiante
