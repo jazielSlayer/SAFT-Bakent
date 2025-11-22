@@ -190,7 +190,7 @@ router.get("/personas/:id", getPersona);
  *       500:
  *         description: Error del servidor
  */
-router.post("/personas", createPersona);
+router.post("/persona/crear", createPersona);
 
 /**
  * @swagger

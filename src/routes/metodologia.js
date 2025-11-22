@@ -159,7 +159,7 @@ router.get("/metodologias/:id", getMetodologia);
  *       500:
  *         description: Error del servidor
  */
-router.post("/metodologias", createMetodologia);
+router.post("/metodologia/crear", createMetodologia);
 
 /**
  * @swagger
