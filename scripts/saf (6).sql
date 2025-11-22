@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-11-2025 a las 21:01:52
+-- Tiempo de generación: 22-11-2025 a las 17:42:44
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -73,6 +73,7 @@ INSERT INTO `autenticacion` (`id`, `email`, `code`, `expires_at`, `created_at`) 
 ('305f3000-06fd-44eb-9831-d47b8882278a', 'jazielarmandovargaschoque@gmail.com', '147982', '2025-11-21 14:04:10', '2025-11-21 17:54:10'),
 ('309c4a6a-105d-4719-9c75-b37704781d94', 'sfqewfqe@gmail.com', '659031', '2025-11-02 14:36:57', '2025-11-02 18:26:57'),
 ('3301d3c3-1919-4a1d-9d59-c5c1c60b9480', 'sfqewfqe@gmail.com', '569754', '2025-11-02 14:37:00', '2025-11-02 18:27:00'),
+('3489c524-7c29-4fd5-86ee-bf0e9b80c027', 'jazielarmandovargaschoque@gmail.com', '906815', '2025-11-22 11:49:29', '2025-11-22 15:39:29'),
 ('34d4783e-4c8c-462d-8e6b-66f76d0878fc', 'jazielarmandovargaschoque@gmail.com', '734208', '2025-11-03 16:58:01', '2025-11-03 20:48:01'),
 ('34d4a41b-c1d0-47d7-a803-ee2647d97926', 'jazielarmandovargaschoque@gmail.com', '409962', '2025-11-06 12:45:50', '2025-11-06 16:35:50'),
 ('372ecea2-72a9-4f07-bd83-db87b40aec39', 'jazielarmandovargaschoque@gmail.com', '943734', '2025-11-02 15:07:38', '2025-11-02 18:57:38'),
@@ -95,6 +96,7 @@ INSERT INTO `autenticacion` (`id`, `email`, `code`, `expires_at`, `created_at`) 
 ('5120c224-2553-47eb-99d6-05e57ea35086', 'jazielarmandovargaschoque@gmail.com', '890773', '2025-11-06 12:46:27', '2025-11-06 16:36:27'),
 ('54d1f38c-1f1a-46f2-a980-9fc50c2018d1', 'jazielarmandovargaschoque@gmail.com', '955943', '2025-11-06 09:48:20', '2025-11-06 13:38:20'),
 ('56203f05-6312-43e8-9218-b4762a66114f', 'jazielarmandovargaschoque@gmail.com', '430081', '2025-11-03 17:37:22', '2025-11-03 21:27:22'),
+('57c78291-fdf3-47d5-be72-99ed60514115', 'jazielarmandovargaschoque@gmail.com', '778503', '2025-11-22 11:49:25', '2025-11-22 15:39:25'),
 ('5843c0ea-d8f8-4de5-bd22-810fd09da5f5', 'jazielarmandovargaschoque@gmail.com', '410127', '2025-11-05 20:54:42', '2025-11-06 00:44:42'),
 ('58548c93-55f1-4c2c-b4e4-57d8ac9c8aec', 'asdfgh@gmail.com', '263087', '2025-11-05 14:15:12', '2025-11-05 18:05:12'),
 ('590fc666-c794-4e8f-aa4a-4c5098b24ca0', 'jazielarmandovargaschoque@gmail.com', '964657', '2025-11-03 16:58:04', '2025-11-03 20:48:04'),
@@ -242,6 +244,16 @@ CREATE TABLE `avance_estudiante` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `avance_estudiante`
+--
+
+INSERT INTO `avance_estudiante` (`id`, `id_estudiante`, `id_modulo`, `responsable`, `fecha`, `estado`, `created_at`, `updated_at`) VALUES
+(13, 25, 17, 'ProfesorX', '2025-11-20', 'Completado', '2025-11-22 00:11:34', '2025-11-22 00:11:34'),
+(14, 25, 18, 'ProfesorX', '2025-11-21', 'En progreso', '2025-11-22 00:11:34', '2025-11-22 00:11:34'),
+(15, 11, 17, 'Magneto', '2025-11-19', 'Completado', '2025-11-22 00:11:34', '2025-11-22 00:11:34'),
+(16, 11, 19, 'ProfesorX', '2025-11-21', 'Pendiente', '2025-11-22 00:11:34', '2025-11-22 00:11:34');
+
 -- --------------------------------------------------------
 
 --
@@ -302,7 +314,7 @@ CREATE TABLE `estudiante` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `per_id` bigint(20) UNSIGNED NOT NULL,
   `id_programa_academico` bigint(20) UNSIGNED NOT NULL,
-  `numero_matricula` varchar(255) NOT NULL,
+  `ru` int(5) UNSIGNED ZEROFILL NOT NULL,
   `fecha_inscripcion` date NOT NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -313,10 +325,10 @@ CREATE TABLE `estudiante` (
 -- Volcado de datos para la tabla `estudiante`
 --
 
-INSERT INTO `estudiante` (`id`, `per_id`, `id_programa_academico`, `numero_matricula`, `fecha_inscripcion`, `estado`, `created_at`, `updated_at`) VALUES
-(11, 26, 1, '23321314', '2025-09-27', 1, NULL, NULL),
-(12, 36, 1, 'gwrwgew', '2025-10-10', 0, NULL, NULL),
-(25, 76, 1, '1121313', '2025-11-05', 1, NULL, NULL);
+INSERT INTO `estudiante` (`id`, `per_id`, `id_programa_academico`, `ru`, `fecha_inscripcion`, `estado`, `created_at`, `updated_at`) VALUES
+(11, 26, 1, 62629, '2025-09-27', 1, NULL, NULL),
+(12, 36, 1, 55555, '2025-11-21', 0, NULL, NULL),
+(25, 76, 1, 62634, '2025-11-05', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -409,7 +421,8 @@ CREATE TABLE `metodologia` (
 
 INSERT INTO `metodologia` (`id`, `nombre`, `descripcion`, `objetivos`, `numero_modulos`, `fecha_inicio`, `fecha_finalizacion`, `created_at`, `updated_at`) VALUES
 (5, 'Metodología Scrum', 'Metodología para desarrollo ágil', 'Mejorar eficiencia en proyectos', '25', '2025-01-01', '2025-06-30', NULL, NULL),
-(6, 'Metodología Scrull', 'Metodología para gestión de proyectos', 'Mejorar eficiencia en proyectos', '14', '2025-01-01', '2025-06-30', NULL, NULL);
+(6, 'Metodología Scrull', 'Metodología para gestión de proyectos', 'Mejorar eficiencia en proyectos', '14', '2025-01-01', '2025-06-30', NULL, NULL),
+(7, 'Metodolog?a SAFE 6.0 (Scaled Agile Framework)', 'Framework ?gil escalado para grandes organizaciones', 'Alinear equipos y entregar valor continuo a gran escala', '32', '2025-12-01', '2026-06-30', '2025-11-22 00:08:26', '2025-11-22 00:08:26');
 
 -- --------------------------------------------------------
 
@@ -490,6 +503,16 @@ CREATE TABLE `modulo` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `modulo`
+--
+
+INSERT INTO `modulo` (`id`, `codigo`, `nombre`, `id_docente`, `id_metodologia`, `duracion`, `descripcion`, `fecha_inicio`, `fecha_finalizacion`, `created_at`, `updated_at`) VALUES
+(17, 'MOD-SAFE-01', 'PI Planning y Artefactos', 4, 7, '5 d?as', 'Planificaci?n de Incremento de Programa', '2025-12-15', '2025-12-19', '2025-11-22 00:10:55', '2025-11-22 00:10:55'),
+(18, 'MOD-SAFE-02', 'Lean Portfolio Management', 16, 7, '4 d?as', 'Gesti?n de portafolio ?gil', '2025-12-22', '2025-12-26', '2025-11-22 00:10:55', '2025-11-22 00:10:55'),
+(19, 'MOD-SAFE-03', 'DevOps y Release on Demand', 12, 7, '6 d?as', 'Cultura y pr?cticas DevOps en gran escala', '2026-01-05', '2026-01-12', '2025-11-22 00:10:55', '2025-11-22 00:10:55'),
+(20, 'MOD-SAFE-04', 'Architectural Runway y Enablers', 4, 7, '4 d?as', 'Construcci?n de runway t?cnico y enablers', '2026-01-13', '2026-01-17', '2025-11-22 00:10:55', '2025-11-22 00:10:55');
+
 -- --------------------------------------------------------
 
 --
@@ -505,6 +528,16 @@ CREATE TABLE `observacion` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `observacion`
+--
+
+INSERT INTO `observacion` (`id`, `id_estudiante`, `contenido`, `autor`, `fecha`, `created_at`, `updated_at`) VALUES
+(4, 25, 'El estudiante muestra gran inter?s en temas de arquitectura empresarial y DevOps. Recomendado para liderazgo t?cnico en el PI Planning.', 'ProfesorX', '2025-11-21', '2025-11-22 00:11:47', '2025-11-22 00:11:47'),
+(5, 25, 'Entreg? el entregable del m?dulo SAFE-01 con 2 d?as de anticipaci?n y calidad sobresaliente.', 'ProfesorX', '2025-11-20', '2025-11-22 00:11:47', '2025-11-22 00:11:47'),
+(6, 11, 'Necesita reforzar conceptos de Release on Demand. Se le asignar? tutor?a extra el pr?ximo viernes.', 'Magneto', '2025-11-21', '2025-11-22 00:11:47', '2025-11-22 00:11:47'),
+(7, 11, 'Participaci?n activa en las sesiones de PI Planning simuladas.', 'ProfesorX', '2025-11-19', '2025-11-22 00:11:47', '2025-11-22 00:11:47');
 
 -- --------------------------------------------------------
 
@@ -761,6 +794,8 @@ CREATE TABLE `proyecto` (
   `linea_investigacion` varchar(255) NOT NULL,
   `area_conocimiento` varchar(255) NOT NULL,
   `calificacion` varchar(255) DEFAULT NULL,
+  `calificacion2` decimal(5,2) DEFAULT NULL COMMENT 'Calificaci?n del revisor o segunda nota',
+  `calificacion_final` decimal(5,2) DEFAULT NULL COMMENT 'Promedio final o calificaci?n definitiva',
   `fecha_entrega` date DEFAULT NULL,
   `fecha_defensa` date DEFAULT NULL,
   `resumen` text DEFAULT NULL,
@@ -773,9 +808,10 @@ CREATE TABLE `proyecto` (
 -- Volcado de datos para la tabla `proyecto`
 --
 
-INSERT INTO `proyecto` (`id`, `id_docente_guia`, `id_docente_revisor`, `id_estudiante`, `titulo`, `linea_investigacion`, `area_conocimiento`, `calificacion`, `fecha_entrega`, `fecha_defensa`, `resumen`, `observacion`, `created_at`, `updated_at`) VALUES
-(4, 4, 16, 25, 'Análisis de Algoritmos de Machine Learning para Predicción de Notas', 'Inteligencia Artificial', 'Ciencia de Datos', '39', '2025-10-20', '1899-11-30', 'Aplicación de modelos de regresión y clasificación para predecir el rendimiento académico.', 'Aprobado con observaciones menores.', '2025-11-08 16:08:00', '2025-11-09 16:41:44'),
-(5, 16, 4, 11, 'Aplicación Móvil para Seguimiento de Avance Estudiantil', 'Desarrollo Móvil', 'Ingenieria de Software', '97', '2025-10-31', '2025-11-14', 'App hibrida para registrar avances, pagos y observaciones en tiempo real.', 'En desarrollo. Fase de diseño UI/UX.', '2025-11-08 16:08:00', '2025-11-09 15:54:46');
+INSERT INTO `proyecto` (`id`, `id_docente_guia`, `id_docente_revisor`, `id_estudiante`, `titulo`, `linea_investigacion`, `area_conocimiento`, `calificacion`, `calificacion2`, `calificacion_final`, `fecha_entrega`, `fecha_defensa`, `resumen`, `observacion`, `created_at`, `updated_at`) VALUES
+(4, 4, 16, 25, 'Análisis de Algoritmos de Machine Learning para Predicción de Notas', 'Inteligencia Artificial', 'Ciencia de Datos', '100', 65.00, 81.00, '2025-10-20', '1899-11-30', 'Aplicación de modelos de regresión y clasificación para predecir el rendimiento académico.', 'Aprobado con observaciones menores.', '2025-11-08 16:08:00', '2025-11-22 15:42:02'),
+(5, 16, 4, 11, 'Aplicación Móvil para Seguimiento de Avance Estudiantil', 'Desarrollo Móvil', 'Ingenieria de Software', '100', 61.00, 75.00, '2025-10-31', '2025-11-14', 'App hibrida para registrar avances, pagos y observaciones en tiempo real.', 'En desarrollo. Fase de diseño UI/UX.', '2025-11-08 16:08:00', '2025-11-22 02:13:59'),
+(12, 4, 12, 11, 'Sistema de Gestión Académica SAF v2', 'Desarrollo de software educativo e integración de pagos', 'Ingeniería de Software y Fintech', '90', 90.00, 90.00, '2025-06-15', '2025-07-31', 'Sistema web actualizado para gestión de proyectos académicos, control de avances, pagos con QR y roles de usuarios.', 'Actualización aprobada por comité. Listo para defensa.', NULL, '2025-11-22 02:18:15');
 
 -- --------------------------------------------------------
 
@@ -850,7 +886,7 @@ CREATE TABLE `taller` (
 
 INSERT INTO `taller` (`id`, `titulo`, `id_metodologia`, `tipo_taller`, `evaluacion_final`, `duracion`, `resultado`, `fecha_realizacion`, `created_at`, `updated_at`) VALUES
 (10, 'Taller 1', 5, 'Teórico', 'excelente', '24 dias', 'exitoso', '2025-11-20', NULL, NULL),
-(11, 'Taller 2', 5, 'Teórico', 'Aporbado', '25', 'exitoso', '2025-11-23', NULL, NULL),
+(11, 'Taller 2', 5, 'Práctico', 'Aporbado', '25', 'exitoso', '2025-11-21', NULL, NULL),
 (12, 'Taller 3', 5, 'Teórico', 'aprobado', '23', 'pediente', '2025-11-11', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -928,6 +964,7 @@ ALTER TABLE `docente`
 --
 ALTER TABLE `estudiante`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_ru` (`ru`),
   ADD KEY `estudiante_per_id_foreign` (`per_id`),
   ADD KEY `estudiante_id_programa_academico_foreign` (`id_programa_academico`);
 
@@ -1092,7 +1129,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `avance_estudiante`
 --
 ALTER TABLE `avance_estudiante`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `docente`
@@ -1128,7 +1165,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT de la tabla `metodologia`
 --
 ALTER TABLE `metodologia`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `migrations`
@@ -1140,13 +1177,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de la tabla `modulo`
 --
 ALTER TABLE `modulo`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `observacion`
 --
 ALTER TABLE `observacion`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `pago`
@@ -1188,7 +1225,7 @@ ALTER TABLE `programa_academico`
 -- AUTO_INCREMENT de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`

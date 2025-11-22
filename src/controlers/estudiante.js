@@ -1,6 +1,6 @@
 import { connect } from '../database';
 
-// FUNCIÓN AUXILIAR (pégala arriba de todo)
+
 const calcularEstadoTalleres = (t1, t2, tf) => {
     const MIN = 61;
 
@@ -91,11 +91,11 @@ export const getEstudiante = async (req, res) => {
 
 export const createEstudiante = async (req, res) => {
     const pool = await connect();
-    const { per_id, id_programa_academico, numero_matricula, fecha_inscripcion, estado } = req.body;
+    const { per_id, id_programa_academico, ru, fecha_inscripcion, estado } = req.body;
 
     try {
 
-        if (!per_id || !id_programa_academico || !numero_matricula || !fecha_inscripcion) {
+        if (!per_id || !id_programa_academico || !ru || !fecha_inscripcion) {
             return res.status(400).json({ message: 'Faltan campos requeridos' });
         }
 
@@ -116,15 +116,15 @@ export const createEstudiante = async (req, res) => {
         const estadoValue = estado === true || estado === 1 ? 1 : 0;
 
         const [results] = await pool.query(
-            'INSERT INTO estudiante (per_id, id_programa_academico, numero_matricula, fecha_inscripcion, estado) VALUES (?, ?, ?, ?, ?)',
-            [per_id, id_programa_academico, numero_matricula, fecha_inscripcion, estadoValue]
+            'INSERT INTO estudiante (per_id, id_programa_academico, ru, fecha_inscripcion, estado) VALUES (?, ?, ?, ?, ?)',
+            [per_id, id_programa_academico, ru, fecha_inscripcion, estadoValue]
         );
 
         res.json({
             id: results.insertId,
             per_id,
             id_programa_academico,
-            numero_matricula,
+            ru,
             fecha_inscripcion,
             estado: estadoValue
         });
@@ -142,11 +142,11 @@ export const createEstudiante = async (req, res) => {
 
 export const updateEstudiante = async (req, res) => {
     const pool = await connect();
-    const { per_id, id_programa_academico, numero_matricula, fecha_inscripcion, estado } = req.body;
+    const { per_id, id_programa_academico, ru, fecha_inscripcion, estado } = req.body;
     try {
         const [results] = await pool.query(
-            "UPDATE estudiante SET per_id = ?, id_programa_academico = ?, numero_matricula = ?, fecha_inscripcion = ?, estado = ? WHERE id = ?",
-            [per_id, id_programa_academico, numero_matricula, fecha_inscripcion, estado, req.params.id]
+            "UPDATE estudiante SET per_id = ?, id_programa_academico = ?, ru = ?, fecha_inscripcion = ?, estado = ? WHERE id = ?",
+            [per_id, id_programa_academico, ru, fecha_inscripcion, estado, req.params.id]
         );
         if (results.affectedRows === 0) return res.status(404).json({ message: 'Estudiante no encontrado' });
         res.json({ message: 'Estudiante actualizado' });
@@ -176,7 +176,7 @@ export const getEvaluacionEstudiante = async (req, res) => {
         const [base] = await pool.query(`
             SELECT 
                 e.id AS estudiante_id,
-                e.numero_matricula,
+                e.ru,
                 p.nombres, p.apellidopat, p.apellidomat,
                 pa.nombre_programa,
 
@@ -201,7 +201,7 @@ export const getEvaluacionEstudiante = async (req, res) => {
             data: {
                 estudiante_id: est.estudiante_id,
                 nombre_completo: `${est.nombres} ${est.apellidopat} ${est.apellidomat}`.trim(),
-                matricula: est.numero_matricula,
+                matricula: est.ru,
                 programa: est.nombre_programa,
                 proyecto: est.proyecto_titulo || 'Sin asignar',
 
@@ -241,7 +241,7 @@ export const getAprobacionEstudianteTaller = async (req, res) => {
     try {
         const [row] = await pool.query(`
             SELECT 
-                e.numero_matricula,
+                e.ru,
                 p.nombres, p.apellidopat, p.apellidomat,
                 proj.titulo,
                 proj.calificacion,        -- Taller 1
@@ -263,7 +263,7 @@ export const getAprobacionEstudianteTaller = async (req, res) => {
             data: {
                 estudiante: {
                     nombre: `${est.nombres} ${est.apellidopat} ${est.apellidomat}`.trim(),
-                    matricula: est.numero_matricula,
+                    matricula: est.ru,
                     proyecto: est.titulo || 'Sin proyecto'
                 },
                 notas: {
