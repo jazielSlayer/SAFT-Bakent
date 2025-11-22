@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-11-2025 a las 16:45:45
+-- Tiempo de generación: 21-11-2025 a las 21:01:52
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -70,6 +70,7 @@ INSERT INTO `autenticacion` (`id`, `email`, `code`, `expires_at`, `created_at`) 
 ('2e800579-a2e5-4faa-92d3-0ac7d4d946c3', 'jazielarmandovargaschoque@gmail.com', '169499', '2025-11-06 16:10:22', '2025-11-06 20:00:22'),
 ('2fee6595-8b43-48fa-9f40-046bafb94cdf', 'jazielarmandovargaschoque@gmail.com', '387235', '2025-11-04 22:24:03', '2025-11-05 02:14:03'),
 ('2ffd4732-cc92-4ab7-9d26-f4e0054d8fc0', 'jazielarmandovargaschoque@gmail.com', '113267', '2025-11-06 16:56:18', '2025-11-06 20:46:18'),
+('305f3000-06fd-44eb-9831-d47b8882278a', 'jazielarmandovargaschoque@gmail.com', '147982', '2025-11-21 14:04:10', '2025-11-21 17:54:10'),
 ('309c4a6a-105d-4719-9c75-b37704781d94', 'sfqewfqe@gmail.com', '659031', '2025-11-02 14:36:57', '2025-11-02 18:26:57'),
 ('3301d3c3-1919-4a1d-9d59-c5c1c60b9480', 'sfqewfqe@gmail.com', '569754', '2025-11-02 14:37:00', '2025-11-02 18:27:00'),
 ('34d4783e-4c8c-462d-8e6b-66f76d0878fc', 'jazielarmandovargaschoque@gmail.com', '734208', '2025-11-03 16:58:01', '2025-11-03 20:48:01'),
@@ -84,6 +85,7 @@ INSERT INTO `autenticacion` (`id`, `email`, `code`, `expires_at`, `created_at`) 
 ('428df74c-4e62-4196-b904-3b1c480605e3', 'jazielarmandovargaschoque@gmail.com', '998384', '2025-11-06 01:09:58', '2025-11-06 04:59:58'),
 ('4397f48a-2441-4103-9c64-fbb77106bb62', 'jazielarmandovargaschoque@gmail.com', '745569', '2025-11-06 20:55:17', '2025-11-07 00:45:17'),
 ('43d83c90-e512-4b0b-a35e-70bb820540ac', 'jazielarmandovargaschoque@gmail.com', '126331', '2025-11-08 12:29:08', '2025-11-08 16:19:08'),
+('45c9c1b1-c3d5-4aa4-8afb-5147d891b680', 'jazielarmandovargaschoque@gmail.com', '822952', '2025-11-20 09:45:14', '2025-11-20 13:35:14'),
 ('464aee07-75e4-41ea-85a6-16d8a8be0bae', 'jazielarmandovargaschoque@gmail.com', '318247', '2025-11-09 11:02:05', '2025-11-09 14:52:05'),
 ('4817afe9-5b46-4909-b7c6-911cc4a1a1b4', 'j.v.36977714@gmail.com', '529074', '2025-11-06 21:20:50', '2025-11-07 01:10:50'),
 ('48da01f7-e382-4222-99cf-cdc399731c81', 'jazielarmandovargaschoque@gmail.com', '897643', '2025-11-06 01:03:35', '2025-11-06 04:53:35'),
@@ -96,10 +98,13 @@ INSERT INTO `autenticacion` (`id`, `email`, `code`, `expires_at`, `created_at`) 
 ('5843c0ea-d8f8-4de5-bd22-810fd09da5f5', 'jazielarmandovargaschoque@gmail.com', '410127', '2025-11-05 20:54:42', '2025-11-06 00:44:42'),
 ('58548c93-55f1-4c2c-b4e4-57d8ac9c8aec', 'asdfgh@gmail.com', '263087', '2025-11-05 14:15:12', '2025-11-05 18:05:12'),
 ('590fc666-c794-4e8f-aa4a-4c5098b24ca0', 'jazielarmandovargaschoque@gmail.com', '964657', '2025-11-03 16:58:04', '2025-11-03 20:48:04'),
+('59543857-1080-4b60-882a-c51c0ca8ca58', 'jazielarmandovargaschoque@gmail.com', '838352', '2025-11-18 15:56:30', '2025-11-18 19:46:30'),
 ('5a5af9c9-e07e-4b5a-8466-a22de0232c42', 'jazielarmandovargaschoque@gmail.com', '266995', '2025-11-05 21:35:41', '2025-11-06 01:25:41'),
 ('5b132ea3-f6ae-4dd2-858b-9bab4cf36c06', 'jazielarmandovargaschoque@gmail.com', '234940', '2025-11-04 22:22:50', '2025-11-05 02:12:50'),
 ('5e415132-d4f8-411f-bb98-ca07b30a1f3f', 'jazielarmandovargaschoque@gmail.com', '217592', '2025-11-03 07:53:28', '2025-11-03 11:43:28'),
 ('6008246a-c3b4-4f70-a88e-604159ccc717', 'jazielarmandovargaschoque@gmail.com', '234764', '2025-11-02 15:18:58', '2025-11-02 19:08:58'),
+('60d271dc-8ca0-4aa3-94d2-f7dce944d0f7', 'jazielarmandovargaschoque@gmail.com', '852552', '2025-11-18 15:14:06', '2025-11-18 19:04:06'),
+('62677d38-f612-47db-a57e-4a6e4d102fc1', 'jazielarmandovargaschoque@gmail.com', '271348', '2025-11-18 15:56:00', '2025-11-18 19:46:00'),
 ('664cc924-1dae-40d4-b65a-1b8def768576', 'jazielarmandovargaschoque@gmail.com', '398837', '2025-11-06 01:03:39', '2025-11-06 04:53:39'),
 ('6770724c-2b9a-47f7-a726-45f645eff35a', 'jazielarmandovargaschoque@gmail.com', '963642', '2025-11-06 09:48:14', '2025-11-06 13:38:14'),
 ('67ab1527-3c1f-4921-a7a2-3568223d0a12', 'jazielarmandovargaschoque@gmail.com', '676234', '2025-11-06 12:45:46', '2025-11-06 16:35:46'),
@@ -111,15 +116,19 @@ INSERT INTO `autenticacion` (`id`, `email`, `code`, `expires_at`, `created_at`) 
 ('7106f04c-d968-4ed7-a63c-b95870373941', 'jazielarmandovargaschoque@gmail.com', '362458', '2025-11-05 18:08:57', '2025-11-05 21:58:57'),
 ('7155c3c9-afcf-4721-aa3d-5692bbab4086', 'jazielarmandovargaschoque@gmail.com', '809105', '2025-11-06 01:10:01', '2025-11-06 05:00:01'),
 ('72dfdde3-fdcd-4663-b063-2e89d7acf26c', 'j.v.36977714@gmail.com', '351760', '2025-11-06 21:18:29', '2025-11-07 01:08:29'),
+('73446e19-2ead-4ecb-ab81-bac591c6740b', 'jazielarmandovargaschoque@gmail.com', '800450', '2025-11-19 09:06:13', '2025-11-19 12:56:13'),
 ('743fcaef-5342-4835-a975-7440defecc05', 'jazielarmandovargaschoque@gmail.com', '709673', '2025-11-05 21:35:41', '2025-11-06 01:25:41'),
 ('74c25fe3-6eea-495c-99ba-ecd78e165f0f', 'jazielarmandovargaschoque@gmail.com', '287240', '2025-11-06 20:55:13', '2025-11-07 00:45:13'),
 ('756e920c-4ec8-4048-b745-474d114f1907', 'jazielarmandovargaschoque@gmail.com', '955441', '2025-11-18 11:15:05', '2025-11-18 15:05:05'),
 ('770cf591-776b-406d-97d5-eb5f82799660', 'jazielarmandovargaschoque@gmail.com', '830811', '2025-11-02 15:23:18', '2025-11-02 19:13:18'),
 ('778848db-2139-4de4-bcbf-98ac4fc22baa', 'jazielarmandovargaschoque@gmail.com', '796257', '2025-11-05 21:35:37', '2025-11-06 01:25:37'),
+('7932c016-9f63-4c09-a09d-6cf646a55294', 'jazielarmandovargaschoque@gmail.com', '919824', '2025-11-18 15:14:09', '2025-11-18 19:04:09'),
 ('794d686a-56c6-4308-aad0-de59dd5f7ac2', 'jazielarmandovargaschoque@gmail.com', '594320', '2025-11-04 20:52:17', '2025-11-05 00:42:17'),
 ('7b130a7c-d0f8-4f27-a875-257d05781a3e', 'jazielarmandovargaschoque@gmail.com', '558902', '2025-11-05 11:05:37', '2025-11-05 14:55:37'),
 ('7b57df43-d107-4338-a327-d80bd8bc7f03', 'jazielarmandovargaschoque@gmail.com', '292539', '2025-11-05 17:00:32', '2025-11-05 20:50:32'),
 ('7b711871-7be4-43b9-aa23-704cfbb9bc04', 'jazielarmandovargaschoque@gmail.com', '420802', '2025-11-06 00:56:45', '2025-11-06 04:46:45'),
+('7e29913b-55ea-42d3-b7f3-c8010411f1e8', 'jazielarmandovargaschoque@gmail.com', '747618', '2025-11-21 11:39:20', '2025-11-21 15:29:20'),
+('7eb553d9-f8b1-498b-9fff-6aa0303b5011', 'jazielarmandovargaschoque@gmail.com', '138557', '2025-11-19 09:06:09', '2025-11-19 12:56:09'),
 ('7f7c7ea4-a1ba-43fc-842b-7f05a4e1c8dd', 'jazielarmandovargaschoque@gmail.com', '172735', '2025-11-14 15:15:20', '2025-11-14 19:05:20'),
 ('7fc0dc80-d3df-4557-affb-14e344427fd2', 'jazielarmandovargaschoque@gmail.com', '960171', '2025-11-02 15:23:18', '2025-11-02 19:13:18'),
 ('80aea7f7-4745-47ce-a824-a638b0540129', 'jazielarmandovargaschoque@gmail.com', '225380', '2025-11-04 21:07:55', '2025-11-05 00:57:55'),
@@ -129,6 +138,7 @@ INSERT INTO `autenticacion` (`id`, `email`, `code`, `expires_at`, `created_at`) 
 ('89d0ddf6-2210-4b35-b3b8-17ba35d04791', 'jazielarmandovargaschoque@gmail.com', '997287', '2025-11-02 14:34:38', '2025-11-02 18:24:38'),
 ('8cc2691a-eb67-437e-a052-2a05c3ba6e37', 'fsffews@gmail.com', '943927', '2025-11-03 07:57:45', '2025-11-03 11:47:45'),
 ('8e4f4ae0-cd6d-456d-92d2-ff603c5c896e', 'jazielarmandovargaschoque@gmail.com', '585377', '2025-11-05 12:37:35', '2025-11-05 16:27:35'),
+('8e9ba7c0-402c-4f89-bca1-dc4b837f1c6e', 'jazielarmandovargaschoque@gmail.com', '829444', '2025-11-21 14:04:06', '2025-11-21 17:54:06'),
 ('8f12dd1c-272b-4214-8c03-bc0c673b24cf', 'jazielarmandovargaschoque@gmail.com', '482695', '2025-11-01 18:49:46', '2025-11-01 22:39:46'),
 ('90333e1f-b0ed-4a39-9f25-92f706bb9c3d', 'jazielarmandovargaschoque@gmail.com', '652201', '2025-11-06 16:13:49', '2025-11-06 20:03:49'),
 ('919466f0-89fe-4fd3-8ff0-c33625ddd5a6', 'jazielarmandovargaschoque@gmail.com', '621003', '2025-11-02 15:19:00', '2025-11-02 19:09:00'),
@@ -138,12 +148,16 @@ INSERT INTO `autenticacion` (`id`, `email`, `code`, `expires_at`, `created_at`) 
 ('958d90d6-8de6-469f-8ec0-c1d01e27f002', 'jazielarmandovargaschoque@gmail.com', '489484', '2025-11-03 17:37:22', '2025-11-03 21:27:22'),
 ('96327658-c86c-427f-80d9-a7b1fe20b123', 'sfqewfqe@gmail.com', '993937', '2025-11-02 14:37:00', '2025-11-02 18:27:00'),
 ('97d88159-231e-4c08-bbf5-014da5256128', 'jazielarmandovargaschoque@gmail.com', '704590', '2025-11-02 14:23:26', '2025-11-02 18:13:26'),
+('988a5144-5f1f-4ec5-b102-36e92b72c022', 'jazielarmandovargaschoque@gmail.com', '222841', '2025-11-20 09:45:09', '2025-11-20 13:35:09'),
 ('98963d97-878f-402d-8e47-bfe3cb261b19', 'jazielarmandovargaschoque@gmail.com', '639832', '2025-11-06 16:09:28', '2025-11-06 19:59:28'),
 ('9909a64d-5acc-4d3e-bd65-5f28f3f086b6', 'jazielarmandovargaschoque@gmail.com', '250566', '2025-11-02 14:28:02', '2025-11-02 18:18:02'),
+('990b36b8-dac6-4d2d-a530-21fd56e8c363', 'jazielarmandovargaschoque@gmail.com', '444209', '2025-11-18 15:56:52', '2025-11-18 19:46:52'),
 ('9a6f4331-33f7-41d0-8d72-c5f1061f81df', 'jazielarmandovargaschoque@gmail.com', '782539', '2025-11-05 14:18:08', '2025-11-05 18:08:08'),
+('9b7b198a-cea5-4cad-9be0-4a6338df960a', 'jazielarmandovargaschoque@gmail.com', '432091', '2025-11-18 12:51:15', '2025-11-18 16:41:15'),
 ('9c12be5d-7514-4039-8ab7-15dd5e358123', 'jazielarmandovargaschoque@gmail.com', '268292', '2025-11-02 15:18:49', '2025-11-02 19:08:49'),
 ('9cfafdc6-d566-49db-abfd-f23d7fc9a956', 'jazielarmandovargaschoque@gmail.com', '860567', '2025-11-06 16:20:44', '2025-11-06 20:10:44'),
 ('9e1af345-f8aa-444a-baac-5da50a196c20', 'jazielarmandovargaschoque@gmail.com', '618808', '2025-11-08 12:29:04', '2025-11-08 16:19:04'),
+('9e683d2b-60af-460d-9eaf-61efb72c0f67', 'jazielarmandovargaschoque@gmail.com', '776719', '2025-11-19 08:38:03', '2025-11-19 12:28:03'),
 ('9ec2cae3-4a57-429a-831d-e3c0d91455b8', 'jazielarmandovargaschoque@gmail.com', '926396', '2025-11-02 15:14:59', '2025-11-02 19:04:59'),
 ('a03c43c4-e157-4454-978c-c2c2a9a18128', 'jazielarmandovargaschoque@gmail.com', '375389', '2025-11-06 00:56:45', '2025-11-06 04:46:45'),
 ('a3ae8df5-24d1-420d-a535-5e4b1a65d3da', 'jazielarmandovargaschoque@gmail.com', '281480', '2025-11-06 16:15:33', '2025-11-06 20:05:33'),
@@ -161,6 +175,7 @@ INSERT INTO `autenticacion` (`id`, `email`, `code`, `expires_at`, `created_at`) 
 ('b4527f81-53fa-4656-abe5-0bb794870ba8', 'jazielarmandovargaschoque@gmail.com', '707623', '2025-11-05 21:48:54', '2025-11-06 01:38:54'),
 ('b547f4e6-737e-4068-bf8d-3cb3710efae7', 'jazielarmandovargaschoque@gmail.com', '763096', '2025-11-06 16:15:33', '2025-11-06 20:05:33'),
 ('b5882ad8-8af8-4f7d-982f-b564d45498df', 'jazielarmandovargaschoque@gmail.com', '124148', '2025-11-06 16:09:31', '2025-11-06 19:59:31'),
+('b68a9b3b-8ad2-4eee-8a40-3d42f74bf6b8', 'jazielarmandovargaschoque@gmail.com', '443648', '2025-11-19 08:38:03', '2025-11-19 12:28:03'),
 ('b7c981f6-9a9e-47ac-8b37-51e06ec7599d', 'jazielarmandovargaschoque@gmail.com', '540333', '2025-11-02 15:18:52', '2025-11-02 19:08:52'),
 ('bbbaa213-a19f-4e34-92eb-1c8bfb52d5b4', 'jazielarmandovargaschoque@gmail.com', '846617', '2025-11-06 16:18:53', '2025-11-06 20:08:53'),
 ('bccfdea4-ab45-43c1-8c51-c027b1574ac5', 'jazielarmandovargaschoque@gmail.com', '913221', '2025-11-06 16:12:43', '2025-11-06 20:02:43'),
@@ -178,6 +193,7 @@ INSERT INTO `autenticacion` (`id`, `email`, `code`, `expires_at`, `created_at`) 
 ('d0ab579c-2037-4b69-a8c7-f486aa7cc16e', 'jazielarmandovargaschoque@gmail.com', '883506', '2025-11-06 15:57:40', '2025-11-06 19:47:40'),
 ('d14d5293-70ae-41ad-a906-a358accf75a9', 'dvsdvdd@gmail.com', '106219', '2025-11-04 22:26:48', '2025-11-05 02:16:48'),
 ('d3b97cc7-2130-4356-a7c8-7685c821f44c', 'jazielarmandovargaschoque@gmail.com', '424337', '2025-11-05 12:37:31', '2025-11-05 16:27:31'),
+('d5b58e5e-eb80-40f6-8b86-3fe6dabac80f', 'jazielarmandovargaschoque@gmail.com', '286667', '2025-11-18 12:51:11', '2025-11-18 16:41:11'),
 ('d8317e5e-565e-4abb-a1d4-1d076d94c657', 'j.v.36977714@gmail.com', '333252', '2025-11-06 16:51:57', '2025-11-06 20:41:57'),
 ('d8ef252e-ef94-4d92-a92f-d20eedc24eff', 'asdfgh@gmail.com', '173700', '2025-11-05 14:15:12', '2025-11-05 18:05:12'),
 ('d96137ef-8994-4cf8-b74d-5bcd09c07952', 'jazielarmandovargaschoque@gmail.com', '817576', '2025-11-02 15:19:40', '2025-11-02 19:09:40'),
@@ -193,6 +209,7 @@ INSERT INTO `autenticacion` (`id`, `email`, `code`, `expires_at`, `created_at`) 
 ('e5c0a392-c7ad-4e9f-bf28-b1902df68d23', 'jazielarmandovargaschoque@gmail.com', '639489', '2025-11-11 17:17:53', '2025-11-11 21:07:53'),
 ('e60bb371-466d-4ca2-b505-cae8f1faa603', 'jazielarmandovargaschoque@gmail.com', '811888', '2025-11-06 16:21:32', '2025-11-06 20:11:32'),
 ('e7f4497d-631d-47e6-a59b-89bb14fd735d', 'jazielarmandovargaschoque@gmail.com', '957544', '2025-11-08 20:57:24', '2025-11-09 00:47:24'),
+('ea183584-b8a5-4e17-94ed-7b8d59e24d93', 'jazielarmandovargaschoque@gmail.com', '838523', '2025-11-21 11:39:20', '2025-11-21 15:29:20'),
 ('ea75b9d7-783b-4267-a205-fde547ac9c08', 'jazielarmandovargaschoque@gmail.com', '400608', '2025-11-02 15:19:40', '2025-11-02 19:09:40'),
 ('eeb990f7-b202-43d4-95bc-171e93690929', 'jazielarmandovargaschoque@gmail.com', '879231', '2025-11-11 17:18:04', '2025-11-11 21:08:04'),
 ('f3600406-1f01-4451-a489-f5042b8df1a3', 'jazielarmandovargaschoque@gmail.com', '432576', '2025-11-03 08:07:55', '2025-11-03 11:57:55'),
@@ -201,7 +218,9 @@ INSERT INTO `autenticacion` (`id`, `email`, `code`, `expires_at`, `created_at`) 
 ('f6cc507b-9971-4fcd-a9d7-4b4a140f12ab', 'jazielarmandovargaschoque@gmail.com', '413062', '2025-11-02 15:18:52', '2025-11-02 19:08:52'),
 ('f7b041d6-8ea0-44b8-9b40-aaab360fa813', 'jazielarmandovargaschoque@gmail.com', '502194', '2025-11-03 13:45:10', '2025-11-03 17:35:10'),
 ('f7ce1486-fc7b-4d45-bb00-431687f0a1e8', 'jazielarmandovargaschoque@gmail.com', '560378', '2025-11-03 07:53:28', '2025-11-03 11:43:28'),
+('f8b0d1b0-2590-4e5e-8f1b-d51ade671092', 'jazielarmandovargaschoque@gmail.com', '668012', '2025-11-18 12:52:10', '2025-11-18 16:42:10'),
 ('fa88f908-95a9-4b79-a1dd-89688ef8d384', 'jazielarmandovargaschoque@gmail.com', '221328', '2025-11-04 22:22:53', '2025-11-05 02:12:53'),
+('faca288a-e8a8-4c72-b165-3f32ee73917e', 'jazielarmandovargaschoque@gmail.com', '551661', '2025-11-18 12:52:10', '2025-11-18 16:42:10'),
 ('fc282368-70ea-40e6-8453-56244dfd98ee', 'jazielarmandovargaschoque@gmail.com', '871438', '2025-11-02 14:34:20', '2025-11-02 18:24:20'),
 ('fd632a87-13b6-4485-8d21-0e52b3e46b6f', 'jazielarmandovargaschoque@gmail.com', '666301', '2025-11-04 20:52:17', '2025-11-05 00:42:17'),
 ('ff2674ea-9319-4916-8383-dd72ca9c8550', 'jazielarmandovargaschoque@gmail.com', '539920', '2025-11-05 20:54:45', '2025-11-06 00:44:45');
@@ -269,8 +288,8 @@ CREATE TABLE `docente` (
 --
 
 INSERT INTO `docente` (`id`, `per_id`, `numero_item`, `especialidad`, `tipo_contrato`, `estado`, `created_at`, `updated_at`) VALUES
-(4, 5, 'DOC124', 'Matemáticas', 'temporal', 1, NULL, NULL),
-(12, 39, 'DOC124', 'Física', 'permanente', 1, NULL, NULL),
+(4, 5, 'DOC124', 'Matemáticas', 'permanente', 1, NULL, NULL),
+(12, 39, 'DOC124', 'Física', 'interino', 1, NULL, NULL),
 (16, 79, 'DOC124', 'Matemáticas', 'permanente', 1, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -682,7 +701,8 @@ INSERT INTO `persona` (`id`, `nombres`, `apellidopat`, `apellidomat`, `carnet`, 
 (76, 'fedfsfesf', 'sfeafwsfw', 'ferewe', 'f3efwfw', 'dadadsa', '41123', 'jazielarmandovargaschoque@gmail.com', '0231-03-31', 1, NULL, NULL),
 (77, 'cascsc', 'sdsca', '2afaefas', '41223', 'vacac', 'vsv', 'dvsdvdd@gmail.com', '0001-12-12', 1, NULL, NULL),
 (78, 'qwertyu', 'asdfg', 'asdfg', '23456', '12345', '12345', 'asdfgh@gmail.com', '4567-03-12', 1, NULL, NULL),
-(79, 'jazi', 'vajs', 'qalmjaqs', '133121', '132ewgfavsvx', '2313131', 'j.v.36977714@gmail.com', '1331-12-13', 1, NULL, NULL);
+(79, 'jazi', 'vajs', 'qalmjaqs', '133121', '132ewgfavsvx', '2313131', 'j.v.36977714@gmail.com', '1331-12-13', 1, NULL, NULL),
+(80, 'adrian ', 'prado', 'narvaez', '123123', NULL, NULL, 'tumamaen4@gmail.com', NULL, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -754,7 +774,6 @@ CREATE TABLE `proyecto` (
 --
 
 INSERT INTO `proyecto` (`id`, `id_docente_guia`, `id_docente_revisor`, `id_estudiante`, `titulo`, `linea_investigacion`, `area_conocimiento`, `calificacion`, `fecha_entrega`, `fecha_defensa`, `resumen`, `observacion`, `created_at`, `updated_at`) VALUES
-(3, 4, 12, 11, 'Sistema de gestion de fenboys', 'Desarrollo de Femboys', 'Ingeniería de Femboys', '100', '2025-11-15', '2025-11-28', 'Sistema web para la gesti?n de estudiantes, docentes y proyectos de grado en una instituci?n educativa.', 'Pendiente de revisi?n inicial.', '2025-11-08 16:08:00', '2025-11-09 15:50:39'),
 (4, 4, 16, 25, 'Análisis de Algoritmos de Machine Learning para Predicción de Notas', 'Inteligencia Artificial', 'Ciencia de Datos', '39', '2025-10-20', '1899-11-30', 'Aplicación de modelos de regresión y clasificación para predecir el rendimiento académico.', 'Aprobado con observaciones menores.', '2025-11-08 16:08:00', '2025-11-09 16:41:44'),
 (5, 16, 4, 11, 'Aplicación Móvil para Seguimiento de Avance Estudiantil', 'Desarrollo Móvil', 'Ingenieria de Software', '97', '2025-10-31', '2025-11-14', 'App hibrida para registrar avances, pagos y observaciones en tiempo real.', 'En desarrollo. Fase de diseño UI/UX.', '2025-11-08 16:08:00', '2025-11-09 15:54:46');
 
@@ -785,7 +804,8 @@ INSERT INTO `roles` (`id`, `name`, `descripcion`, `start_path`, `is_default`, `g
 (3, 'Super Admin', NULL, '/dashboard', 0, 'api', NULL, NULL),
 (4, 'Estudiante', 'Estudiante del sistema acad?mico', '/estudiante', 0, 'web', NULL, NULL),
 (11, 'Docente Revisor', 'Revisor de proyecto', '/docenteRevisor', 1, 'web', NULL, NULL),
-(12, 'Docente', 'docente', '/docente', 1, 'web', NULL, NULL);
+(12, 'Docente', 'docente', '/docente', 1, 'web', NULL, NULL),
+(14, 'estudiante3', 'endwiknikwn', '/estudiante', 1, 'web', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -829,10 +849,9 @@ CREATE TABLE `taller` (
 --
 
 INSERT INTO `taller` (`id`, `titulo`, `id_metodologia`, `tipo_taller`, `evaluacion_final`, `duracion`, `resultado`, `fecha_realizacion`, `created_at`, `updated_at`) VALUES
-(3, 'Taller de Capacitacion', 5, 'Mixto', 'Proyecto', '20 horas', '100', '2025-10-17', NULL, NULL),
-(5, 'Taller de Capacitacion progra', 6, 'Teórico', 'Proyecto', '20 horas', '30', '2025-10-11', NULL, NULL),
-(6, 'Taller de programacion', 6, 'Práctico', 'examen', '20 horas', '50', '2025-10-16', NULL, NULL),
-(7, 'Taller de Capacitacion', 5, 'Mixto', '123', '12', '123', '2025-11-20', NULL, NULL);
+(10, 'Taller 1', 5, 'Teórico', 'excelente', '24 dias', 'exitoso', '2025-11-20', NULL, NULL),
+(11, 'Taller 2', 5, 'Teórico', 'Aporbado', '25', 'exitoso', '2025-11-23', NULL, NULL),
+(12, 'Taller 3', 5, 'Teórico', 'aprobado', '23', 'pediente', '2025-11-11', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -859,11 +878,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_name`, `per_id`, `id_roles`, `status`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Leon', 1, 3, 1, 'john.Picazo.update33@example.com', '2025-06-02 13:34:24', '$2y$12$ZfFIdgvk1hWFlOhqt.8fYONfqw6JEjp84jOz1tdLwQy2UnHxS/f8m', 'TmVgnAFCBr', '2025-06-02 13:34:25', '2025-06-02 13:34:25'),
+(1, 'Leon', 1, 14, 1, 'john.Picazo.update33@example.com', '2025-06-02 13:34:24', '$2y$12$ZfFIdgvk1hWFlOhqt.8fYONfqw6JEjp84jOz1tdLwQy2UnHxS/f8m', 'TmVgnAFCBr', '2025-06-02 13:34:25', '2025-06-02 13:34:25'),
 (17, 'roky', 36, 1, 1, 'roke@gmail.com', NULL, '$2a$10$yGPGGlQkgJXi1pTlHnK8w.WHMci5gfLlpgDX2AGpInbc7Wmff5/6.', NULL, NULL, NULL),
 (20, 'juan', 39, 2, 1, 'jugas@gmail.com', NULL, '$2a$10$BhlD7e.HzfCyMBRtM.JqX.gCmtZ9OuupFQ4hfYamvhFtp88029.5a', NULL, NULL, NULL),
 (49, 'ProfesorX', 76, 1, 1, 'jazielarmandovargaschoque@gmail.com', NULL, '$2a$10$fHZvhH5KlOSRrQf52BHg6.zHhzoXIzThrJwecJX1uAZcRenA/9JPG', NULL, NULL, NULL),
-(50, 'Magneto', 79, 12, 1, 'j.v.36977714@gmail.com', NULL, '$2a$10$.FLJsPlCcGiiClAWMvAHt.eAsgPF.7wXTMuRKRf0j9wIW1/6rgoVO', NULL, NULL, NULL);
+(50, 'Magneto', 79, 12, 1, 'j.v.36977714@gmail.com', NULL, '$2a$10$.FLJsPlCcGiiClAWMvAHt.eAsgPF.7wXTMuRKRf0j9wIW1/6rgoVO', NULL, NULL, NULL),
+(51, 'elver_gacorta', 80, 4, 1, 'tumamaen4@gmail.com', NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -1150,7 +1170,7 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT de la tabla `persona`
 --
 ALTER TABLE `persona`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT de la tabla `plantel_administrativo`
@@ -1174,19 +1194,19 @@ ALTER TABLE `proyecto`
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `taller`
 --
 ALTER TABLE `taller`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- Restricciones para tablas volcadas
