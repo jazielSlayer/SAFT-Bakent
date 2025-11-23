@@ -158,7 +158,7 @@ router.get("/programas/:id", getPrograma);
  *       500:
  *         description: Error del servidor
  */
-router.post("/programas", createPrograma);
+router.post("/programa/create", createPrograma);
 
 /**
  * @swagger
@@ -227,7 +227,7 @@ router.post("/programas", createPrograma);
  *       500:
  *         description: Error del servidor
  */
-router.put("/programas/:id", updatePrograma);
+router.put("/programas/update/:id", updatePrograma);
 
 /**
  * @swagger
@@ -250,6 +250,6 @@ router.put("/programas/:id", updatePrograma);
  *       500:
  *         description: Error del servidor
  */
-router.delete("/programas/:id", deletePrograma);
+router.delete("/programas/delete/:id", deletePrograma);
 
 export default router;

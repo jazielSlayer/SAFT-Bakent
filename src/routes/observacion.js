@@ -135,7 +135,7 @@ router.get("/observaciones/:id", getObservacion);
  *       500:
  *         description: Error del servidor
  */
-router.post("/observaciones", createObservacion);
+router.post("/observaciones/create", createObservacion);
 
 /**
  * @swagger
@@ -194,7 +194,7 @@ router.post("/observaciones", createObservacion);
  *       500:
  *         description: Error del servidor
  */
-router.put("/observaciones/:id", updateObservacion);
+router.put("/observaciones/update/:id", updateObservacion);
 
 /**
  * @swagger
@@ -217,6 +217,6 @@ router.put("/observaciones/:id", updateObservacion);
  *       500:
  *         description: Error del servidor
  */
-router.delete("/observaciones/:id", deleteObservacion);
+router.delete("/observaciones/delete/:id", deleteObservacion);
 
 export default router;

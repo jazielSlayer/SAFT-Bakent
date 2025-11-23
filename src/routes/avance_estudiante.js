@@ -147,7 +147,7 @@ router.get("/avances/:id", getAvance);
  *       500:
  *         description: Error del servidor
  */
-router.post("/avances", createAvance);
+router.post("/avances/create", createAvance);
 
 /**
  * @swagger
@@ -211,7 +211,7 @@ router.post("/avances", createAvance);
  *       500:
  *         description: Error del servidor
  */
-router.put("/avances/:id", updateAvance);
+router.put("/avances/update/:id", updateAvance);
 
 /**
  * @swagger
@@ -234,7 +234,7 @@ router.put("/avances/:id", updateAvance);
  *       500:
  *         description: Error del servidor
  */
-router.delete("/avances/:id", deleteAvance);
+router.delete("/avances/delete/:id", deleteAvance);
 
 /**
  * @swagger
