@@ -17,6 +17,44 @@ export const getAvances = async (req, res) => {
     }
 };
 
+
+export const getAvancesPorcentaje = async (req, res) => {
+    const pool = await connect();
+    try {
+        const [rows] = await pool.query(`
+            SELECT 
+                va.id_estudiante,
+                va.nombre_completo,
+                va.total_modulos,
+                va.modulos_completados,
+                va.modulos_en_progreso,
+                va.modulos_pendientes,
+                ROUND(va.porcentaje_avance, 2) AS porcentaje_avance,
+                e.ru,
+                p.correo,
+                p.telefono
+            FROM vista_avance_estudiantes va
+            JOIN estudiante e ON va.id_estudiante = e.id
+            JOIN persona p ON e.per_id = p.id
+            
+            ORDER BY va.porcentaje_avance DESC, va.nombre_completo ASC
+        `);
+
+        res.json({
+            success: true,
+            data: rows,
+            total_estudiantes: rows.length
+        });
+
+    } catch (error) {
+        console.error('Error al obtener resumen de avances:', error);
+        res.status(500).json({ 
+            success: false,
+            message: 'Error al obtener el resumen de avances de estudiantes' 
+        });
+    } 
+};
+
 export const getAvance = async (req, res) => {
     const pool = await connect();
     try {

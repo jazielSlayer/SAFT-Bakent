@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAvances, getAvance, createAvance, updateAvance, deleteAvance, getAvanceEstudiante } from "../controlers/avance_estudiante";
+import { getAvances, getAvance, createAvance, updateAvance, deleteAvance, getAvanceEstudiante, getAvancesPorcentaje } from "../controlers/avance_estudiante";
 
 const router = Router();
 
@@ -41,6 +41,8 @@ const router = Router();
  *         description: Error del servidor
  */
 router.get("/avances", getAvances);
+
+router.get("/avances/resumen", getAvancesPorcentaje);
 
 /**
  * @swagger
